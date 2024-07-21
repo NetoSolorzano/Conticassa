@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conticassa", "Conticassa.csproj", "{911DE6FC-9DAB-4D0D-B56C-43457A82CE70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{911DE6FC-9DAB-4D0D-B56C-43457A82CE70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911DE6FC-9DAB-4D0D-B56C-43457A82CE70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911DE6FC-9DAB-4D0D-B56C-43457A82CE70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911DE6FC-9DAB-4D0D-B56C-43457A82CE70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A34DE27-CC0D-4A76-8D99-F1F86E606F67}
+	EndGlobalSection
+EndGlobal
