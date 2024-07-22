@@ -18,10 +18,10 @@ namespace Conticassa
         string img_log1 = @"C:\omg-peru\imAGENES\images6.jpg";
         //string img_sali = @"C:\iOMG - factur\recursos\exit24.png";
         //string img_fina = @"C:\iOMG - factur\recursos\excel32.png";
-        string img_cami = @"C:\iOMG - factur\recursos\process24.png";
-        string img_vali = @"C:\iOMG - factur\recursos\report16.png";
-        string img_maes = @"C:\iOMG - factur\recursos\Product-doc32.png";
-        string img_pcon = @"C:\iOMG - factur\recursos\service_manager.png";
+        //string img_cami = @"C:\iOMG - factur\recursos\process24.png";
+        //string img_vali = @"C:\iOMG - factur\recursos\report16.png";
+        //string img_maes = @"C:\iOMG - factur\recursos\Product-doc32.png";
+        //string img_pcon = @"C:\iOMG - factur\recursos\service_manager.png";
         #endregion
 
         public Main()
@@ -121,11 +121,22 @@ namespace Conticassa
         }
         private void fin_ingresos_Click(object sender, EventArgs e)
         {
-
+            Form2 ffe1 = new Form2();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            //ffe1.Top = pn_phor.Top + pn_phor.Height + 1;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe1);
+            ffe1.Show();
         }
         private void fin_egresos_Click(object sender, EventArgs e)
         {
-
+            Finan_Egres ffe1 = new Finan_Egres();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe1);
+            ffe1.Show();
         }
         private void fin_camion_Click(object sender, EventArgs e)
         {

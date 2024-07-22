@@ -32,9 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Finan_Egres.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Finan_Egres.Designer.cs">
+      <DependentUpon>Finan_Egres.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +82,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Form2.resx">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +132,17 @@
     <None Include="Resources\settings40.png" />
     <None Include="Resources\database_system40.png" />
     <None Include="Resources\fileboard_checklist40.png" />
+    <None Include="Resources\delete [#1487].png" />
+    <None Include="Resources\close [#1511].png" />
+    <None Include="Resources\close [#1538].png" />
+    <None Include="Resources\arrow_in_left [#390].png" />
+    <None Include="Resources\arrow_left [#347].png" />
+    <None Include="Resources\arrow_right [#365].png" />
+    <None Include="Resources\arrow_right_in [#386].png" />
+    <Content Include="Resources\edit20.png" />
+    <Content Include="Resources\new_tab20.png" />
+    <None Include="Resources\printer [#1599].png" />
+    <None Include="Resources\search_left [#1504].png" />
     <Content Include="shut_down40.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
