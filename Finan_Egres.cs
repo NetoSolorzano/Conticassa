@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace Conticassa
 {
-    public partial class Finan_Egres : Form2
+    public partial class Finan_Egres : Form1
     {
         public Finan_Egres()
         {
             InitializeComponent();
         }
+        
+        
+
     }
 }

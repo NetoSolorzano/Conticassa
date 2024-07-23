@@ -28,10 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // Finan_Egres
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Finan_Egres";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.Name = "Finan_Egres";
+            this.Tag = "";
+            this.Text = "Egresos ";
+            this.ResumeLayout(false);
+
         }
 
         #endregion

@@ -121,13 +121,14 @@ namespace Conticassa
         }
         private void fin_ingresos_Click(object sender, EventArgs e)
         {
-            Form2 ffe1 = new Form2();
+            /*Form2 ffe1 = new Form2();
             ffe1.TopLevel = false;
             ffe1.Parent = this;
             //ffe1.Top = pn_phor.Top + pn_phor.Height + 1;
             ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
             pn_centro.Controls.Add(ffe1);
             ffe1.Show();
+            */
         }
         private void fin_egresos_Click(object sender, EventArgs e)
         {
