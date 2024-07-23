@@ -138,4 +138,24 @@ namespace Conticassa
             this.Font = new Font(conf.nomFontBoton, conf.tamañoFontBoton);
         }
     }
+    public class panelGeneral : Panel
+    {
+        publicoConf conf = new publicoConf();
+        public panelGeneral()
+        {
+            BackColor = Color.FromName(conf.nombreFondo);
+            ForeColor = Color.FromName(conf.colorFont);
+            BorderStyle = BorderStyle.FixedSingle;
+        }
+    }
+    public class radioBoton : RadioButton
+    {
+        publicoConf conf = new publicoConf();
+        public radioBoton()
+        {
+            BackColor = Color.FromName(conf.nombreFondo);
+            ForeColor = Color.FromName(conf.colorFont);
+            Font = new Font(conf.nombreFont, conf.tamañoFont);
+        }
+    }
 }
