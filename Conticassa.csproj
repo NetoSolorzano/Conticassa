@@ -137,6 +137,7 @@
     <Content Include="Resources\new_tab20.png" />
     <None Include="Resources\printer [#1599].png" />
     <None Include="Resources\search_left [#1504].png" />
+    <None Include="Resources\save_item [#1409].png" />
     <Content Include="shut_down40.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

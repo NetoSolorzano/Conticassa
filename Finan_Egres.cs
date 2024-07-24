@@ -29,6 +29,7 @@ namespace Conticassa
         private void Bt_add_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "NUEVO";
+            rb_pers.PerformClick();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
@@ -70,7 +71,17 @@ namespace Conticassa
 
         private void rb_omg_Click(object sender, EventArgs e)
         {
-            
+            if (rb_omg.Checked == true)
+            {
+                eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS OMG";
+            }
+        }
+        private void rb_pers_Click(object sender, EventArgs e)
+        {
+            if (rb_pers.Checked == true)
+            {
+                eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
+            }
         }
     }
 }

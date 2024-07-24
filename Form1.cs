@@ -158,4 +158,11 @@ namespace Conticassa
             Font = new Font(conf.nombreFont, conf.tamañoFont);
         }
     }
+    public class selecFecha : DateTimePicker
+    {
+        public selecFecha()
+        {
+            Format = DateTimePickerFormat.Short;
+        }
+    }
 }
