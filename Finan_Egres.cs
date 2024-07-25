@@ -17,6 +17,7 @@ namespace Conticassa
         {
             InitializeComponent();
             CargaFormatos();
+            chk_giroC_CheckedChanged(null, null);
         }
         private void CargaFormatos()
         {
@@ -81,6 +82,20 @@ namespace Conticassa
             if (rb_pers.Checked == true)
             {
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
+            }
+        }
+
+        private void chk_giroC_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chk_giroC.CheckState == CheckState.Checked)
+            {
+                tx_ctaGiro.Visible = true;
+                eti_nomCtaGiro.Visible = true;
+            }
+            else
+            {
+                tx_ctaGiro.Visible = false;
+                eti_nomCtaGiro.Visible = false;
             }
         }
     }

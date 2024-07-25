@@ -7,31 +7,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Conticassa
 {
     public partial class Main : Form1
     {
         publicoConf conf = new publicoConf();
-             
         #region variables
         string img_log1 = @"C:\omg-peru\imAGENES\images6.jpg";
-        //string img_sali = @"C:\iOMG - factur\recursos\exit24.png";
-        //string img_fina = @"C:\iOMG - factur\recursos\excel32.png";
-        //string img_cami = @"C:\iOMG - factur\recursos\process24.png";
-        //string img_vali = @"C:\iOMG - factur\recursos\report16.png";
-        //string img_maes = @"C:\iOMG - factur\recursos\Product-doc32.png";
-        //string img_pcon = @"C:\iOMG - factur\recursos\service_manager.png";
+        string nomclie = "";
+        string dirclie = "";
+        string distemi = "";
+        string provemi = "";
+        string urbemis = "";
+        string depaemi = "";
+        string urlemis = "";
         #endregion
-
+        // conexion a la base de datos
+        string DB_CONN_STR = "server=" + Login.serv + ";port=" + Login.port + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data +
+            ";ConnectionLifeTime=" + Login.ctl + ";";
+        
         public Main()
         {
             InitializeComponent();
-            jalainfo();                                 // jalamos los parametros, variables, etc
+            MySqlConnection conn = new MySqlConnection(DB_CONN_STR);
+            try
+            {
+                conn.Open();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message,"Error de conexión al servidor");
+                Application.Exit();
+            }
+            jalainfo(conn);                                 // jalamos los parametros, variables, etc
             Main_Load();                                // carga configuración del form
             cuadre();                                   // acomodo de botones verticales
             coloracion();                               // colores de botones y otros
+            conn.Close();
         }
+
         private void Main_Load()
         {
             this.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE); // conf.fondoPrinBrilloE, 
@@ -51,9 +67,9 @@ namespace Conticassa
             bt_maestras.Image = maest;
             bt_pcontrol.Image = panel;
             //
-            tx_user.Text = "Falta ";  // Program.vg_user;                     // código de usuario
-            tx_nuser.Text = "Falta implementar";  //Program.vg_nuse;                    // nombre de usuario
-            tx_empresa.Text = "Falta implementar";   // Program.cliente;                 // nombre de la organización
+            tx_user.Text = Program.vg_user;         // código de usuario
+            tx_nuser.Text = Program.vg_nuse;        // nombre de usuario
+            tx_empresa.Text = nomclie;              // nombre de la organización
             //
             //pn_phor.Controls.Add(pn_menu);
             //pn_menu.Width = pn_phor.Width;  // - pn_acciones.Width;
@@ -61,9 +77,41 @@ namespace Conticassa
             pn_menu.Controls.Add(menuStrip1);
             menuStrip1.Dock = DockStyle.Top;
         }
-        private void jalainfo()
+        private void jalainfo(MySqlConnection conn)
         {
-
+            string consulta = "select * from baseconf limit 1";
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+                using (MySqlDataReader dr = micon.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        if (dr.Read())
+                        {
+                            nomclie = dr.GetString("Cliente");              // nombre comercial
+                            //rucclie = dr.GetString("Ruc");
+                            dirclie = dr.GetString("direcc").Trim() + " - " + dr.GetString("distrit").Trim();
+                            //rasclie = dr.GetString("razonsocial");          // nombre 
+                            //tasaigv = dr.GetString("igv");
+                            //ubigeoe = dr.GetString("referen1");             // ubigeo
+                            distemi = dr.GetString("distrit").Trim();
+                            provemi = dr.GetString("provin").Trim();
+                            urbemis = dr.GetString("referen2").Trim();      // urbanizacion
+                            depaemi = dr.GetString("depart").Trim();        // departamento
+                            urlemis = dr.GetString("urlCliente").Trim();    // web
+                        }
+                    }
+                }
+            }
+            consulta = "select IDTabella,IDCodice,Descrizione,DescrizioneRid,Numero,cnt,codigo,codsunat,deta1,deta2,deta3,deta4,ubiDir,marca1,marca2,marca3,enlace1 " +
+                    "from descrittive where numero=1 order by IDTabella,IDCodice";
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+                using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                {
+                    da.Fill(Program.dt_definic);
+                }
+            }
         }
         private void cuadre()
         {
