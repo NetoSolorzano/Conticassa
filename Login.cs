@@ -185,7 +185,8 @@ namespace Conticassa
 
         private void generalBoton1_Click(object sender, EventArgs e)
         {
-
+            Main main = new Main();
+            main.Show();
         }
     }
 }

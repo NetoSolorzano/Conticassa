@@ -478,6 +478,7 @@
             this.Tx_catEgre.Name = "Tx_catEgre";
             this.Tx_catEgre.Size = new System.Drawing.Size(125, 14);
             this.Tx_catEgre.TabIndex = 1;
+            this.Tx_catEgre.TextChanged += new System.EventHandler(this.Tx_catEgre_TextChanged);
             // 
             // eti_catEgre
             // 

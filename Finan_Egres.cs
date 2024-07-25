@@ -23,7 +23,9 @@ namespace Conticassa
         {
             pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             eti_cuenta.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
-
+            //
+            Tx_catEgre.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            Tx_catEgre.AutoCompleteSource = AutoCompleteSource.CustomSource;
         }
 
         #region Botones de comando
@@ -70,6 +72,7 @@ namespace Conticassa
         }
         #endregion
 
+        #region radiobotones y checks
         private void rb_omg_Click(object sender, EventArgs e)
         {
             if (rb_omg.Checked == true)
@@ -84,7 +87,6 @@ namespace Conticassa
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
             }
         }
-
         private void chk_giroC_CheckedChanged(object sender, EventArgs e)
         {
             if (chk_giroC.CheckState == CheckState.Checked)
@@ -97,6 +99,36 @@ namespace Conticassa
                 tx_ctaGiro.Visible = false;
                 eti_nomCtaGiro.Visible = false;
             }
+        }
+        #endregion
+
+        private void Tx_catEgre_TextChanged(object sender, EventArgs e)
+        {
+            TextBox t = sender as TextBox;
+            if (t != null)
+            {
+                if (t.Text.Length > 2)
+                {
+                    string[] arr = SuggestStrings(t.Text);
+                    AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
+                    collection.AddRange(arr);
+                    Tx_catEgre.AutoCompleteCustomSource = collection;
+                }
+            }
+        }
+        private string[] SuggestStrings(string t)
+        {
+            DataRow[] retu = Program.dt_definic.Select("idtabella='CAM' and descrizionerid LIKE '%a%'");
+            StringBuilder output = new StringBuilder();
+            //string[] retorna;
+            foreach (DataRow row in retu)
+            {
+                output.AppendFormat("{0}", row[3].ToString().Trim());
+                output.AppendLine();
+            }
+            string[] retorna = output.ToString().Split(Environment.NewLine.ToCharArray());
+            //string[] retorna = { "" };
+            return retorna;
         }
     }
 }

@@ -40,6 +40,7 @@ namespace Conticassa
             {
                 MessageBox.Show(ex.Message,"Error de conexión al servidor");
                 Application.Exit();
+                return;
             }
             jalainfo(conn);                                 // jalamos los parametros, variables, etc
             Main_Load();                                // carga configuración del form
@@ -90,20 +91,20 @@ namespace Conticassa
                         {
                             nomclie = dr.GetString("Cliente");              // nombre comercial
                             //rucclie = dr.GetString("Ruc");
-                            dirclie = dr.GetString("direcc").Trim() + " - " + dr.GetString("distrit").Trim();
+                            dirclie = dr.GetString("direcc").Trim();
                             //rasclie = dr.GetString("razonsocial");          // nombre 
                             //tasaigv = dr.GetString("igv");
                             //ubigeoe = dr.GetString("referen1");             // ubigeo
-                            distemi = dr.GetString("distrit").Trim();
-                            provemi = dr.GetString("provin").Trim();
-                            urbemis = dr.GetString("referen2").Trim();      // urbanizacion
-                            depaemi = dr.GetString("depart").Trim();        // departamento
-                            urlemis = dr.GetString("urlCliente").Trim();    // web
+                            //distemi = dr.GetString("distrit").Trim();
+                            //provemi = dr.GetString("provin").Trim();
+                            //urbemis = dr.GetString("referen2").Trim();      // urbanizacion
+                            //depaemi = dr.GetString("depart").Trim();        // departamento
+                            //urlemis = dr.GetString("urlCliente").Trim();    // web
                         }
                     }
                 }
             }
-            consulta = "select IDTabella,IDCodice,Descrizione,DescrizioneRid,Numero,cnt,codigo,codsunat,deta1,deta2,deta3,deta4,ubiDir,marca1,marca2,marca3,enlace1 " +
+            consulta = "select IDTabella,IDCodice,Descrizione,DescrizioneRid,Numero,sede,placa " +
                     "from descrittive where numero=1 order by IDTabella,IDCodice";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
