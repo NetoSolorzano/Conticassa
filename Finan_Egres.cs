@@ -13,19 +13,45 @@ namespace Conticassa
     public partial class Finan_Egres : Form1
     {
         publicoConf conf = new publicoConf();
+        AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();     // categorias
+        AutoCompleteStringCollection accd = new AutoCompleteStringCollection();     // ctas destino
         public Finan_Egres()
         {
             InitializeComponent();
             CargaFormatos();
             chk_giroC_CheckedChanged(null, null);
         }
+        private void Finan_Egres_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
+        }
         private void CargaFormatos()
         {
             pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             eti_cuenta.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
-            //
-            Tx_catEgre.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            acsc = new AutoCompleteStringCollection();
+            Tx_catEgre.AutoCompleteCustomSource = acsc;
+            Tx_catEgre.AutoCompleteMode = AutoCompleteMode.None;
             Tx_catEgre.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            DataRow[] depar = Program.dt_definic.Select("idtabella='CAM'");
+            acsc.Clear();
+            foreach (DataRow row in depar)
+            {
+                acsc.Add(row["descrizionerid"].ToString());
+            }
+            listBox1.Visible = false;
+            //
+            accd = new AutoCompleteStringCollection();
+            Tx_ctaDes.AutoCompleteCustomSource = accd;
+            Tx_ctaDes.AutoCompleteMode = AutoCompleteMode.None;
+            Tx_ctaDes.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            depar = Program.dt_definic.Select("idtabella='CON'");
+            accd.Clear();
+            foreach (DataRow row in depar)
+            {
+                accd.Add(row["descrizionerid"].ToString());
+            }
+            listBox2.Visible = false;
         }
 
         #region Botones de comando
@@ -102,33 +128,66 @@ namespace Conticassa
         }
         #endregion
 
+        #region autocompletado cat.egresos y cta.destino
         private void Tx_catEgre_TextChanged(object sender, EventArgs e)
         {
-            TextBox t = sender as TextBox;
-            if (t != null)
+            listBox1.Items.Clear();
+            if (Tx_catEgre.Text.Length == 0)
             {
-                if (t.Text.Length > 2)
+                hideResults();
+                return;
+            }
+            foreach (String s in Tx_catEgre.AutoCompleteCustomSource)
+            {
+                if (s.ToUpper().Contains(Tx_catEgre.Text.ToUpper()))
                 {
-                    string[] arr = SuggestStrings(t.Text);
-                    AutoCompleteStringCollection collection = new AutoCompleteStringCollection();
-                    collection.AddRange(arr);
-                    Tx_catEgre.AutoCompleteCustomSource = collection;
+                    listBox1.Items.Add(s);
+                    listBox1.Visible = true;
                 }
             }
         }
-        private string[] SuggestStrings(string t)
+        private void Tx_ctaDes_TextChanged(object sender, EventArgs e)
         {
-            DataRow[] retu = Program.dt_definic.Select("idtabella='CAM' and descrizionerid LIKE '%a%'");
-            StringBuilder output = new StringBuilder();
-            //string[] retorna;
-            foreach (DataRow row in retu)
+            listBox2.Items.Clear();
+            if (Tx_ctaDes.Text.Length == 0)
             {
-                output.AppendFormat("{0}", row[3].ToString().Trim());
-                output.AppendLine();
+                hideResults();
+                return;
             }
-            string[] retorna = output.ToString().Split(Environment.NewLine.ToCharArray());
-            //string[] retorna = { "" };
-            return retorna;
+            foreach (String s in Tx_ctaDes.AutoCompleteCustomSource)
+            {
+                if (s.ToUpper().Contains(Tx_ctaDes.Text.ToUpper()))
+                {
+                    listBox2.Items.Add(s);
+                    listBox2.Visible = true;
+                }
+            }
         }
+        private void hideResults()
+        {
+            listBox1.Visible = false;
+            listBox2.Visible = false;
+        }
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Tx_catEgre.Text = listBox1.Items[listBox1.SelectedIndex].ToString();
+            hideResults();
+        }
+        private void listBox1_Leave(object sender, EventArgs e)
+        {
+            hideResults();
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Tx_ctaDes.Text = listBox2.Items[listBox2.SelectedIndex].ToString();
+            hideResults();
+        }
+        private void listBox2_Leave(object sender, EventArgs e)
+        {
+            hideResults();
+        }
+        #endregion
+
     }
 }
