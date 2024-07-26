@@ -34,7 +34,7 @@ namespace Conticassa
             string para4 = "";
             if (keyData == Keys.F1 && (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION"))
             {
-                if (Tx_ctaDes.Focus())
+                if (Tx_ctaDes.Focused == true)   // Tx_ctaDes.Focus() == true
                 {
                     para1 = (rb_omg.Checked == true) ? "omg" : "personal";
                     para2 = "cuenta";
@@ -45,7 +45,40 @@ namespace Conticassa
                     {
                         if (!string.IsNullOrEmpty(ayu2.ReturnValue1))   // 0=codigo, 1=descripCorta, 2=descripLarga
                         {
-                            Tx_ctaDes.Text = ayu2.ReturnValue1;
+                            Tx_ctaDes.Text = ayu2.ReturnValueA[1];
+                            eti_nomCaja.Text = ayu2.ReturnValueA[2];
+                        }
+                    }
+                }
+                if (tx_ctaGiro.Focused == true)
+                {
+                    para1 = (rb_omg.Checked == true) ? "omg" : "personal";
+                    para2 = "cuenta";
+                    para3 = "activos";    // todos | activos
+                    ayuda2 ayu2 = new ayuda2(para1, para2, para3, para4);
+                    var result = ayu2.ShowDialog();
+                    if (result == DialogResult.Cancel)
+                    {
+                        if (!string.IsNullOrEmpty(ayu2.ReturnValue1))   // 0=codigo, 1=descripCorta, 2=descripLarga
+                        {
+                            tx_ctaGiro.Text = ayu2.ReturnValueA[1];
+                            eti_nomCtaGiro.Text = ayu2.ReturnValueA[2];
+                        }
+                    }
+                }
+                if (Tx_catEgre.Focused == true)
+                {
+                    para1 = (rb_omg.Checked == true) ? "omg" : "personal";
+                    para2 = "tEgresos";
+                    para3 = "activos";    // todos | activos
+                    ayuda2 ayu2 = new ayuda2(para1, para2, para3, para4);
+                    var result = ayu2.ShowDialog();
+                    if (result == DialogResult.Cancel)
+                    {
+                        if (!string.IsNullOrEmpty(ayu2.ReturnValue1))   // 0=codigo, 1=descripCorta, 2=descripLarga
+                        {
+                            Tx_catEgre.Text = ayu2.ReturnValueA[1];
+                            eti_nomCat.Text = ayu2.ReturnValueA[2];
                         }
                     }
                 }
@@ -331,5 +364,9 @@ namespace Conticassa
             errorProvider1.SetError(tx_monto, "");
         }
 
+        private void Tx_ctaDes_Leave(object sender, EventArgs e)
+        {
+
+        }
     }
 }

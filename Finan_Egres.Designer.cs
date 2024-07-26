@@ -526,6 +526,7 @@
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
+            this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
             // 
             // generalEtiqueta4
             // 
