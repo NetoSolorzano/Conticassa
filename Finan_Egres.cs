@@ -26,7 +26,7 @@ namespace Conticassa
         {
             if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
         }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)    // F1
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)    // F1 
         {
             string para1 = "";
             string para2 = "";
@@ -82,6 +82,22 @@ namespace Conticassa
                         }
                     }
                 }
+                if (tx_provee.Focused == true)
+                {
+                    para1 = "provee";
+                    para2 = "";
+                    para3 = "activos";    // todos | activos
+                    ayuda2 ayu2 = new ayuda2(para1, para2, para3, para4);
+                    var result = ayu2.ShowDialog();
+                    if (result == DialogResult.Cancel)
+                    {
+                        if (!string.IsNullOrEmpty(ayu2.ReturnValue1))   // 0=codigo, 1=descripCorta, 2=descripLarga
+                        {
+                            tx_provee.Text = ayu2.ReturnValueA[0];
+                            eti_nomprovee.Text = ayu2.ReturnValueA[1];
+                        }
+                    }
+                }
                 return true;    // indicate that you handled this keystroke
             }
             // Call the base class
@@ -96,11 +112,11 @@ namespace Conticassa
             Tx_catEgre.AutoCompleteCustomSource = acsc;
             Tx_catEgre.AutoCompleteMode = AutoCompleteMode.None;
             Tx_catEgre.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            DataRow[] depar = Program.dt_definic.Select("idtabella='CAM'");
+            DataRow[] depar = Program.dt_definic.Select("idtabella='CAM' and numero=1");
             acsc.Clear();
             foreach (DataRow row in depar)
             {
-                acsc.Add(row["descrizionerid"].ToString());
+                acsc.Add(row["descrizionerid"].ToString().Trim());
             }
             listBox1.Visible = false;
             // cuentas personales
@@ -108,11 +124,11 @@ namespace Conticassa
             Tx_ctaDes.AutoCompleteCustomSource = accd;
             Tx_ctaDes.AutoCompleteMode = AutoCompleteMode.None;
             Tx_ctaDes.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            depar = Program.dt_definic.Select("idtabella='CON'");
+            depar = Program.dt_definic.Select("idtabella='CON' and numero=1");
             accd.Clear();
             foreach (DataRow row in depar)
             {
-                accd.Add(row["descrizionerid"].ToString());
+                accd.Add(row["descrizionerid"].ToString().Trim());
             }
             listBox2.Visible = false;
             // giroconto
@@ -120,11 +136,11 @@ namespace Conticassa
             tx_ctaGiro.AutoCompleteCustomSource = acgc;
             tx_ctaGiro.AutoCompleteMode = AutoCompleteMode.None;
             tx_ctaGiro.AutoCompleteSource = AutoCompleteSource.CustomSource;
-            depar = Program.dt_definic.Select("idtabella='CON'");
+            depar = Program.dt_definic.Select("idtabella='CON' and numero=1");
             acgc.Clear();
             foreach (DataRow row in depar)
             {
-                acgc.Add(row["descrizionerid"].ToString());
+                acgc.Add(row["descrizionerid"].ToString().Trim());
             }
             listBox3.Visible = false;
             // monedas
@@ -364,9 +380,15 @@ namespace Conticassa
             errorProvider1.SetError(tx_monto, "");
         }
 
-        private void Tx_ctaDes_Leave(object sender, EventArgs e)
+        private void Tx_provee_Leave(object sender, EventArgs e)
         {
+            if (Tx_modo.Text == "NUEVO")
+            {
+                if (tx_provee.Text.Trim() != "")
+                {
 
+                }
+            }
         }
     }
 }

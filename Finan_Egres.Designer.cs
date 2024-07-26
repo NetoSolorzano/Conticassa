@@ -444,7 +444,7 @@
             // listBox2
             // 
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(129, 133);
+            this.listBox2.Location = new System.Drawing.Point(135, 135);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(147, 95);
             this.listBox2.TabIndex = 8;
@@ -454,10 +454,10 @@
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(135, 95);
+            this.listBox1.Location = new System.Drawing.Point(135, 93);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(147, 95);
-            this.listBox1.TabIndex = 2;
+            this.listBox1.TabIndex = 3;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             this.listBox1.Leave += new System.EventHandler(this.listBox1_Leave);
             // 
@@ -493,6 +493,7 @@
             this.tx_provee.Name = "tx_provee";
             this.tx_provee.Size = new System.Drawing.Size(129, 14);
             this.tx_provee.TabIndex = 9;
+            this.tx_provee.Leave += new System.EventHandler(this.Tx_provee_Leave);
             // 
             // generalEtiqueta6
             // 
@@ -526,7 +527,6 @@
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
-            this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
             // 
             // generalEtiqueta4
             // 
@@ -601,7 +601,7 @@
             this.selecFecha1.Location = new System.Drawing.Point(129, 57);
             this.selecFecha1.Name = "selecFecha1";
             this.selecFecha1.Size = new System.Drawing.Size(129, 20);
-            this.selecFecha1.TabIndex = 0;
+            this.selecFecha1.TabIndex = 1;
             // 
             // generalEtiqueta1
             // 
@@ -623,7 +623,7 @@
             this.Tx_catEgre.Location = new System.Drawing.Point(129, 79);
             this.Tx_catEgre.Name = "Tx_catEgre";
             this.Tx_catEgre.Size = new System.Drawing.Size(129, 14);
-            this.Tx_catEgre.TabIndex = 1;
+            this.Tx_catEgre.TabIndex = 2;
             this.Tx_catEgre.TextChanged += new System.EventHandler(this.Tx_catEgre_TextChanged);
             // 
             // eti_catEgre
@@ -739,7 +739,7 @@
             this.tx_ctaGiro.Location = new System.Drawing.Point(5, 23);
             this.tx_ctaGiro.Name = "tx_ctaGiro";
             this.tx_ctaGiro.Size = new System.Drawing.Size(129, 22);
-            this.tx_ctaGiro.TabIndex = 4;
+            this.tx_ctaGiro.TabIndex = 56;
             this.tx_ctaGiro.TextChanged += new System.EventHandler(this.tx_ctaGiro_TextChanged);
             // 
             // chk_giroC

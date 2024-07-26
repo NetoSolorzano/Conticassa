@@ -187,6 +187,7 @@ namespace Conticassa
         {
             Main main = new Main();
             main.Show();
+            this.Hide();
         }
     }
 }

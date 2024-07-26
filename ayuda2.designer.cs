@@ -133,12 +133,14 @@
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ayuda2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AYUDA";
             this.Load += new System.EventHandler(this.ayuda2_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ayuda2_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
