@@ -23,7 +23,7 @@ namespace Conticassa
         public int fondoRojoE = 242;
         public int fondoVerdeE = 243;
         public int fondoAzulE = 219;
-        public int tamañoFont = 9;
+        public int tamañoFont = 8;
         #endregion
         #region font de botones
         public string nomFontBoton = "Arial";

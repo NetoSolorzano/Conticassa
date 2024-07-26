@@ -99,6 +99,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ayuda2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ayuda2.designer.cs">
+      <DependentUpon>ayuda2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Finan_Egres.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ayuda2.resx">
+      <DependentUpon>ayuda2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Finan_Egres.resx">
       <DependentUpon>Finan_Egres.cs</DependentUpon>
     </EmbeddedResource>
