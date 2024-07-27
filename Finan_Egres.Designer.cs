@@ -887,6 +887,7 @@
             this.tx_idOper.Name = "tx_idOper";
             this.tx_idOper.Size = new System.Drawing.Size(129, 13);
             this.tx_idOper.TabIndex = 59;
+            this.tx_idOper.Validating += new System.ComponentModel.CancelEventHandler(this.tx_idOper_Validating);
             // 
             // Finan_Egres
             // 

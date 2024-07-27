@@ -173,9 +173,17 @@ namespace Conticassa
                     conn.Open();
                     if (conn.State == ConnectionState.Open)
                     {
-                        string consulta = "select IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                            "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
-                            "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
+                        string consulta = "";
+                        if (ntabla == "cassaomg")
+                        {
+                            consulta = "";  // me quede aca
+                        }
+                        if (ntabla == "cassaconti")
+                        {
+                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
+                                "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
+                        }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
                             micon.Parameters.AddWithValue("@dias", dAtras);
@@ -470,7 +478,7 @@ namespace Conticassa
             }
             errorProvider1.SetError(tx_monto, "");
         }
-
+        #region leaves
         private void Tx_provee_Leave(object sender, EventArgs e)
         {
             if (Tx_modo.Text == "NUEVO")
@@ -516,5 +524,60 @@ namespace Conticassa
                 }
             }
         }
+        private void tx_idOper_Validating(object sender, CancelEventArgs e)     // busca en toda la base de datos
+        {
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                try
+                {
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "";
+                        if (rb_omg.Checked == true)
+                        {
+                            consulta = "SELECT IDBanco,CONCAT(Anno,RIGHT(IDMovimento, 6)) AS IDMovimento,DataMovimento,IDCategoria,IDDestino,Descrizione,idanagrafica," +
+                                "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro " +
+                                "FROM cassaomg WHERE IDMovimento=@idm";
+                        }
+                        if (rb_pers.Checked == true)
+                        {
+                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
+                                "from cassaconti WHERE IDMovimento=@idm";
+                        }
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.Parameters.AddWithValue("@idm", tx_idOper.Text);
+                            using (MySqlDataReader dr = micon.ExecuteReader())
+                            {
+                                if (dr.HasRows == true)
+                                {
+                                    if (dr.Read())
+                                    {
+                                        if (dr[0] != null && dr[0].ToString() != "")
+                                        {
+                                            // me quede aca
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    tx_idOper.Text = "";
+                                    MessageBox.Show("No existe el código de operación");
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tx_provee.Text = "";
+                    eti_nomprovee.Text = "";
+                }
+            }
+        }
+        #endregion
     }
 }
