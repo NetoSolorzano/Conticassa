@@ -7,11 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace Conticassa
 {
     public partial class Finan_Egres : Form1
     {
+        // conexion a la base de datos
+        string DB_CONN_STR = "server=" + Login.serv + ";port=" + Login.port + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data +
+            ";ConnectionLifeTime=" + Login.ctl + ";";
+        // datos de la grilla
+        DataTable dt_grilla = new DataTable();
+        //
         publicoConf conf = new publicoConf();
         AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();     // categorias
         AutoCompleteStringCollection accd = new AutoCompleteStringCollection();     // ctas destino
@@ -21,6 +28,8 @@ namespace Conticassa
             InitializeComponent();
             CargaFormatos();
             chk_giroC_CheckedChanged(null, null);
+            sololee("T");   // T=todos los campos, "" ó "C" campos comunes
+
         }
         private void Finan_Egres_KeyDown(object sender, KeyEventArgs e)
         {
@@ -95,6 +104,7 @@ namespace Conticassa
                         {
                             tx_provee.Text = ayu2.ReturnValueA[0];
                             eti_nomprovee.Text = ayu2.ReturnValueA[1];
+                            SendKeys.Send("{Tab}");
                         }
                     }
                 }
@@ -154,16 +164,56 @@ namespace Conticassa
             cmb_mon.SelectedIndex = 0;
         }
 
+        private void jalaGrilla(int dAtras, string ntabla) // muestra datos de la fecha actual hasta <dAtras> días atras 
+        {
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                try
+                {
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "select IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+                            "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
+                            "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.Parameters.AddWithValue("@dias", dAtras);
+                            using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                            {
+                                dt_grilla.Clear();
+                                dt_grilla.Columns.Clear();
+                                da.Fill(dt_grilla);
+                                dataGridView1.DataSource = dt_grilla;
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                }
+            }
+        }
+
         #region Botones de comando
         private void Bt_add_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "NUEVO";
             rb_pers.PerformClick();
             limpiaTE();
+            escribe("");
+            jalaGrilla(1, (rb_omg.Checked == true) ? "cassaomg" : "cassaconti");  // muestra datos de un dias atras hasta hoy
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "EDICION";
+            rb_pers.PerformClick();
+            limpiaTE();
+            sololee("");
+            jalaGrilla(1, (rb_omg.Checked == true) ? "cassaomg" : "cassaconti");  // muestra datos de un dias atras hasta hoy
         }
         private void Bt_anul_Click(object sender, EventArgs e)
         {
@@ -199,9 +249,10 @@ namespace Conticassa
         }
         #endregion
 
-        #region limpiadores
+        #region limpiadores, readonlys
         private void limpiaTE() // limpia textbox, etiquetas, combos
         {
+            tx_idOper.Clear();
             Tx_catEgre.Clear();
             Tx_ctaDes.Clear();
             tx_ctaGiro.Clear();
@@ -216,6 +267,43 @@ namespace Conticassa
             eti_nomprovee.Text = "";
             //
             cmb_mon.SelectedIndex = 0;
+        }
+        private void escribe(string quien)  // pones los campos necesarios en readonly = false
+        {
+            tx_idOper.ReadOnly = true;
+            Tx_catEgre.ReadOnly = false;
+            Tx_ctaDes.ReadOnly = false;
+            tx_ctaGiro.ReadOnly = false;
+            tx_descrip.ReadOnly = false;
+            tx_monto.ReadOnly = false;
+            tx_provee.ReadOnly = false;
+            tx_tipcam.ReadOnly = false;
+            //
+            cmb_mon.Enabled = true;
+            rb_omg.Enabled = true;
+            rb_pers.Enabled = true;
+            chk_datSimil.Enabled = true;
+            chk_giroC.Enabled = true;
+        }
+        private void sololee(string quien)  //    // T=todos los campos, "" ó "C" campos comunes
+        {
+            Tx_catEgre.ReadOnly = true;
+            Tx_ctaDes.ReadOnly = true;
+            tx_ctaGiro.ReadOnly = true;
+            tx_descrip.ReadOnly = true;
+            tx_monto.ReadOnly = true;
+            tx_provee.ReadOnly = true;
+            tx_tipcam.ReadOnly = true;
+            tx_idOper.ReadOnly = false;
+            rb_omg.Enabled = false;
+            rb_pers.Enabled = false;
+            chk_datSimil.Enabled = false;
+            chk_giroC.Enabled = false;
+            cmb_mon.Enabled = false;
+            if (quien == "T")
+            {
+                tx_idOper.ReadOnly = true;
+            }
         }
         #endregion
 
@@ -318,6 +406,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catEgre.Text.Trim() + "'");
                 eti_nomCat.Text = nc[0].ItemArray[2].ToString();
+                SendKeys.Send("{TAB}");
             }
         }
         private void listBox1_Leave(object sender, EventArgs e)
@@ -332,6 +421,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + Tx_ctaDes.Text.Trim() + "'");
                 eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
+                SendKeys.Send("{TAB}");
             }
         }
         private void listBox2_Leave(object sender, EventArgs e)
@@ -346,6 +436,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
+                SendKeys.Send("{TAB}");
             }
         }
         private void listBox3_Leave(object sender, EventArgs e)
@@ -386,7 +477,42 @@ namespace Conticassa
             {
                 if (tx_provee.Text.Trim() != "")
                 {
-
+                    using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                    {
+                        try
+                        {
+                            conn.Open();
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where idanagrafica=@codi", conn))
+                                {
+                                    micon.Parameters.AddWithValue("@codi", tx_provee.Text.Trim());
+                                    using (MySqlDataReader dr = micon.ExecuteReader())
+                                    {
+                                        if (dr.HasRows == true)
+                                        {
+                                            if (dr.Read())
+                                            {
+                                                if (dr[0] != null && dr[0].ToString() != "") eti_nomprovee.Text = dr[0].ToString();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            eti_nomprovee.Text = "";
+                                            tx_provee.Text = "";
+                                            MessageBox.Show("No existe el código de proveedor");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message,"Error de conexión al servidor",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                            tx_provee.Text = "";
+                            eti_nomprovee.Text = "";
+                        }
+                    }
                 }
             }
         }

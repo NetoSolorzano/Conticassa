@@ -99,6 +99,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.eti_nomCat = new Conticassa.generalEtiqueta();
             this.listBox3 = new System.Windows.Forms.ListBox();
+            this.eti_idOper = new Conticassa.generalEtiqueta();
+            this.tx_idOper = new Conticassa.NumericTextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pan_p.SuspendLayout();
@@ -378,12 +380,16 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(2, 192);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(829, 138);
             this.dataGridView1.TabIndex = 35;
             // 
@@ -547,7 +553,7 @@
             this.tx_tipcam.ForeColor = System.Drawing.Color.Blue;
             this.tx_tipcam.Location = new System.Drawing.Point(388, 98);
             this.tx_tipcam.Name = "tx_tipcam";
-            this.tx_tipcam.Size = new System.Drawing.Size(76, 15);
+            this.tx_tipcam.Size = new System.Drawing.Size(77, 15);
             this.tx_tipcam.TabIndex = 6;
             this.tx_tipcam.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -598,9 +604,9 @@
             // selecFecha1
             // 
             this.selecFecha1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.selecFecha1.Location = new System.Drawing.Point(129, 57);
+            this.selecFecha1.Location = new System.Drawing.Point(388, 57);
             this.selecFecha1.Name = "selecFecha1";
-            this.selecFecha1.Size = new System.Drawing.Size(129, 20);
+            this.selecFecha1.Size = new System.Drawing.Size(99, 20);
             this.selecFecha1.TabIndex = 1;
             // 
             // generalEtiqueta1
@@ -608,9 +614,9 @@
             this.generalEtiqueta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta1.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta1.Location = new System.Drawing.Point(4, 60);
+            this.generalEtiqueta1.Location = new System.Drawing.Point(261, 60);
             this.generalEtiqueta1.Name = "generalEtiqueta1";
-            this.generalEtiqueta1.Size = new System.Drawing.Size(124, 15);
+            this.generalEtiqueta1.Size = new System.Drawing.Size(125, 15);
             this.generalEtiqueta1.TabIndex = 2;
             this.generalEtiqueta1.Text = "Fecha de Operación";
             // 
@@ -715,7 +721,7 @@
             this.panelGeneral5.Controls.Add(this.tx_ctaGiro);
             this.panelGeneral5.Controls.Add(this.chk_giroC);
             this.panelGeneral5.ForeColor = System.Drawing.Color.Blue;
-            this.panelGeneral5.Location = new System.Drawing.Point(578, 34);
+            this.panelGeneral5.Location = new System.Drawing.Point(577, 34);
             this.panelGeneral5.Name = "panelGeneral5";
             this.panelGeneral5.Size = new System.Drawing.Size(253, 64);
             this.panelGeneral5.TabIndex = 45;
@@ -860,12 +866,36 @@
             this.listBox3.SelectedIndexChanged += new System.EventHandler(this.listBox3_SelectedIndexChanged);
             this.listBox3.Leave += new System.EventHandler(this.listBox3_Leave);
             // 
+            // eti_idOper
+            // 
+            this.eti_idOper.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_idOper.Font = new System.Drawing.Font("Verdana", 8F);
+            this.eti_idOper.ForeColor = System.Drawing.Color.Blue;
+            this.eti_idOper.Location = new System.Drawing.Point(4, 61);
+            this.eti_idOper.Name = "eti_idOper";
+            this.eti_idOper.Size = new System.Drawing.Size(124, 15);
+            this.eti_idOper.TabIndex = 58;
+            this.eti_idOper.Text = "Id Operación";
+            // 
+            // tx_idOper
+            // 
+            this.tx_idOper.BackColor = System.Drawing.Color.White;
+            this.tx_idOper.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tx_idOper.Font = new System.Drawing.Font("Verdana", 8F);
+            this.tx_idOper.ForeColor = System.Drawing.Color.Blue;
+            this.tx_idOper.Location = new System.Drawing.Point(129, 61);
+            this.tx_idOper.Name = "tx_idOper";
+            this.tx_idOper.Size = new System.Drawing.Size(129, 13);
+            this.tx_idOper.TabIndex = 59;
+            // 
             // Finan_Egres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.tx_idOper);
+            this.Controls.Add(this.eti_idOper);
             this.Controls.Add(this.listBox3);
             this.Controls.Add(this.eti_nomCat);
             this.Controls.Add(this.label1);
@@ -997,5 +1027,7 @@
         private System.Windows.Forms.Label label1;
         private generalEtiqueta eti_nomCat;
         private System.Windows.Forms.ListBox listBox3;
+        private NumericTextBox tx_idOper;
+        private generalEtiqueta eti_idOper;
     }
 }
