@@ -195,6 +195,7 @@
     <None Include="Resources\arrow_left [#347].png" />
     <None Include="Resources\arrow_right [#365].png" />
     <None Include="Resources\arrow_right_in [#386].png" />
+    <Content Include="Leeme.txt" />
     <Content Include="Resources\edit20.png" />
     <Content Include="Resources\new_tab20.png" />
     <None Include="Resources\printer [#1599].png" />

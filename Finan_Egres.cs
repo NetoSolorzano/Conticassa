@@ -176,7 +176,9 @@ namespace Conticassa
                         string consulta = "";
                         if (ntabla == "cassaomg")
                         {
-                            consulta = "";  // me quede aca
+                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDDestino,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaomg,tipodesgiro " +
+                                "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
                         }
                         if (ntabla == "cassaconti")
                         {
@@ -210,18 +212,20 @@ namespace Conticassa
         private void Bt_add_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "NUEVO";
-            rb_pers.PerformClick();
-            limpiaTE();
+            rb_pers.Checked = true;
+            rb_pers_Click(null, null);   // .PerformClick(); <- no funca!
+            //limpiaTE();
             escribe("");
-            jalaGrilla(1, (rb_omg.Checked == true) ? "cassaomg" : "cassaconti");  // muestra datos de un dias atras hasta hoy
+            Tx_catEgre.Focus();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "EDICION";
-            rb_pers.PerformClick();
-            limpiaTE();
+            rb_pers.Checked = true;
+            rb_pers_Click(null, null);   // .PerformClick(); <- no funca!
+            //limpiaTE();
             sololee("");
-            jalaGrilla(1, (rb_omg.Checked == true) ? "cassaomg" : "cassaconti");  // muestra datos de un dias atras hasta hoy
+            tx_idOper.Focus();
         }
         private void Bt_anul_Click(object sender, EventArgs e)
         {
@@ -322,6 +326,7 @@ namespace Conticassa
             {
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS OMG";
                 limpiaTE();
+                jalaGrilla(1, "cassaomg");  // muestra datos de un dias atras hasta hoy
             }
         }
         private void rb_pers_Click(object sender, EventArgs e)
@@ -330,6 +335,7 @@ namespace Conticassa
             {
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
                 limpiaTE();
+                jalaGrilla(1, "cassaconti");  // muestra datos de un dias atras hasta hoy
             }
         }
         private void chk_giroC_CheckedChanged(object sender, EventArgs e)
@@ -485,47 +491,30 @@ namespace Conticassa
             {
                 if (tx_provee.Text.Trim() != "")
                 {
-                    using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                    if (ValiProvee() == false)
                     {
-                        try
-                        {
-                            conn.Open();
-                            if (conn.State == ConnectionState.Open)
-                            {
-                                using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where idanagrafica=@codi", conn))
-                                {
-                                    micon.Parameters.AddWithValue("@codi", tx_provee.Text.Trim());
-                                    using (MySqlDataReader dr = micon.ExecuteReader())
-                                    {
-                                        if (dr.HasRows == true)
-                                        {
-                                            if (dr.Read())
-                                            {
-                                                if (dr[0] != null && dr[0].ToString() != "") eti_nomprovee.Text = dr[0].ToString();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            eti_nomprovee.Text = "";
-                                            tx_provee.Text = "";
-                                            MessageBox.Show("No existe el código de proveedor");
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message,"Error de conexión al servidor",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                            tx_provee.Text = "";
-                            eti_nomprovee.Text = "";
-                        }
+                        eti_nomprovee.Text = "";
+                        tx_provee.Text = "";
+                        MessageBox.Show("No existe el código de proveedor");
                     }
                 }
             }
         }
         private void tx_idOper_Validating(object sender, CancelEventArgs e)     // busca en toda la base de datos
         {
+            if (tx_idOper.Text.Trim() != "" && ("NUEVO,EDICION").Contains(Tx_modo.Text))
+            {
+                if (ValiIdOper() == false)
+                {
+                    tx_idOper.Text = "";
+                    MessageBox.Show("No existe el código de operación");
+                }
+            }
+        }
+        #endregion
+        private bool ValiIdOper()
+        {
+            bool retorna = false;
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
                 try
@@ -557,14 +546,14 @@ namespace Conticassa
                                     {
                                         if (dr[0] != null && dr[0].ToString() != "")
                                         {
-                                            // me quede aca
+                                            // me quede aca 27/07/2024
+                                            retorna = true;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    tx_idOper.Text = "";
-                                    MessageBox.Show("No existe el código de operación");
+                                    retorna = false;
                                 }
                             }
                         }
@@ -577,7 +566,47 @@ namespace Conticassa
                     eti_nomprovee.Text = "";
                 }
             }
-        }
-        #endregion
+            return retorna;
+        }           // valida idOper, si hay jala datos, sino No
+        private bool ValiProvee()
+        {
+            bool retorna = false;
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                try
+                {
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where idanagrafica=@codi", conn))
+                        {
+                            micon.Parameters.AddWithValue("@codi", tx_provee.Text.Trim());
+                            using (MySqlDataReader dr = micon.ExecuteReader())
+                            {
+                                if (dr.HasRows == true)
+                                {
+                                    if (dr.Read())
+                                    {
+                                        if (dr[0] != null && dr[0].ToString() != "") eti_nomprovee.Text = dr[0].ToString();
+                                        retorna = true;
+                                    }
+                                }
+                                else
+                                {
+                                    retorna = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tx_provee.Text = "";
+                    eti_nomprovee.Text = "";
+                }
+            }
+            return retorna;
+        }           // valida existencia del proveedor
     }
 }

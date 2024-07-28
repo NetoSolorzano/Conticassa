@@ -1,0 +1,9 @@
+﻿Datos Base de Datos:
+- Servidor: bd.omgperu.com
+- Base: conticasa
+- Usuario: Conti
+- Clave: Conti00*
+
+Pendientes:
+- Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
+- 
