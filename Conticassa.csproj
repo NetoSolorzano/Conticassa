@@ -105,6 +105,7 @@
     <Compile Include="ayuda2.designer.cs">
       <DependentUpon>ayuda2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Egresos.cs" />
     <Compile Include="Finan_Egres.cs">
       <SubType>Form</SubType>
     </Compile>

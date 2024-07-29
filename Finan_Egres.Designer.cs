@@ -578,6 +578,7 @@
             this.cmb_mon.Name = "cmb_mon";
             this.cmb_mon.Size = new System.Drawing.Size(47, 20);
             this.cmb_mon.TabIndex = 4;
+            this.cmb_mon.SelectedValueChanged += new System.EventHandler(this.cmb_mon_SelectedValueChanged);
             // 
             // generalEtiqueta3
             // 

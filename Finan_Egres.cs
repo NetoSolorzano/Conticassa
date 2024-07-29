@@ -23,6 +23,12 @@ namespace Conticassa
         AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();     // categorias
         AutoCompleteStringCollection accd = new AutoCompleteStringCollection();     // ctas destino
         AutoCompleteStringCollection acgc = new AutoCompleteStringCollection();     // cta giroconto
+        //
+        catEgresos OcatEg = new catEgresos();                                       // Objeto categoría de egreso
+        monedas Omone = new monedas();                                              // Objeto moneda
+        cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
+        provees Oprove = new provees();                                             // Objeto proveedor
+        
         public Finan_Egres()
         {
             InitializeComponent();
@@ -154,14 +160,10 @@ namespace Conticassa
             }
             listBox3.Visible = false;
             // monedas
-            Dictionary<string, string> mons = new Dictionary<string, string>();
-            mons.Add("MON001", "SOL");
-            mons.Add("MON002", "US$");
-            mons.Add("MON003", "EUR");
-            cmb_mon.DataSource = new BindingSource(mons, null);
-            cmb_mon.DisplayMember = "Value";
-            cmb_mon.ValueMember = "Key";
-            cmb_mon.SelectedIndex = 0;
+            depar = Program.dt_definic.Select("idtabella='MON' and numero=1");
+            cmb_mon.DataSource = depar.CopyToDataTable();
+            cmb_mon.DisplayMember = "descrizionerid";
+            cmb_mon.ValueMember = "idcodice";
         }
 
         private void jalaGrilla(int dAtras, string ntabla) // muestra datos de la fecha actual hasta <dAtras> días atras 
@@ -325,6 +327,7 @@ namespace Conticassa
             if (rb_omg.Checked == true)
             {
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS OMG";
+                pan_p.Tag = "omg";
                 limpiaTE();
                 jalaGrilla(1, "cassaomg");  // muestra datos de un dias atras hasta hoy
             }
@@ -334,6 +337,7 @@ namespace Conticassa
             if (rb_pers.Checked == true)
             {
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
+                pan_p.Tag = "personal";
                 limpiaTE();
                 jalaGrilla(1, "cassaconti");  // muestra datos de un dias atras hasta hoy
             }
@@ -420,6 +424,8 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catEgre.Text.Trim() + "'");
                 eti_nomCat.Text = nc[0].ItemArray[2].ToString();
+                OcatEg.codigo = Tx_catEgre.Text;
+                OcatEg.nombre = eti_nomCat.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -435,6 +441,8 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + Tx_ctaDes.Text.Trim() + "'");
                 eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
+                Ocajd.codigo = Tx_ctaDes.Text;
+                Ocajd.nombre = eti_nomCaja.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -450,6 +458,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
+                // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
         }
@@ -459,31 +468,6 @@ namespace Conticassa
         }
         #endregion
 
-        private void Bt_graba_Click(object sender, EventArgs e)
-        {
-            // validamos datos esenciales
-            if (Tx_catEgre.Text == "")
-            {
-                errorProvider1.SetError(Tx_catEgre, "Debe ingresar un tipo");
-                Tx_catEgre.Focus();
-                return;
-            }
-            errorProvider1.SetError(Tx_catEgre, "");
-            if (Tx_ctaDes.Text == "")
-            {
-                errorProvider1.SetError(Tx_ctaDes, "Debe seleccionar la cuenta");
-                Tx_ctaDes.Focus();
-                return;
-            }
-            errorProvider1.SetError(Tx_ctaDes, "");
-            if (tx_monto.Text == "")
-            {
-                errorProvider1.SetError(tx_monto, "Debe ingresar un valor");
-                tx_monto.Focus();
-                return;
-            }
-            errorProvider1.SetError(tx_monto, "");
-        }
         #region leaves
         private void Tx_provee_Leave(object sender, EventArgs e)
         {
@@ -511,7 +495,54 @@ namespace Conticassa
                 }
             }
         }
+
         #endregion
+
+        #region combos
+        private void cmb_mon_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+            Omone.siglas = cmb_mon.Text;    // siglas de la moneda
+            Omone.nombre = "";              // nombre de la moneda
+        }   // selección de moneda
+
+        #endregion
+
+        private void Bt_graba_Click(object sender, EventArgs e)
+        {
+            // validamos datos esenciales
+            if (Tx_catEgre.Text == "")
+            {
+                errorProvider1.SetError(Tx_catEgre, "Debe ingresar un tipo");
+                Tx_catEgre.Focus();
+                return;
+            }
+            errorProvider1.SetError(Tx_catEgre, "");
+            if (Tx_ctaDes.Text == "")
+            {
+                errorProvider1.SetError(Tx_ctaDes, "Debe seleccionar la cuenta");
+                Tx_ctaDes.Focus();
+                return;
+            }
+            errorProvider1.SetError(Tx_ctaDes, "");
+            if (tx_monto.Text == "")
+            {
+                errorProvider1.SetError(tx_monto, "Debe ingresar un valor");
+                tx_monto.Focus();
+                return;
+            }
+            errorProvider1.SetError(tx_monto, "");
+
+            var aaa = MessageBox.Show("Confirma que desea crear el egreso?","Confirme por favor",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (aaa == DialogResult.Yes)
+            {
+                string fecOp = selecFecha1.Value.Date.ToShortDateString();
+                Egresos Oegresos = new Egresos();
+                Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, decimal.Parse(tx_monto.Text), decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text);
+
+            }
+        }
+
         private bool ValiIdOper()
         {
             bool retorna = false;
@@ -588,11 +619,15 @@ namespace Conticassa
                                     if (dr.Read())
                                     {
                                         if (dr[0] != null && dr[0].ToString() != "") eti_nomprovee.Text = dr[0].ToString();
+                                        Oprove.codigo = tx_provee.Text;
+                                        Oprove.nombre = eti_nomprovee.Text;
                                         retorna = true;
                                     }
                                 }
                                 else
                                 {
+                                    Oprove.codigo = "";
+                                    Oprove.nombre = "";
                                     retorna = false;
                                 }
                             }
@@ -608,5 +643,6 @@ namespace Conticassa
             }
             return retorna;
         }           // valida existencia del proveedor
+
     }
 }

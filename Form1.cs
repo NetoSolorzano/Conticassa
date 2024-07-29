@@ -175,4 +175,26 @@ namespace Conticassa
             return Text;
         }
     }
+    // clases objetos funcionales
+    public class catEgresos
+    {
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+    }
+    public class monedas
+    {
+        public string codigo { get; set; }
+        public string siglas { get; set; }
+        public string nombre { get; set; }
+    }
+    public class cajDestino
+    {
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+    }
+    public class provees
+    {
+        public string codigo { get; set; }
+        public string nombre { get; set; }
+    }
 }
