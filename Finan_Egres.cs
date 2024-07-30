@@ -28,6 +28,7 @@ namespace Conticassa
         monedas Omone = new monedas();                                              // Objeto moneda
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
+        montos Omonto = new montos();                                               // Objeto monto
         
         public Finan_Egres()
         {
@@ -199,7 +200,27 @@ namespace Conticassa
                                 dataGridView1.DataSource = dt_grilla;
                             }
                         }
-
+                        // buscamos tipo de cambio del día
+                        using (MySqlCommand micon = new MySqlCommand("select Cambio1,Cambio2 from cambi where datavaluta=@fec", conn))  // dolares,euros
+                        {
+                            micon.Parameters.AddWithValue("@fec", selecFecha1.Value.ToShortDateString());
+                            using (MySqlDataReader dr = micon.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    if (dr.Read())
+                                    {
+                                        tx_tipcam.Text = dr.GetString(1);   // tipo de cambio dolares
+                                        Omonto.tipCDol = dr.GetDecimal(1);
+                                        Omonto.tipCEur = dr.GetDecimal(2);  // tipo de cambio euro
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("No existen tipos de cambio para la fecha actual","Atención",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                }
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -468,7 +489,7 @@ namespace Conticassa
         }
         #endregion
 
-        #region leaves
+        #region leaves y validaciones
         private void Tx_provee_Leave(object sender, EventArgs e)
         {
             if (Tx_modo.Text == "NUEVO")
@@ -495,6 +516,20 @@ namespace Conticassa
                 }
             }
         }
+        private void tx_monto_Validating(object sender, CancelEventArgs e)
+        {
+            decimal monti = 0;
+            decimal.TryParse(tx_monto.Text, out monti);
+            if (Tx_modo.Text == "NUEVO" && monti > 0)
+            {
+                Omonto.monOrige = monti;
+                if (true)
+                {
+                    // acá tenemos que ver el asunto de los cambios 
+                    // a los moneda soles dolares y euros
+                }
+            }
+        }
 
         #endregion
 
@@ -504,6 +539,13 @@ namespace Conticassa
             Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
             Omone.siglas = cmb_mon.Text;    // siglas de la moneda
             Omone.nombre = "";              // nombre de la moneda
+
+            // buscamos su tipo de cambio
+
+            Omonto.codMOrige = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+            Omonto.monDolar = 0;        // estos importes 
+            Omonto.monEuros = 0;        // serán calculados en
+            Omonto.monSoles = 0;        // el valid del campo monto
         }   // selección de moneda
 
         #endregion
@@ -538,8 +580,25 @@ namespace Conticassa
             {
                 string fecOp = selecFecha1.Value.Date.ToShortDateString();
                 Egresos Oegresos = new Egresos();
-                Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, decimal.Parse(tx_monto.Text), decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text);
-
+                using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                {
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Application.Exit();
+                        return;
+                    }
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text), 
+                            Ocajd, Oprove, tx_descrip.Text);
+                        Oegresos.grabaEgreso(conn);
+                    }
+                }
             }
         }
 
@@ -554,13 +613,13 @@ namespace Conticassa
                     if (conn.State == ConnectionState.Open)
                     {
                         string consulta = "";
-                        if (rb_omg.Checked == true)
+                        if (pan_p.Tag.ToString() == "omg")         // rb_omg.Checked == true
                         {
                             consulta = "SELECT IDBanco,CONCAT(Anno,RIGHT(IDMovimento, 6)) AS IDMovimento,DataMovimento,IDCategoria,IDDestino,Descrizione,idanagrafica," +
                                 "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro " +
                                 "FROM cassaomg WHERE IDMovimento=@idm";
                         }
-                        if (rb_pers.Checked == true)
+                        if (pan_p.Tag.ToString() == "personal")    // rb_pers.Checked == true
                         {
                             consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
                                 "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +

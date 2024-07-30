@@ -568,6 +568,7 @@
             this.tx_monto.Size = new System.Drawing.Size(80, 15);
             this.tx_monto.TabIndex = 5;
             this.tx_monto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tx_monto.Validating += new System.ComponentModel.CancelEventHandler(this.tx_monto_Validating);
             // 
             // cmb_mon
             // 

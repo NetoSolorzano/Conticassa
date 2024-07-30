@@ -175,7 +175,8 @@ namespace Conticassa
             return Text;
         }
     }
-    // clases objetos funcionales
+
+    // objetos funcionales
     public class catEgresos
     {
         public string codigo { get; set; }
@@ -196,5 +197,15 @@ namespace Conticassa
     {
         public string codigo { get; set; }
         public string nombre { get; set; }
+    }
+    public class montos
+    {
+        public decimal monOrige { get; set; }       // monto en la moneda origen
+        public string codMOrige { get; set; }       // codigo de la moneda origen
+        public decimal monSoles { get; set; }       // monto equivalente en soles
+        public decimal tipCDol { get; set; }        // tipo de cambio dolar
+        public decimal monDolar { get; set; }       // monto equivalente en dolares
+        public decimal tipCEur { get; set; }        // tipo de cambio euros
+        public decimal monEuros { get; set; }       // monto equivalente en Euros
     }
 }
