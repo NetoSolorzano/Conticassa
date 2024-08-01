@@ -29,20 +29,23 @@ namespace Conticassa
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
         montos Omonto = new montos();                                               // Objeto monto
-        
+
+        string nomForm = "";
+        int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
+
         public Finan_Egres()
         {
             InitializeComponent();
             CargaFormatos();
             chk_giroC_CheckedChanged(null, null);
             sololee("T");   // T=todos los campos, "" ó "C" campos comunes
-
+            jalainfo();
         }
         private void Finan_Egres_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
         }
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)    // F1 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             string para1 = "";
             string para2 = "";
@@ -119,11 +122,11 @@ namespace Conticassa
             }
             // Call the base class
             return base.ProcessCmdKey(ref msg, keyData);
-        }
+        }    // F1 
         private void CargaFormatos()
         {
             pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
-            eti_cuenta.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
+            //eti_cuenta.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catEgre.AutoCompleteCustomSource = acsc;
@@ -166,7 +169,13 @@ namespace Conticassa
             cmb_mon.DisplayMember = "descrizionerid";
             cmb_mon.ValueMember = "idcodice";
         }
-
+        private void jalainfo()
+        {
+            // 31/07/2024 .. variabilizamos los datos que vamos a necesitar
+            nomForm = this.Name;    // Form.ActiveForm.Name;
+            DataRow[] row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='diasAtras'");
+            diasAtroya = int.Parse(row[0]["valor"].ToString());
+        }
         private void jalaGrilla(int dAtras, string ntabla) // muestra datos de la fecha actual hasta <dAtras> días atras 
         {
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
@@ -201,23 +210,35 @@ namespace Conticassa
                             }
                         }
                         // buscamos tipo de cambio del día
-                        using (MySqlCommand micon = new MySqlCommand("select Cambio1,Cambio2 from cambi where datavaluta=@fec", conn))  // dolares,euros
+                        using (MySqlCommand micon = new MySqlCommand("select Cambio1,Cambio2 from cambi where year(datavaluta)=@fec", conn))  // dolares,euros
                         {
-                            micon.Parameters.AddWithValue("@fec", selecFecha1.Value.ToShortDateString());
+                            //string fcv = selecFecha1.Value.Year.ToString() + "-" + selecFecha1.Value.Month.ToString() + "-" + selecFecha1.Value.Day.ToString();
+                            string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
+                            micon.Parameters.AddWithValue("@fec", fcv);
                             using (MySqlDataReader dr = micon.ExecuteReader())
                             {
                                 if (dr.HasRows)
                                 {
                                     if (dr.Read())
                                     {
-                                        tx_tipcam.Text = dr.GetString(1);   // tipo de cambio dolares
-                                        Omonto.tipCDol = dr.GetDecimal(1);
-                                        Omonto.tipCEur = dr.GetDecimal(2);  // tipo de cambio euro
+                                        tx_tipcam.Text = dr.GetString(0);   // tipo de cambio dolares
+                                        Omonto.tipCDol = dr.GetDecimal(0);
+                                        Omonto.tipCEur = dr.GetDecimal(1);  // tipo de cambio euro
+                                        if (Omonto.tipCDol <= 0 || Omonto.tipCEur <= 0)
+                                        {
+                                            MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
+                                                "El tipo de cambio Euros es: " + Omonto.tipCEur.ToString(), "Alerta",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("No existen tipos de cambio para la fecha actual","Atención",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    var aa = MessageBox.Show("No existen tipos de cambio para la fecha actual" + Environment.NewLine +
+                                        "Desea ingresarlos en este momento?","Atención",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    if (aa == DialogResult.Yes)
+                                    {
+                                        // llamada a formulario de tipos de cambio
+                                    }
                                 }
                             }
                         }
@@ -350,7 +371,7 @@ namespace Conticassa
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS OMG";
                 pan_p.Tag = "omg";
                 limpiaTE();
-                jalaGrilla(1, "cassaomg");  // muestra datos de un dias atras hasta hoy
+                jalaGrilla(diasAtroya, "cassaomg");  // muestra datos de un dias atras hasta hoy
             }
         }
         private void rb_pers_Click(object sender, EventArgs e)
@@ -360,7 +381,7 @@ namespace Conticassa
                 eti_tituloForm.Text = eti_tituloForm.Tag.ToString() + "DE CUENTAS PERSONALES";
                 pan_p.Tag = "personal";
                 limpiaTE();
-                jalaGrilla(1, "cassaconti");  // muestra datos de un dias atras hasta hoy
+                jalaGrilla(diasAtroya, "cassaconti");  // muestra datos de un dias atras hasta hoy
             }
         }
         private void chk_giroC_CheckedChanged(object sender, EventArgs e)

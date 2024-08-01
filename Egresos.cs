@@ -51,6 +51,7 @@ namespace Conticassa
             proveedor = _proveedor;
             descrip = _descrip;
         }
+        
         public void grabaEgreso(MySqlConnection conn)
         {
             string tabla = "";

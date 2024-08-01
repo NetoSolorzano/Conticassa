@@ -14,6 +14,7 @@ namespace Conticassa
         public static string vg_nuse = ""; // nombre del usuario
 
         public static DataTable dt_definic = new DataTable();    // definiciones
+        public static DataTable dt_enlaces = new DataTable();    // enlaces
         #endregion
         /// <summary>
         /// Punto de entrada principal para la aplicación.

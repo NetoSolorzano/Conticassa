@@ -113,6 +113,14 @@ namespace Conticassa
                     da.Fill(Program.dt_definic);
                 }
             }
+            consulta = "select * from enlaces";
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+                using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                {
+                    da.Fill(Program.dt_enlaces);
+                }
+            }
         }
         private void cuadre()
         {
@@ -186,6 +194,7 @@ namespace Conticassa
             ffe1.Parent = this;
             ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
             pn_centro.Controls.Add(ffe1);
+            this.Width = ffe1.Right + ffe1.Left;
             ffe1.Show();
         }
         private void fin_camion_Click(object sender, EventArgs e)
