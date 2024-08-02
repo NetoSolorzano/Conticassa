@@ -176,11 +176,11 @@ namespace Conticassa
             DataRow[] row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='diasAtras'");
             diasAtroya = int.Parse(row[0]["valor"].ToString());
         }
-        private void jalaGrilla(int dAtras, string ntabla) // muestra datos de la fecha actual hasta <dAtras> días atras 
+        private void jalaGrilla(int dAtras, string ntabla)
         {
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
-                try
+                //try
                 {
                     conn.Open();
                     if (conn.State == ConnectionState.Open)
@@ -188,15 +188,29 @@ namespace Conticassa
                         string consulta = "";
                         if (ntabla == "cassaomg")
                         {
-                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDDestino,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaomg,tipodesgiro " +
-                                "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
+                            consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
+                                "ifnull(de.Descrizione, '') AS DESTINO, ifnull(ca.Descrizione, '') AS EGRESO, a.monori as MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
+                                "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.idgiroconto,IFNULL(dc.Descrizione, '') AS CTA_DESTINO," +
+                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU, a.idanagrafica,a.IDDestino,a.IDCategoria " +
+                                "from cassaomg a " +
+                                "LEFT JOIN desc_des de ON de.IDCodice = a.IDDestino " +
+                                "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
+                                "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
+                                "LEFT JOIN desc_con dc ON dc.IDCodice = a.idgiroconto " +
+                                "WHERE a.datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order BY a.IDMovimento DESC";
                         }
                         if (ntabla == "cassaconti")
                         {
-                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
-                                "from " + ntabla + " where datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order by IDMovimento desc";
+                            consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
+                                "ifnull(dc.Descrizione, '') AS CUENTA, ifnull(ca.Descrizione, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
+                                "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
+                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU,a.idanagrafica,a.IDConto,a.IDCategoria " +
+                                "from cassaconti a " +
+                                "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
+                                "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
+                                "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
+                                "LEFT JOIN desc_con gc ON gc.IDCodice = a.IDGiroConto " +
+                                "where datamovimento BETWEEN CURDATE() -INTERVAL @dias DAY and curdate() order by IDMovimento DESC";
                         }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
@@ -205,12 +219,12 @@ namespace Conticassa
                             {
                                 dt_grilla.Clear();
                                 dt_grilla.Columns.Clear();
-                                da.Fill(dt_grilla);
+                                da.Fill(dt_grilla);     // me quede aca, error al pasar de omg a personal
                                 dataGridView1.DataSource = dt_grilla;
                             }
                         }
                         // buscamos tipo de cambio del día
-                        using (MySqlCommand micon = new MySqlCommand("select Cambio1,Cambio2 from cambi where year(datavaluta)=@fec", conn))  // dolares,euros
+                        using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
                         {
                             //string fcv = selecFecha1.Value.Year.ToString() + "-" + selecFecha1.Value.Month.ToString() + "-" + selecFecha1.Value.Day.ToString();
                             string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
@@ -221,9 +235,9 @@ namespace Conticassa
                                 {
                                     if (dr.Read())
                                     {
-                                        tx_tipcam.Text = dr.GetString(0);   // tipo de cambio dolares
-                                        Omonto.tipCDol = dr.GetDecimal(0);
-                                        Omonto.tipCEur = dr.GetDecimal(1);  // tipo de cambio euro
+                                        tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString(); //.GetDecimal(0).ToString("#0.00"); //    .ToString("#0.000"); //dr.GetString(0);   // tipo de cambio dolares
+                                        Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3); // Math.Round((decimal)dr.GetFloat(0),3)
+                                        Omonto.tipCEur = Math.Round(dr.GetDecimal(1), 3); // Math.Round((decimal)dr.GetFloat(1),3);  // tipo de cambio euro
                                         if (Omonto.tipCDol <= 0 || Omonto.tipCEur <= 0)
                                         {
                                             MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
@@ -242,13 +256,40 @@ namespace Conticassa
                                 }
                             }
                         }
+                        armaGrilla(dataGridView1);      // cuadramos las columnas de la grilla
                     }
                 }
-                catch (Exception ex)
+                //catch (Exception ex)
+                //{
+                    //MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //Application.Exit();
+                //}
+            }
+        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
+        private void jalaoc()
+        {
+            // me quede acá
+        }                                                   // muestra en el formulario los objetos de la clase Egresos
+        private void armaGrilla(DataGridView dgv_)
+        {
+            if (dgv_.Rows.Count > 0)
+            {
+                for (int i = 0; i < dgv_.Columns.Count; i++)
                 {
-                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Application.Exit();
+                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                    _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
+                    if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
+                int b = 0;
+                for (int i = 0; i < dgv_.Columns.Count; i++)
+                {
+                    int a = dgv_.Columns[i].Width;
+                    b += a;
+                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgv_.Columns[i].Width = a;
+                }
+                if (b < dgv_.Width) dgv_.Width = b - 20;
+                dgv_.ReadOnly = true;
             }
         }
 
@@ -571,6 +612,23 @@ namespace Conticassa
 
         #endregion
 
+        #region datagridview
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (Tx_modo.Text != "NUEVO")
+            {
+                string fecOp = dataGridView1.Rows[e.RowIndex].Cells["dsds"].Value.ToString().Substring(0 ,10);
+                OcatEg.codigo = "";
+                OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["????"].Value.ToString();
+                Egresos Oegresos = new Egresos();
+                Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                        Ocajd, Oprove, tx_descrip.Text);
+
+            }
+        }
+
+        #endregion
+
         private void Bt_graba_Click(object sender, EventArgs e)
         {
             // validamos datos esenciales
@@ -622,7 +680,6 @@ namespace Conticassa
                 }
             }
         }
-
         private bool ValiIdOper()
         {
             bool retorna = false;
