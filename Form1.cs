@@ -205,7 +205,7 @@ namespace Conticassa
         public decimal monSoles { get; set; }       // monto equivalente en soles
         public decimal tipCDol { get; set; }        // tipo de cambio dolar
         public decimal monDolar { get; set; }       // monto equivalente en dolares
-        public decimal tipCEur { get; set; }        // tipo de cambio euros
+        public decimal tipCOri { get; set; }        // tipo de cambio de la moneda origen
         public decimal monEuros { get; set; }       // monto equivalente en Euros
     }
 }

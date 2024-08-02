@@ -191,12 +191,13 @@ namespace Conticassa
                             consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
                                 "ifnull(de.Descrizione, '') AS DESTINO, ifnull(ca.Descrizione, '') AS EGRESO, a.monori as MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
                                 "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.idgiroconto,IFNULL(dc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU, a.idanagrafica,a.IDDestino,a.IDCategoria " +
+                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU, a.idanagrafica,a.IDDestino,a.IDCategoria,a.codimon,a.nombmon " +
                                 "from cassaomg a " +
                                 "LEFT JOIN desc_des de ON de.IDCodice = a.IDDestino " +
                                 "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
                                 "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
                                 "LEFT JOIN desc_con dc ON dc.IDCodice = a.idgiroconto " +
+                                "LEFT JOIN desc_mon mo ON mo.IDCodice = a.monori " +
                                 "WHERE a.datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order BY a.IDMovimento DESC";
                         }
                         if (ntabla == "cassaconti")
@@ -204,12 +205,13 @@ namespace Conticassa
                             consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
                                 "ifnull(dc.Descrizione, '') AS CUENTA, ifnull(ca.Descrizione, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
                                 "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU,a.idanagrafica,a.IDConto,a.IDCategoria " +
+                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU,a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon " +
                                 "from cassaconti a " +
                                 "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
                                 "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
                                 "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
                                 "LEFT JOIN desc_con gc ON gc.IDCodice = a.IDGiroConto " +
+                                "LEFT JOIN desc_mon mo ON mo.IDCodice = a.monori " +
                                 "where datamovimento BETWEEN CURDATE() -INTERVAL @dias DAY and curdate() order by IDMovimento DESC";
                         }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
@@ -237,11 +239,11 @@ namespace Conticassa
                                     {
                                         tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString(); //.GetDecimal(0).ToString("#0.00"); //    .ToString("#0.000"); //dr.GetString(0);   // tipo de cambio dolares
                                         Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3); // Math.Round((decimal)dr.GetFloat(0),3)
-                                        Omonto.tipCEur = Math.Round(dr.GetDecimal(1), 3); // Math.Round((decimal)dr.GetFloat(1),3);  // tipo de cambio euro
-                                        if (Omonto.tipCDol <= 0 || Omonto.tipCEur <= 0)
+                                        Omonto.tipCOri = Math.Round(dr.GetDecimal(1), 3); // Math.Round((decimal)dr.GetFloat(1),3);  // tipo de cambio euro
+                                        if (Omonto.tipCDol <= 0 || Omonto.tipCOri <= 0)
                                         {
                                             MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
-                                                "El tipo de cambio Euros es: " + Omonto.tipCEur.ToString(), "Alerta",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                "El tipo de cambio Euros es: " + Omonto.tipCOri.ToString(), "Alerta",MessageBoxButtons.OK, MessageBoxIcon.Information);
                                         }
                                     }
                                 }
@@ -617,9 +619,28 @@ namespace Conticassa
         {
             if (Tx_modo.Text != "NUEVO")
             {
-                string fecOp = dataGridView1.Rows[e.RowIndex].Cells["dsds"].Value.ToString().Substring(0 ,10);
-                OcatEg.codigo = "";
-                OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["????"].Value.ToString();
+                string fecOp = "";
+                if (rb_omg.Checked == true)
+                {
+                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
+                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells[""].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    //Omonto.monEuros = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells[""].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                }
+                else
+                {
+
+                }
                 Egresos Oegresos = new Egresos();
                 Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
                         Ocajd, Oprove, tx_descrip.Text);
