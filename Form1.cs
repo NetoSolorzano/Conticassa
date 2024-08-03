@@ -180,7 +180,8 @@ namespace Conticassa
     public class catEgresos
     {
         public string codigo { get; set; }
-        public string nombre { get; set; }
+        public string nombre { get; set; }  // descrizionerid
+        public string largo { get; set; }   // descrizione
     }
     public class monedas
     {
@@ -191,7 +192,8 @@ namespace Conticassa
     public class cajDestino
     {
         public string codigo { get; set; }
-        public string nombre { get; set; }
+        public string nombre { get; set; }  // descrizionerid
+        public string largo { get; set; }    // descrizione
     }
     public class provees
     {

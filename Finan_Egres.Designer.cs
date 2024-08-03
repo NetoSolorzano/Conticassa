@@ -534,6 +534,7 @@
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
+            this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
             // 
             // generalEtiqueta4
             // 
@@ -634,6 +635,7 @@
             this.Tx_catEgre.Size = new System.Drawing.Size(129, 14);
             this.Tx_catEgre.TabIndex = 2;
             this.Tx_catEgre.TextChanged += new System.EventHandler(this.Tx_catEgre_TextChanged);
+            this.Tx_catEgre.Leave += new System.EventHandler(this.Tx_catEgre_Leave);
             // 
             // eti_catEgre
             // 
