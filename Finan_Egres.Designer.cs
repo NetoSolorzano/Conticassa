@@ -413,7 +413,7 @@
             this.rb_pers.BackColor = System.Drawing.Color.White;
             this.rb_pers.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rb_pers.ForeColor = System.Drawing.Color.Blue;
-            this.rb_pers.Location = new System.Drawing.Point(224, 1);
+            this.rb_pers.Location = new System.Drawing.Point(226, 1);
             this.rb_pers.Name = "rb_pers";
             this.rb_pers.Size = new System.Drawing.Size(87, 17);
             this.rb_pers.TabIndex = 2;
@@ -428,7 +428,7 @@
             this.rb_omg.BackColor = System.Drawing.Color.White;
             this.rb_omg.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rb_omg.ForeColor = System.Drawing.Color.Blue;
-            this.rb_omg.Location = new System.Drawing.Point(147, 1);
+            this.rb_omg.Location = new System.Drawing.Point(149, 1);
             this.rb_omg.Name = "rb_omg";
             this.rb_omg.Size = new System.Drawing.Size(52, 17);
             this.rb_omg.TabIndex = 1;
@@ -444,7 +444,7 @@
             this.eti_cuenta.ForeColor = System.Drawing.Color.Blue;
             this.eti_cuenta.Location = new System.Drawing.Point(2, 2);
             this.eti_cuenta.Name = "eti_cuenta";
-            this.eti_cuenta.Size = new System.Drawing.Size(122, 15);
+            this.eti_cuenta.Size = new System.Drawing.Size(124, 15);
             this.eti_cuenta.TabIndex = 0;
             this.eti_cuenta.Text = "CUENTA ";
             // 

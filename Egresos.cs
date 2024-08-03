@@ -39,7 +39,7 @@ namespace Conticassa
         public string IdMovim { get => idMovim; set => idMovim = value; }
 
         public void creaEgreso(string _tipMovPrin, string _fechOper, catEgresos _catEgreso, monedas _moneda, montos _monto, decimal _tipCamb, 
-            cajDestino _cajaDes, provees _proveedor, string _descrip)   // , string _IdMovim <- este dato se genera dentro del trigger beforeinsert
+            cajDestino _cajaDes, provees _proveedor, string _descrip, string _IdMovim)   // , string _IdMovim <- este dato se genera dentro del trigger beforeinsert
         {
             tipMovPrin = _tipMovPrin;
             fechOper = _fechOper;
@@ -50,6 +50,7 @@ namespace Conticassa
             cajaDes = _cajaDes;
             proveedor = _proveedor;
             descrip = _descrip;
+            idMovim = _IdMovim;
         }
         
         public void grabaEgreso(MySqlConnection conn)

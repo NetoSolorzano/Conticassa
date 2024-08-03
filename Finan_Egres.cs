@@ -29,7 +29,8 @@ namespace Conticassa
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
         montos Omonto = new montos();                                               // Objeto monto
-
+        //
+        Egresos Oegreso = new Egresos();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
 
@@ -180,7 +181,7 @@ namespace Conticassa
         {
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
-                //try
+                try
                 {
                     conn.Open();
                     if (conn.State == ConnectionState.Open)
@@ -191,7 +192,7 @@ namespace Conticassa
                             consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
                                 "ifnull(de.Descrizione, '') AS DESTINO, ifnull(ca.Descrizione, '') AS EGRESO, a.monori as MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
                                 "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.idgiroconto,IFNULL(dc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU, a.idanagrafica,a.IDDestino,a.IDCategoria,a.codimon,a.nombmon " +
+                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU, a.idanagrafica,a.IDDestino,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri " +
                                 "from cassaomg a " +
                                 "LEFT JOIN desc_des de ON de.IDCodice = a.IDDestino " +
                                 "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
@@ -205,7 +206,7 @@ namespace Conticassa
                             consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
                                 "ifnull(dc.Descrizione, '') AS CUENTA, ifnull(ca.Descrizione, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
                                 "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU,a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon " +
+                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU,a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri " +
                                 "from cassaconti a " +
                                 "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
                                 "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
@@ -261,16 +262,28 @@ namespace Conticassa
                         armaGrilla(dataGridView1);      // cuadramos las columnas de la grilla
                     }
                 }
-                //catch (Exception ex)
-                //{
-                    //MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //Application.Exit();
-                //}
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                }
             }
         }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
         private void jalaoc()
         {
-            // me quede acá
+            //Egresos Oegreso = new Egresos();
+            tx_idOper.Text = Oegreso.IdMovim;
+            selecFecha1.Value = DateTime.Parse(Oegreso.FechOper);
+            Tx_catEgre.Text = Oegreso.CatEgreso.codigo;
+            eti_nomCat.Text = Oegreso.CatEgreso.nombre;
+            cmb_mon.SelectedValue = Oegreso.Moneda.codigo;
+            tx_monto.Text = Oegreso.Monto.monOrige.ToString("#0.00");
+            tx_tipcam.Text = Oegreso.TipCamb.ToString("#0.000");
+            Tx_ctaDes.Text = Oegreso.CajaDes.codigo;
+            eti_nomCaja.Text = Oegreso.CajaDes.nombre;
+            tx_provee.Text = Oegreso.Proveedor.codigo;
+            eti_nomprovee.Text = Oegreso.Proveedor.nombre;
+            tx_descrip.Text = Oegreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
         private void armaGrilla(DataGridView dgv_)
         {
@@ -312,6 +325,9 @@ namespace Conticassa
             rb_pers_Click(null, null);   // .PerformClick(); <- no funca!
             //limpiaTE();
             sololee("");
+            pan_p.Enabled = true;
+            rb_omg.Enabled = true;
+            rb_pers.Enabled = true;
             tx_idOper.Focus();
         }
         private void Bt_anul_Click(object sender, EventArgs e)
@@ -462,7 +478,7 @@ namespace Conticassa
         }
         private void Tx_ctaDes_TextChanged(object sender, EventArgs e)
         {
-            listBox2.Items.Clear();
+            listBox2.Items.Clear();     // ME QUEDE ACA ... NO ESTA JALANDO LA CUENTA PERSONAL CORRECTA
             if (Tx_ctaDes.Text.Length == 0)
             {
                 hideResults();
@@ -619,7 +635,10 @@ namespace Conticassa
         {
             if (Tx_modo.Text != "NUEVO")
             {
-                string fecOp = "";
+                string fecOp = "";              // fecha de operacion
+                decimal tipca = 0;              // tip cambio del monto origen
+                string descr = "";              // descripcion de la operacion
+                string idmov = "";              // id del movimiento
                 if (rb_omg.Checked == true)
                 {
                     // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
@@ -631,20 +650,45 @@ namespace Conticassa
                     Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
                     Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells[""].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
                     Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
                     Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    //Omonto.monEuros = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells[""].Value.ToString());
                     Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
+                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
+                    Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
+                    Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
+                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
                 else
                 {
-
+                    // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
+                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
+                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
+                    Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
+                    Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
+                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
-                Egresos Oegresos = new Egresos();
-                Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                        Ocajd, Oprove, tx_descrip.Text);
-
+                Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
+                        Ocajd, Oprove, descr, idmov);
+                jalaoc();
             }
         }
 
@@ -695,7 +739,7 @@ namespace Conticassa
                     if (conn.State == ConnectionState.Open)
                     {
                         Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text), 
-                            Ocajd, Oprove, tx_descrip.Text);
+                            Ocajd, Oprove, tx_descrip.Text, "");
                         Oegresos.grabaEgreso(conn);
                     }
                 }

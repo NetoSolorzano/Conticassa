@@ -9,3 +9,12 @@ Pendientes:
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
 - Crear función en el Login.cs para que valide cambio de año en el servidor, si es así, debe reiniciar contadores, tabla: contatori
 - Revisar si en definiciones es 0 ó 1 el valor del campo "numero" para los registros activos
+
+
+Funcionalidad:
+- Tablas: cassaconti y cassaomg
+	Agregar campo valorOrig
+	Agregar campos TCMonOri (tipo de cambio moneda origen)
+	Agregar campos codimon varchar(6) y nombmon varchar(25) (nombre oficial)
+	Actualizar al código y nombre de cada registro en codigo de moneda y nombre de moneda, CREAR INDICES!
+
