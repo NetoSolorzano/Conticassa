@@ -20,6 +20,8 @@ namespace Conticassa
             this.BackColor = Color.FromArgb(8,253,254,243);  // brillo,rojo,verde,azul rgba(253, 254, 243, 0.8)
             this.Text = "CONTICASSA V.3 - 2024";
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            //
+
         }
     }
     public class generalTextBox : TextBox

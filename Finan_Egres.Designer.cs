@@ -306,6 +306,7 @@
             this.Bt_ini.Size = new System.Drawing.Size(32, 32);
             this.Bt_ini.Text = "Bt_close";
             this.Bt_ini.ToolTipText = "Ir al inicio";
+            this.Bt_ini.Visible = false;
             this.Bt_ini.Click += new System.EventHandler(this.Bt_ini_Click);
             // 
             // toolStripSeparator12
@@ -327,6 +328,7 @@
             this.Bt_sig.Size = new System.Drawing.Size(32, 32);
             this.Bt_sig.Text = "Bt_close";
             this.Bt_sig.ToolTipText = "Siguiente";
+            this.Bt_sig.Visible = false;
             this.Bt_sig.Click += new System.EventHandler(this.Bt_sig_Click);
             // 
             // toolStripSeparator10
@@ -348,6 +350,7 @@
             this.Bt_ret.Size = new System.Drawing.Size(32, 32);
             this.Bt_ret.Text = "Bt_close";
             this.Bt_ret.ToolTipText = "Regresar";
+            this.Bt_ret.Visible = false;
             this.Bt_ret.Click += new System.EventHandler(this.Bt_ret_Click);
             // 
             // toolStripSeparator9
@@ -369,6 +372,7 @@
             this.Bt_fin.Size = new System.Drawing.Size(32, 32);
             this.Bt_fin.Text = "Bt_close";
             this.Bt_fin.ToolTipText = "Ir al final";
+            this.Bt_fin.Visible = false;
             this.Bt_fin.Click += new System.EventHandler(this.Bt_fin_Click);
             // 
             // toolStripSeparator11
@@ -534,6 +538,7 @@
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
+            this.Tx_ctaDes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_ctaDes_KeyPress);
             this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
             // 
             // generalEtiqueta4
@@ -635,6 +640,7 @@
             this.Tx_catEgre.Size = new System.Drawing.Size(129, 14);
             this.Tx_catEgre.TabIndex = 2;
             this.Tx_catEgre.TextChanged += new System.EventHandler(this.Tx_catEgre_TextChanged);
+            this.Tx_catEgre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_catEgre_KeyPress);
             this.Tx_catEgre.Leave += new System.EventHandler(this.Tx_catEgre_Leave);
             // 
             // eti_catEgre

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -33,7 +29,7 @@ namespace Conticassa
         Egresos Oegreso = new Egresos();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
-
+        int limCols = 1;                                                            // limite de columnas que muestra la grilla
         public Finan_Egres()
         {
             InitializeComponent();
@@ -173,9 +169,11 @@ namespace Conticassa
         private void jalainfo()
         {
             // 31/07/2024 .. variabilizamos los datos que vamos a necesitar
-            nomForm = this.Name;    // Form.ActiveForm.Name;
+            nomForm = this.Name;
             DataRow[] row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='diasAtras'");
             diasAtroya = int.Parse(row[0]["valor"].ToString());
+            row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='limCols'");
+            limCols = int.Parse(row[0]["valor"].ToString());
         }
         private void jalaGrilla(int dAtras, string ntabla)
         {
@@ -189,37 +187,16 @@ namespace Conticassa
                         string consulta = "";
                         if (ntabla == "cassaomg")
                         {
-                            consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
-                                "ifnull(de.Descrizionerid, '') AS DESTINO, ifnull(ca.Descrizionerid, '') AS EGRESO, a.monori as MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
-                                "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.idgiroconto,IFNULL(dc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,ROUND(a.ImportoDU, 2) AS ImportoDU, ROUND(a.ImportoSU, 2) AS ImportoSU," +
-                                "a.idanagrafica,a.IDDestino,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri,ifnull(de.Descrizione, '') AS DET_DESTINO,ifnull(ca.Descrizione, '') AS DET_EGRESO " +
-                                "from cassaomg a " +
-                                "LEFT JOIN desc_des de ON de.IDCodice = a.IDDestino " +
-                                "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
-                                "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
-                                "LEFT JOIN desc_con dc ON dc.IDCodice = a.idgiroconto " +
-                                "LEFT JOIN desc_mon mo ON mo.IDCodice = a.monori " +
-                                "WHERE a.datamovimento BETWEEN CURDATE() - INTERVAL @dias DAY and curdate() order BY a.IDMovimento DESC";
+                            consulta = "ConEgre_cassaOmg";
                         }
                         if (ntabla == "cassaconti")
                         {
-                            consulta = "SELECT a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
-                                "ifnull(dc.Descrizionerid, '') AS CUENTA, ifnull(ca.Descrizionerid, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
-                                "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
-                                "a.usuario,a.dia,round(ImportoDU, 2) as ImportoDU,round(ImportoSU, 2) as ImportoSU," +
-                                "a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri,ifnull(dc.Descrizione, '') AS DET_CUENTA,ifnull(ca.Descrizione, '') AS DET_EGRESO " +
-                                "from cassaconti a " +
-                                "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
-                                "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
-                                "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
-                                "LEFT JOIN desc_con gc ON gc.IDCodice = a.IDGiroConto " +
-                                "LEFT JOIN desc_mon mo ON mo.IDCodice = a.monori " +
-                                "where datamovimento BETWEEN CURDATE() -INTERVAL @dias DAY and curdate() order by IDMovimento DESC";
+                            consulta = "ConEgre_cassaConti";
                         }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
-                            micon.Parameters.AddWithValue("@dias", dAtras);
+                            micon.CommandType = CommandType.StoredProcedure;
+                            micon.Parameters.AddWithValue("@Vdias", dAtras);
                             using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
                             {
                                 dt_grilla.Clear();
@@ -231,7 +208,6 @@ namespace Conticassa
                         // buscamos tipo de cambio del día
                         using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
                         {
-                            //string fcv = selecFecha1.Value.Year.ToString() + "-" + selecFecha1.Value.Month.ToString() + "-" + selecFecha1.Value.Day.ToString();
                             string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
                             micon.Parameters.AddWithValue("@fec", fcv);
                             using (MySqlDataReader dr = micon.ExecuteReader())
@@ -261,7 +237,7 @@ namespace Conticassa
                                 }
                             }
                         }
-                        armaGrilla(dataGridView1);      // cuadramos las columnas de la grilla
+                        armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
                     }
                 }
                 catch (Exception ex)
@@ -286,15 +262,22 @@ namespace Conticassa
             eti_nomprovee.Text = Oegreso.Proveedor.nombre;
             tx_descrip.Text = Oegreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
-        private void armaGrilla(DataGridView dgv_)
+        public void armaGrilla(DataGridView dgv_, int filasLim)
         {
             if (dgv_.Rows.Count > 0)
             {
                 for (int i = 0; i < dgv_.Columns.Count; i++)
                 {
-                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                    _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
-                    if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    if (i > filasLim)
+                    {
+                        dgv_.Columns[i].Visible = false;
+                    }
+                    else
+                    {
+                        dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
+                        if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    }
                 }
                 int b = 0;
                 for (int i = 0; i < dgv_.Columns.Count; i++)
@@ -307,15 +290,18 @@ namespace Conticassa
                 if (b < dgv_.Width) dgv_.Width = b - 20;
                 dgv_.ReadOnly = true;
             }
-        }
+            else
+            {
+
+            }
+        }               // ajusta el ancho de las columnas y muestra hasta el limite
 
         #region Botones de comando
         private void Bt_add_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "NUEVO";
             rb_pers.Checked = true;
-            rb_pers_Click(null, null);   // .PerformClick(); <- no funca!
-            //limpiaTE();
+            rb_pers_Click(null, null);
             escribe("");
             Tx_catEgre.Focus();
         }
@@ -323,8 +309,7 @@ namespace Conticassa
         {
             Tx_modo.Text = "EDICION";
             rb_pers.Checked = true;
-            rb_pers_Click(null, null);   // .PerformClick(); <- no funca!
-            //limpiaTE();
+            rb_pers_Click(null, null);
             sololee("");
             pan_p.Enabled = true;
             rb_omg.Enabled = true;
@@ -423,7 +408,7 @@ namespace Conticassa
         }
         #endregion
 
-        #region radiobotones y checks
+        #region radiobotones y checks   // me quede aca revisando si pasamos a clase o hacerlo publico
         private void rb_omg_Click(object sender, EventArgs e)
         {
             if (rb_omg.Checked == true)
@@ -589,28 +574,43 @@ namespace Conticassa
         #region leaves y validaciones
         private void Tx_catEgre_Leave(object sender, EventArgs e)
         {
+            /* No hacemos la validación aqui porque el leave dispara cuando se sale hacia el listbox */
+        }
+        private void Tx_catEgre_KeyPress(object sender, KeyPressEventArgs e)
+        {
             if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
             {
-                if (Tx_catEgre.Text.Trim() != "")
+                if (e.KeyChar == (char)13 || e.KeyChar == (char)09)
                 {
-                    if (ValiEgreso() == false)
+                    if (Tx_catEgre.Text.Trim() != "")
                     {
-                        Tx_catEgre.Clear();
-                        eti_nomCat.Text = "";
+                        if (ValiEgreso(Tx_catEgre.Text) == false)
+                        {
+                            Tx_catEgre.Clear();
+                            eti_nomCat.Text = "";
+                        }
                     }
                 }
             }
         }
         private void Tx_ctaDes_Leave(object sender, EventArgs e)
         {
+            /* No hacemos la validación aqui porque el leave dispara cuando se sale hacia el listbox */
+
+        }
+        private void Tx_ctaDes_KeyPress(object sender, KeyPressEventArgs e)
+        {
             if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
             {
-                if (Tx_ctaDes.Text.Trim() != "")
+                if (e.KeyChar == (char)13 || e.KeyChar == (char)09)
                 {
-                    if (ValiCtaDes() == false)
+                    if (Tx_ctaDes.Text.Trim() != "")
                     {
-                        Tx_ctaDes.Clear();
-                        eti_nomCaja.Text = "";
+                        if (ValiCtaDes(Tx_ctaDes.Text) == false)
+                        {
+                            Tx_ctaDes.Clear();
+                            eti_nomCaja.Text = "";
+                        }
                     }
                 }
             }
@@ -712,7 +712,7 @@ namespace Conticassa
             }
             return retorna;
         }           // valida idOper, si hay jala datos, sino No
-        private bool ValiProvee()
+        private bool ValiProvee()   // esto si puede ir a publico, todos estos validadors
         {
             bool retorna = false;
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
@@ -756,13 +756,44 @@ namespace Conticassa
             }
             return retorna;
         }           // valida existencia del proveedor
-        private bool ValiCtaDes()
+        private bool ValiCtaDes(string _nombre)
         {
+            // validamos la existencia del nombre en ... descrizionerid
             bool retorna = false;
-
+            DataRow[] row = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + _nombre + "'");
+            foreach (DataRow dat in row)
+            {
+                retorna = true;
+            }
+            if (retorna == false)
+            {
+                Tx_ctaDes.Clear();
+                eti_nomCaja.Text = "";
+                MessageBox.Show("No existe el nombre de la cuenta");
+            }
+            else
+            {
+                retorna = true;
+            }
+            return retorna;
+        }           // valida existencia de la cuenta destino
+        private bool ValiEgreso(string _nombre)
+        {
+            // validamos la existencia del nombre en ... descrizionerid
+            bool retorna = false;
+            DataRow[] row = Program.dt_definic.Select("descrizionerid='" + _nombre + "' and idtabella='CAM'");
+            foreach (DataRow dat in row)
+            {
+                retorna = true;
+            }
+            if (retorna == false)
+            {
+                Tx_catEgre.Clear();
+                eti_nomCat.Text = "";
+                MessageBox.Show("No existe el nombre del egreso");
+            }
             return retorna;
         }
-
         #endregion
 
         #region combos
@@ -901,5 +932,6 @@ namespace Conticassa
                 }
             }
         }
+
     }
 }
