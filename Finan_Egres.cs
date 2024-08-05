@@ -351,6 +351,28 @@ namespace Conticassa
         #endregion
 
         #region limpiadores, readonlys
+        private void limiaObj()
+        {
+            OcatEg.codigo = "";                                       // Objeto categoría de egreso
+            OcatEg.nombre = "";
+            OcatEg.largo = "";
+            Omone.codigo = "";                                        // Objeto moneda
+            Omone.nombre = "";
+            Omone.siglas = "";
+            Ocajd.codigo = "";                                        // Objeto cada de destino - desde donde sale el dinero
+            Ocajd.nombre = "";
+            Ocajd.largo = "";
+            Oprove.codigo = "";                                       // Objeto proveedor
+            Oprove.nombre = "";
+            Omonto.codMOrige = "";                                    // Objeto monto
+            Omonto.monDolar = 0;
+            Omonto.monEuros = 0;
+            Omonto.monOrige = 0;
+            Omonto.monSoles = 0;
+            Omonto.tipCDol = 0;
+            Omonto.tipCOri = 0;
+            Oegreso.limpia();
+        }
         private void limpiaTE() // limpia textbox, etiquetas, combos
         {
             tx_idOper.Clear();
@@ -619,14 +641,12 @@ namespace Conticassa
         {
             if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
             {
-                if (tx_provee.Text.Trim() != "")
+                Oprove = ValiProvee(tx_provee.Text);
+                if (Oprove.nombre == "")
                 {
-                    if (ValiProvee() == false)
-                    {
-                        eti_nomprovee.Text = "";
-                        tx_provee.Text = "";
-                        MessageBox.Show("No existe el código de proveedor");
-                    }
+                    eti_nomprovee.Text = "";
+                    tx_provee.Text = "";
+                    MessageBox.Show("No existe el código de proveedor");
                 }
             }
         }
@@ -634,10 +654,74 @@ namespace Conticassa
         {
             if (tx_idOper.Text.Trim() != "" && ("NUEVO,EDICION").Contains(Tx_modo.Text))
             {
-                if (ValiIdOper() == false)
+                string[] retu = ValiIdOper();
+                if (retu[0] == "")
                 {
-                    tx_idOper.Text = "";
+                    limiaObj();
+                    limpiaTE();
                     MessageBox.Show("No existe el código de operación");
+                }
+                else
+                {
+                    // asignamos los valores de retu[] a los objetos
+                    string fecOp = "";              // fecha de operacion
+                    decimal tipca = 0;              // tip cambio del monto origen
+                    string descr = "";              // descripcion de la operacion
+                    string idmov = "";              // id del movimiento
+                    if (rb_omg.Checked == true)
+                    {
+                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                        fecOp = retu[2].Substring(0, 10);       // fecha
+                        OcatEg.codigo = retu[18];               // IDCategoria
+                        OcatEg.nombre = retu[4];                // EGRESO
+                        OcatEg.largo = retu[23];                // "DET_EGRESO"
+                        Omone.codigo = retu[19];                // "codimon"
+                        Omone.siglas = retu[5];                 // "MONEDA"
+                        Omone.nombre = retu[20];                // "nombmon"
+                        Omonto.codMOrige = retu[19];            // "codimon"
+                        Omonto.monOrige = decimal.Parse(retu[6]);   // "MONTO"
+                        Omonto.tipCOri = decimal.Parse(retu[21]);   // "TCMonOri"
+                        Omonto.monDolar = decimal.Parse(retu[14]);  // "ImportoDU"
+                        Omonto.tipCDol = decimal.Parse(retu[8]);    // "TIP_CAMBIO"
+                        Omonto.monSoles = decimal.Parse(retu[15]);  // "ImportoSU"
+                        tipca = decimal.Parse(retu[21]);            // "TCMonOri"
+                        Ocajd.codigo = retu["IDDestino"];
+                        Ocajd.nombre = retu["DESTINO"];
+                        Ocajd.largo = retu["DET_DESTINO"];
+                        Oprove.codigo = retu[16];               // "idanagrafica"
+                        Oprove.nombre = retu[9];                // "PROVEEDOR"
+                        descr = retu[7];                        // "DESCRIPCION"
+                        idmov = retu[1];                        // "ID_MOVIM"
+                    }
+                    else
+                    {
+                        // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                        //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                        fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                        OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                        OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
+                        OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
+                        Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                        Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                        Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                        Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                        Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                        Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                        Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                        Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                        Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                        tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                        Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
+                        Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
+                        Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
+                        Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
+                        Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
+                        descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                        idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    }
+                    Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
+                            Ocajd, Oprove, descr, idmov);
+                    jalaoc();
                 }
             }
         }
@@ -656,9 +740,11 @@ namespace Conticassa
             }
         }
 
-        private bool ValiIdOper()
+        public string[] ValiIdOper()       // private bool ValiIdOper()
         {
-            bool retorna = false;
+            string[] retorna = { "", "", "", "", "", "", "", "", "", "",
+                                "", "", "", "", "", "", "", "", "", "", 
+                                "", "", "", ""};           // bool retorna = false
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
                 try
@@ -671,13 +757,25 @@ namespace Conticassa
                         {
                             consulta = "SELECT IDBanco,CONCAT(Anno,RIGHT(IDMovimento, 6)) AS IDMovimento,DataMovimento,IDCategoria,IDDestino,Descrizione,idanagrafica," +
                                 "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro " +
-                                "FROM cassaomg WHERE IDMovimento=@idm";
+                                "FROM cassaomg WHERE CONCAT(Anno,RIGHT(IDMovimento,6))=@idm";
                         }
                         if (pan_p.Tag.ToString() == "personal")    // rb_pers.Checked == true
                         {
-                            consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
-                                "from cassaconti WHERE IDMovimento=@idm";
+                            consulta = "select a.IDBanco AS CASA,CONCAT(a.Anno, RIGHT(a.IDMovimento, 6)) AS ID_MOVIM, DATE(a.DataMovimento) AS FECHA," +
+                                "ifnull(dc.Descrizionerid, '') AS CUENTA, ifnull(ca.Descrizionerid, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
+                                "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
+                                "a.usuario,a.dia,round(a.ImportoDU, 2) as ImportoDU,round(a.ImportoSU, 2) as ImportoSU," +
+                                "a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri,ifnull(dc.Descrizione, '') AS DET_CUENTA, ifnull(ca.Descrizione, '') AS DET_EGRESO " +
+                                "from cassaconti a " +
+                                "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
+                                "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
+                                "LEFT JOIN anag_for af ON af.idanagrafica = a.IDAnagrafica " +
+                                "LEFT JOIN desc_con gc ON gc.IDCodice = a.IDGiroConto " +
+                                "LEFT JOIN desc_mon mo ON mo.IDCodice = a.monori " +
+                                "WHERE CONCAT(Anno,RIGHT(a.IDMovimento,6))=@idm";
+                            //consulta = "select IDBanco,CONCAT(Anno,RIGHT(IDMovimento,6)) AS IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+                            //    "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,idcassaconti,tipodesgiro " +
+                            //    "from cassaconti WHERE CONCAT(Anno,RIGHT(IDMovimento,6))=@idm";
                         }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
@@ -690,14 +788,33 @@ namespace Conticassa
                                     {
                                         if (dr[0] != null && dr[0].ToString() != "")
                                         {
-                                            // me quede aca 27/07/2024
-                                            retorna = true;
+                                            //retorna = true;
+                                            retorna[0] = dr["CASA"].ToString();
+                                            retorna[1] = dr["ID_MOVIM"].ToString();
+                                            retorna[2] = dr["FECHA"].ToString();
+                                            retorna[3] = dr["CUENTA"].ToString();
+                                            retorna[4] = dr["EGRESO"].ToString();
+                                            retorna[5] = dr["MONEDA"].ToString();
+                                            retorna[6] = dr["MONTO"].ToString();
+                                            retorna[7] = dr["DESCRIPCION"].ToString();
+                                            retorna[8] = dr["TIP_CAMBIO"].ToString();
+                                            retorna[9] = dr["PROVEEDOR"].ToString();
+                                            retorna[10] = dr["GIRO_CTA"].ToString();
+                                            retorna[11] = dr["IDGiroConto"].ToString();
+                                            retorna[12] = dr["CTA_DESTINO"].ToString();
+                                            retorna[13] = dr["usuario"].ToString();
+                                            retorna[14] = dr["ImportoDU"].ToString();
+                                            retorna[15] = dr["ImportoSU"].ToString();
+                                            retorna[16] = dr["idanagrafica"].ToString();
+                                            retorna[17] = dr["IDConto"].ToString();
+                                            retorna[18] = dr["IDCategoria"].ToString(); 
+                                            retorna[19] = dr["codimon"].ToString();
+                                            retorna[20] = dr["nombmon"].ToString();
+                                            retorna[21] = dr["TCMonOri"].ToString();
+                                            retorna[22] = dr["DET_CUENTA"].ToString();
+                                            retorna[23] = dr["DET_EGRESO"].ToString();
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    retorna = false;
                                 }
                             }
                         }
@@ -706,15 +823,15 @@ namespace Conticassa
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    tx_provee.Text = "";
-                    eti_nomprovee.Text = "";
+                    // limpiamos ???  no, no, limpiamos en el llamador de la funcion
                 }
             }
             return retorna;
         }           // valida idOper, si hay jala datos, sino No
-        private bool ValiProvee()   // esto si puede ir a publico, todos estos validadors
+        public provees ValiProvee(string idAnag)
         {
-            bool retorna = false;
+            //bool retorna = false;
+            provees retona = new provees();
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
                 try
@@ -724,24 +841,29 @@ namespace Conticassa
                     {
                         using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where idanagrafica=@codi", conn))
                         {
-                            micon.Parameters.AddWithValue("@codi", tx_provee.Text.Trim());
+                            micon.Parameters.AddWithValue("@codi", idAnag.Trim());
                             using (MySqlDataReader dr = micon.ExecuteReader())
                             {
                                 if (dr.HasRows == true)
                                 {
                                     if (dr.Read())
                                     {
-                                        if (dr[0] != null && dr[0].ToString() != "") eti_nomprovee.Text = dr[0].ToString();
-                                        Oprove.codigo = tx_provee.Text;
-                                        Oprove.nombre = eti_nomprovee.Text;
-                                        retorna = true;
+                                        if (dr[0] != null && dr[0].ToString() != "")
+                                        {
+                                            //eti_nomprovee.Text = dr[0].ToString();
+                                            //Oprove.codigo = tx_provee.Text;
+                                            //Oprove.nombre = eti_nomprovee.Text;
+                                            retona.codigo = idAnag;
+                                            retona.nombre = dr[0].ToString();
+                                        }
                                     }
                                 }
                                 else
                                 {
-                                    Oprove.codigo = "";
-                                    Oprove.nombre = "";
-                                    retorna = false;
+                                    //Oprove.codigo = "";
+                                    //Oprove.nombre = "";
+                                    retona.codigo = "";
+                                    retona.nombre = "";
                                 }
                             }
                         }
@@ -750,11 +872,13 @@ namespace Conticassa
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    tx_provee.Text = "";
-                    eti_nomprovee.Text = "";
+                    //tx_provee.Text = "";
+                    //eti_nomprovee.Text = "";
+                    retona.codigo = "";
+                    retona.nombre = "";
                 }
             }
-            return retorna;
+            return retona;
         }           // valida existencia del proveedor
         private bool ValiCtaDes(string _nombre)
         {

@@ -52,7 +52,19 @@ namespace Conticassa
             descrip = _descrip;
             idMovim = _IdMovim;
         }
-        
+        public void limpia()
+        {
+            tipMovPrin = "";
+            fechOper = "";
+            catEgreso = null;
+            moneda = null;
+            monto = null;
+            tipCamb = 0;
+            cajaDes = null;
+            proveedor = null;
+            descrip = "";
+            idMovim = "";
+        }
         public void grabaEgreso(MySqlConnection conn)
         {
             string tabla = "";
