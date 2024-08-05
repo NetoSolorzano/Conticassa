@@ -122,8 +122,8 @@ namespace Conticassa
         }    // F1 
         private void CargaFormatos()
         {
+            this.BackColor = Color.FromArgb(1, 150, 174, 101); // rgba(150, 174, 101, 0.8)
             pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
-            //eti_cuenta.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catEgre.AutoCompleteCustomSource = acsc;
@@ -610,6 +610,7 @@ namespace Conticassa
                         {
                             Tx_catEgre.Clear();
                             eti_nomCat.Text = "";
+                            MessageBox.Show("No existe el nombre del egreso");
                         }
                     }
                 }
@@ -632,6 +633,7 @@ namespace Conticassa
                         {
                             Tx_ctaDes.Clear();
                             eti_nomCaja.Text = "";
+                            MessageBox.Show("No existe el nombre de la cuenta");
                         }
                     }
                 }
@@ -740,7 +742,7 @@ namespace Conticassa
             }
         }
 
-        public string[] ValiIdOper()       // private bool ValiIdOper()
+        public string[] ValiIdOper()
         {
             string[] retorna = { "", "", "", "", "", "", "", "", "", "",
                                 "", "", "", "", "", "", "", "", "", "", 
@@ -880,7 +882,7 @@ namespace Conticassa
             }
             return retona;
         }           // valida existencia del proveedor
-        private bool ValiCtaDes(string _nombre)
+        public bool ValiCtaDes(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
             bool retorna = false;
@@ -889,19 +891,9 @@ namespace Conticassa
             {
                 retorna = true;
             }
-            if (retorna == false)
-            {
-                Tx_ctaDes.Clear();
-                eti_nomCaja.Text = "";
-                MessageBox.Show("No existe el nombre de la cuenta");
-            }
-            else
-            {
-                retorna = true;
-            }
             return retorna;
         }           // valida existencia de la cuenta destino
-        private bool ValiEgreso(string _nombre)
+        public bool ValiEgreso(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
             bool retorna = false;
@@ -909,12 +901,6 @@ namespace Conticassa
             foreach (DataRow dat in row)
             {
                 retorna = true;
-            }
-            if (retorna == false)
-            {
-                Tx_catEgre.Clear();
-                eti_nomCat.Text = "";
-                MessageBox.Show("No existe el nombre del egreso");
             }
             return retorna;
         }

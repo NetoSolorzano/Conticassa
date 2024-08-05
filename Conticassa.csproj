@@ -112,6 +112,12 @@
     <Compile Include="Finan_Egres.Designer.cs">
       <DependentUpon>Finan_Egres.cs</DependentUpon>
     </Compile>
+    <Compile Include="Finan_Ingres.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Finan_Ingres.Designer.cs">
+      <DependentUpon>Finan_Ingres.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Finan_Egres.resx">
       <DependentUpon>Finan_Egres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Finan_Ingres.resx">
+      <DependentUpon>Finan_Ingres.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
