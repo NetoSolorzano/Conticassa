@@ -685,9 +685,9 @@ namespace Conticassa
                         Omonto.tipCDol = decimal.Parse(retu[8]);    // "TIP_CAMBIO"
                         Omonto.monSoles = decimal.Parse(retu[15]);  // "ImportoSU"
                         tipca = decimal.Parse(retu[21]);            // "TCMonOri"
-                        Ocajd.codigo = retu["IDDestino"];
-                        Ocajd.nombre = retu["DESTINO"];
-                        Ocajd.largo = retu["DET_DESTINO"];
+                        Ocajd.codigo = retu[17];                // "IDDestino"
+                        Ocajd.nombre = retu[3];                 // "DESTINO"
+                        Ocajd.largo = retu[22];                 // "DET_DESTINO"
                         Oprove.codigo = retu[16];               // "idanagrafica"
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
@@ -697,27 +697,27 @@ namespace Conticassa
                     {
                         // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
                         //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
-                        fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                        OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
-                        OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
-                        OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
-                        Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                        Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
-                        Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
-                        Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                        Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                        Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                        Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
-                        Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                        Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
-                        tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                        Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
-                        Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
-                        Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
-                        Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
-                        Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
-                        descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
-                        idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                        fecOp = retu[2].Substring(0, 10);       // "FECHA"
+                        OcatEg.codigo = retu[18];               // "IDCategoria"
+                        OcatEg.nombre = retu[4];                // "EGRESO"
+                        OcatEg.largo = retu[23];                // "DET_EGRESO"
+                        Omone.codigo = retu[19];                // "codimon"
+                        Omone.siglas = retu[5];                 // "MONEDA"
+                        Omone.nombre = retu[20];                // "nombmon"
+                        Omonto.codMOrige = retu[19];            // "codimon"
+                        Omonto.monOrige = decimal.Parse(retu[6]);   // "MONTO"
+                        Omonto.tipCOri = decimal.Parse(retu[21]);   // "TCMonOri"
+                        Omonto.monDolar = decimal.Parse(retu[14]);  // "ImportoDU"
+                        Omonto.tipCDol = decimal.Parse(retu[8]);    // "TIP_CAMBIO"
+                        Omonto.monSoles = decimal.Parse(retu[15]);  // "ImportoSU"
+                        tipca = decimal.Parse(retu[21]);        // "TCMonOri"
+                        Ocajd.codigo = retu[17];                // "IDConto"
+                        Ocajd.nombre = retu[3];                 // "CUENTA"
+                        Ocajd.largo = retu[22];                 // "DET_CUENTA"
+                        Oprove.codigo = retu[16];               // "idanagrafica"
+                        Oprove.nombre = retu[9];                // "PROVEEDOR"
+                        descr = retu[7];                        // "DESCRIPCION"
+                        idmov = retu[1];                        // "ID_MOVIM"
                     }
                     Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
                             Ocajd, Oprove, descr, idmov);
