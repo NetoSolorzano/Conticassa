@@ -606,7 +606,7 @@ namespace Conticassa
                 {
                     if (Tx_catEgre.Text.Trim() != "")
                     {
-                        if (ValiEgreso(Tx_catEgre.Text) == false)
+                        if (Vali_CAM(Tx_catEgre.Text) == false)
                         {
                             Tx_catEgre.Clear();
                             eti_nomCat.Text = "";
@@ -629,7 +629,7 @@ namespace Conticassa
                 {
                     if (Tx_ctaDes.Text.Trim() != "")
                     {
-                        if (ValiCtaDes(Tx_ctaDes.Text) == false)
+                        if (ValiCtaCon(Tx_ctaDes.Text) == false)
                         {
                             Tx_ctaDes.Clear();
                             eti_nomCaja.Text = "";
@@ -882,7 +882,7 @@ namespace Conticassa
             }
             return retona;
         }           // valida existencia del proveedor
-        public bool ValiCtaDes(string _nombre)
+        public bool ValiCtaCon(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
             bool retorna = false;
@@ -893,7 +893,7 @@ namespace Conticassa
             }
             return retorna;
         }           // valida existencia de la cuenta destino
-        public bool ValiEgreso(string _nombre)
+        public bool Vali_CAM(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
             bool retorna = false;

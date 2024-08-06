@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.eti_tituloForm = new Conticassa.generalEtiqueta();
             this.tx_idOper = new Conticassa.NumericTextBox();
             this.eti_idOper = new Conticassa.generalEtiqueta();
@@ -94,11 +95,13 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panelGeneral5.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.pan_p.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // eti_tituloForm
@@ -126,6 +129,7 @@
             this.tx_idOper.Name = "tx_idOper";
             this.tx_idOper.Size = new System.Drawing.Size(129, 13);
             this.tx_idOper.TabIndex = 93;
+            this.tx_idOper.Validating += new System.ComponentModel.CancelEventHandler(this.tx_idOper_Validating);
             // 
             // eti_idOper
             // 
@@ -294,6 +298,7 @@
             this.Tx_catIngre.Size = new System.Drawing.Size(129, 14);
             this.Tx_catIngre.TabIndex = 62;
             this.Tx_catIngre.TextChanged += new System.EventHandler(this.Tx_catIngre_TextChanged);
+            this.Tx_catIngre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_catIngre_KeyPress);
             // 
             // tx_monto
             // 
@@ -306,6 +311,7 @@
             this.tx_monto.Size = new System.Drawing.Size(80, 15);
             this.tx_monto.TabIndex = 66;
             this.tx_monto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tx_monto.Validating += new System.ComponentModel.CancelEventHandler(this.tx_monto_Validating);
             // 
             // eti_catIngre
             // 
@@ -327,6 +333,7 @@
             this.cmb_mon.Name = "cmb_mon";
             this.cmb_mon.Size = new System.Drawing.Size(47, 20);
             this.cmb_mon.TabIndex = 65;
+            this.cmb_mon.SelectedValueChanged += new System.EventHandler(this.cmb_mon_SelectedValueChanged);
             // 
             // Tx_ctaDes
             // 
@@ -339,6 +346,7 @@
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 70;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
+            this.Tx_ctaDes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_ctaDes_KeyPress);
             // 
             // generalEtiqueta3
             // 
@@ -555,6 +563,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(830, 119);
             this.dataGridView1.TabIndex = 95;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // toolStrip1
             // 
@@ -829,6 +838,10 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(3, 45);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Finan_Ingres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -881,6 +894,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -954,5 +968,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripButton Bt_fin;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
