@@ -178,14 +178,14 @@ namespace Conticassa
         }
         private void fin_ingresos_Click(object sender, EventArgs e)
         {
-            /*Form2 ffe1 = new Form2();
-            ffe1.TopLevel = false;
-            ffe1.Parent = this;
+            Finan_Ingres ffe0 = new Finan_Ingres();
+            ffe0.TopLevel = false;
+            ffe0.Parent = this;
             //ffe1.Top = pn_phor.Top + pn_phor.Height + 1;
-            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
-            pn_centro.Controls.Add(ffe1);
-            ffe1.Show();
-            */
+            ffe0.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe0);
+            if (this.Width < ffe0.Right + ffe0.Left) this.Width = ffe0.Right + ffe0.Left;
+            ffe0.Show();
         }
         private void fin_egresos_Click(object sender, EventArgs e)
         {
@@ -194,7 +194,7 @@ namespace Conticassa
             ffe1.Parent = this;
             ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
             pn_centro.Controls.Add(ffe1);
-            this.Width = ffe1.Right + ffe1.Left;
+            if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
             ffe1.Show();
         }
         private void fin_camion_Click(object sender, EventArgs e)

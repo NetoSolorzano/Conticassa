@@ -185,6 +185,12 @@ namespace Conticassa
         public string nombre { get; set; }  // descrizionerid
         public string largo { get; set; }   // descrizione
     }
+    public class catIngresos
+    {
+        public string codigo { get; set; }
+        public string nombre { get; set; }  // descrizionerid
+        public string largo { get; set; }   // descrizione
+    }
     public class monedas
     {
         public string codigo { get; set; }

@@ -10,7 +10,7 @@ namespace Conticassa
         private string fechOper;    // fecha de la operación
         private decimal tipCamb;    // tipo de cambio de la operación si fue en moneda <> a sol
         private string descrip;     // descripcion de la operacion
-        private catEgresos catIngreso;   // Categoría del Ingreso
+        private catIngresos catIngreso;   // Categoría del Ingreso
         private monedas moneda;         // Moneda de la operación
         private cajDestino cajaDes;     // caja destino de la operación, caja desde donde sale el dinero
         private string idMovim;         // idmovimiento
@@ -29,10 +29,10 @@ namespace Conticassa
         public decimal TipCamb { get => tipCamb; set => tipCamb = value; }
         public cajDestino CajaDes { get => cajaDes; set => cajaDes = value; }
         public string Descrip { get => descrip; set => descrip = value; }
-        public catEgresos CatIngreso { get => catIngreso; set => catIngreso = value; }
+        public catIngresos CatIngreso { get => catIngreso; set => catIngreso = value; }
         public string IdMovim { get => idMovim; set => idMovim = value; }
 
-        public void creaIngreso(string _tipMovPrin, string _fechOper, catEgresos _catIngreso, monedas _moneda, montos _monto, decimal _tipCamb,
+        public void creaIngreso(string _tipMovPrin, string _fechOper, catIngresos _catIngreso, monedas _moneda, montos _monto, decimal _tipCamb,
             cajDestino _cajaDes, string _descrip, string _IdMovim)
         {
             tipMovPrin = _tipMovPrin;

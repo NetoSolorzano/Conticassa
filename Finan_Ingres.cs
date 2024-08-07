@@ -20,7 +20,7 @@ namespace Conticassa
         AutoCompleteStringCollection accd = new AutoCompleteStringCollection();     // ctas destino
         AutoCompleteStringCollection acgc = new AutoCompleteStringCollection();     // cta giroconto
         //
-        catEgresos OcatEg = new catEgresos();                                       // Objeto categoría de egreso
+        catIngresos OcatIn = new catIngresos();                                       // Objeto categoría de egreso
         monedas Omone = new monedas();                                              // Objeto moneda
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
@@ -305,9 +305,9 @@ namespace Conticassa
         #region limpiadores, readonlys
         private void limiaObj()
         {
-            OcatEg.codigo = "";                                       // Objeto categoría de egreso
-            OcatEg.nombre = "";
-            OcatEg.largo = "";
+            OcatIn.codigo = "";                                       // Objeto categoría de ingreso
+            OcatIn.nombre = "";
+            OcatIn.largo = "";
             Omone.codigo = "";                                        // Objeto moneda
             Omone.nombre = "";
             Omone.siglas = "";
@@ -497,8 +497,8 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catIngre.Text.Trim() + "'");
                 eti_nomCat.Text = nc[0].ItemArray[2].ToString();
-                OcatEg.codigo = Tx_catIngre.Text;
-                OcatEg.nombre = eti_nomCat.Text;
+                OcatIn.codigo = Tx_catIngre.Text;
+                OcatIn.nombre = eti_nomCat.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -600,9 +600,9 @@ namespace Conticassa
                     {
                         // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
                         fecOp = retu[2].Substring(0, 10);       // fecha
-                        OcatEg.codigo = retu[18];               // aca debe ser id del ingreso
-                        OcatEg.nombre = retu[4];                // aca debe ser ingreso
-                        OcatEg.largo = retu[23];                // aca debe ser ingreso
+                        OcatIn.codigo = retu[18];               // aca debe ser id del ingreso
+                        OcatIn.nombre = retu[4];                // aca debe ser ingreso
+                        OcatIn.largo = retu[23];                // aca debe ser ingreso
                         Omone.codigo = retu[19];                // "codimon"
                         Omone.siglas = retu[5];                 // "MONEDA"
                         Omone.nombre = retu[20];                // "nombmon"
@@ -626,9 +626,9 @@ namespace Conticassa
                         // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
                         //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
                         fecOp = retu[2].Substring(0, 10);       // "FECHA"
-                        OcatEg.codigo = retu[18];               // aca debe ser id del ingreso
-                        OcatEg.nombre = retu[4];                // aca debe ser ingresos
-                        OcatEg.largo = retu[23];                // aca tambien debe ser ingresos
+                        OcatIn.codigo = retu[18];               // aca debe ser id del ingreso
+                        OcatIn.nombre = retu[4];                // aca debe ser ingresos
+                        OcatIn.largo = retu[23];                // aca tambien debe ser ingresos
                         Omone.codigo = retu[19];                // "codimon"
                         Omone.siglas = retu[5];                 // "MONEDA"
                         Omone.nombre = retu[20];                // "nombmon"
@@ -647,7 +647,7 @@ namespace Conticassa
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
                     }
-                    Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
+                    Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                             Ocajd, descr, idmov);
                     jalaoc();
                 }
@@ -700,9 +700,9 @@ namespace Conticassa
                 {
                     // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
                     fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
-                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
-                    OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // debe ser ingreso
+                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
+                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
+                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // debe ser ingreso
                     Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
                     Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
@@ -724,9 +724,9 @@ namespace Conticassa
                     // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
                     //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
                     fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
-                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
-                    OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // aca debe ser ingreso
+                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
+                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
+                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // aca debe ser ingreso
                     Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
                     Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
@@ -743,7 +743,7 @@ namespace Conticassa
                     descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
-                Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
+                Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                         Ocajd, descr, idmov);
                 jalaoc();
             }

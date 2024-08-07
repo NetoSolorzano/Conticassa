@@ -39,7 +39,6 @@
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.linO5 = new System.Windows.Forms.Label();
-            this.linO4 = new System.Windows.Forms.Label();
             this.linO3 = new System.Windows.Forms.Label();
             this.linO2 = new System.Windows.Forms.Label();
             this.linO1 = new System.Windows.Forms.Label();
@@ -96,6 +95,8 @@
             this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.linV1 = new System.Windows.Forms.Label();
+            this.linO6 = new System.Windows.Forms.Label();
             this.panelGeneral5.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.pan_p.SuspendLayout();
@@ -178,7 +179,7 @@
             this.linV2.Enabled = false;
             this.linV2.Location = new System.Drawing.Point(560, 56);
             this.linV2.Name = "linV2";
-            this.linV2.Size = new System.Drawing.Size(2, 134);
+            this.linV2.Size = new System.Drawing.Size(2, 119);
             this.linV2.TabIndex = 88;
             // 
             // listBox2
@@ -205,19 +206,10 @@
             // 
             this.linO5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.linO5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.linO5.Location = new System.Drawing.Point(4, 135);
+            this.linO5.Location = new System.Drawing.Point(4, 133);
             this.linO5.Name = "linO5";
             this.linO5.Size = new System.Drawing.Size(557, 2);
             this.linO5.TabIndex = 87;
-            // 
-            // linO4
-            // 
-            this.linO4.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.linO4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.linO4.Location = new System.Drawing.Point(4, 132);
-            this.linO4.Name = "linO4";
-            this.linO4.Size = new System.Drawing.Size(557, 2);
-            this.linO4.TabIndex = 86;
             // 
             // linO3
             // 
@@ -375,7 +367,7 @@
             this.generalEtiqueta7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta7.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta7.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta7.Location = new System.Drawing.Point(4, 137);
+            this.generalEtiqueta7.Location = new System.Drawing.Point(4, 136);
             this.generalEtiqueta7.Name = "generalEtiqueta7";
             this.generalEtiqueta7.Size = new System.Drawing.Size(124, 34);
             this.generalEtiqueta7.TabIndex = 79;
@@ -445,7 +437,7 @@
             this.Bt_graba.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Bt_graba.Font = new System.Drawing.Font("Arial", 11F);
             this.Bt_graba.Image = global::Conticassa.Resource1.save_item40;
-            this.Bt_graba.Location = new System.Drawing.Point(678, 113);
+            this.Bt_graba.Location = new System.Drawing.Point(678, 105);
             this.Bt_graba.Name = "Bt_graba";
             this.Bt_graba.Size = new System.Drawing.Size(62, 62);
             this.Bt_graba.TabIndex = 74;
@@ -543,7 +535,7 @@
             this.tx_descrip.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tx_descrip.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tx_descrip.ForeColor = System.Drawing.Color.Blue;
-            this.tx_descrip.Location = new System.Drawing.Point(129, 137);
+            this.tx_descrip.Location = new System.Drawing.Point(129, 136);
             this.tx_descrip.Multiline = true;
             this.tx_descrip.Name = "tx_descrip";
             this.tx_descrip.Size = new System.Drawing.Size(431, 34);
@@ -558,10 +550,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1, 216);
+            this.dataGridView1.Location = new System.Drawing.Point(2, 176);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(830, 119);
+            this.dataGridView1.Size = new System.Drawing.Size(828, 117);
             this.dataGridView1.TabIndex = 95;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
@@ -596,7 +588,7 @@
             this.toolStripSeparator9,
             this.Bt_fin,
             this.toolStripSeparator11});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 335);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 297);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(832, 35);
             this.toolStrip1.TabIndex = 94;
@@ -842,12 +834,33 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // linV1
+            // 
+            this.linV1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.linV1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.linV1.Enabled = false;
+            this.linV1.Location = new System.Drawing.Point(3, 56);
+            this.linV1.Name = "linV1";
+            this.linV1.Size = new System.Drawing.Size(2, 119);
+            this.linV1.TabIndex = 96;
+            // 
+            // linO6
+            // 
+            this.linO6.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.linO6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.linO6.Location = new System.Drawing.Point(4, 172);
+            this.linO6.Name = "linO6";
+            this.linO6.Size = new System.Drawing.Size(557, 2);
+            this.linO6.TabIndex = 97;
+            // 
             // Finan_Ingres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 370);
-            this.Controls.Add(this.dataGridView1);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(832, 332);
+            this.Controls.Add(this.linO6);
+            this.Controls.Add(this.linV1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tx_idOper);
             this.Controls.Add(this.eti_idOper);
@@ -858,7 +871,6 @@
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.linO5);
-            this.Controls.Add(this.linO4);
             this.Controls.Add(this.linO3);
             this.Controls.Add(this.linO2);
             this.Controls.Add(this.linO1);
@@ -881,9 +893,10 @@
             this.Controls.Add(this.pan_p);
             this.Controls.Add(this.tx_descrip);
             this.Controls.Add(this.eti_tituloForm);
+            this.Controls.Add(this.dataGridView1);
             this.KeyPreview = true;
             this.Name = "Finan_Ingres";
-            this.Text = "Finan_Ingres";
+            this.Text = "";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Finan_Ingres_KeyDown);
             this.panelGeneral5.ResumeLayout(false);
             this.panelGeneral5.PerformLayout();
@@ -912,7 +925,6 @@
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Label linO5;
-        private System.Windows.Forms.Label linO4;
         private System.Windows.Forms.Label linO3;
         private System.Windows.Forms.Label linO2;
         private System.Windows.Forms.Label linO1;
@@ -969,5 +981,7 @@
         private System.Windows.Forms.ToolStripButton Bt_fin;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Label linO6;
+        private System.Windows.Forms.Label linV1;
     }
 }
