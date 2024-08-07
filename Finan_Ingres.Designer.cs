@@ -109,9 +109,9 @@
             // 
             this.eti_tituloForm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.eti_tituloForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_tituloForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(205)))), ((int)(((byte)(131)))));
             this.eti_tituloForm.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.eti_tituloForm.ForeColor = System.Drawing.Color.Blue;
+            this.eti_tituloForm.ForeColor = System.Drawing.Color.Black;
             this.eti_tituloForm.Location = new System.Drawing.Point(1, 1);
             this.eti_tituloForm.Name = "eti_tituloForm";
             this.eti_tituloForm.Size = new System.Drawing.Size(830, 29);
@@ -134,7 +134,7 @@
             // 
             // eti_idOper
             // 
-            this.eti_idOper.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_idOper.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_idOper.Font = new System.Drawing.Font("Verdana", 8F);
             this.eti_idOper.ForeColor = System.Drawing.Color.Blue;
             this.eti_idOper.Location = new System.Drawing.Point(4, 60);
@@ -155,7 +155,7 @@
             // 
             // eti_nomCat
             // 
-            this.eti_nomCat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_nomCat.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_nomCat.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_nomCat.ForeColor = System.Drawing.Color.Blue;
             this.eti_nomCat.Location = new System.Drawing.Point(261, 78);
@@ -260,7 +260,7 @@
             // 
             // generalEtiqueta1
             // 
-            this.generalEtiqueta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta1.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta1.Location = new System.Drawing.Point(261, 59);
@@ -271,7 +271,7 @@
             // 
             // eti_nomCaja
             // 
-            this.eti_nomCaja.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_nomCaja.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_nomCaja.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_nomCaja.ForeColor = System.Drawing.Color.Blue;
             this.eti_nomCaja.Location = new System.Drawing.Point(261, 116);
@@ -307,7 +307,7 @@
             // 
             // eti_catIngre
             // 
-            this.eti_catIngre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_catIngre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_catIngre.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_catIngre.ForeColor = System.Drawing.Color.Blue;
             this.eti_catIngre.Location = new System.Drawing.Point(4, 78);
@@ -342,7 +342,7 @@
             // 
             // generalEtiqueta3
             // 
-            this.generalEtiqueta3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta3.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta3.Location = new System.Drawing.Point(4, 97);
@@ -353,7 +353,7 @@
             // 
             // generalEtiqueta2
             // 
-            this.generalEtiqueta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta2.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta2.Location = new System.Drawing.Point(261, 97);
@@ -364,7 +364,7 @@
             // 
             // generalEtiqueta7
             // 
-            this.generalEtiqueta7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta7.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta7.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta7.Location = new System.Drawing.Point(4, 136);
@@ -376,7 +376,7 @@
             // 
             // generalEtiqueta4
             // 
-            this.generalEtiqueta4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta4.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta4.Location = new System.Drawing.Point(4, 116);
@@ -400,7 +400,7 @@
             // 
             // eti_nomCtaGiro
             // 
-            this.eti_nomCtaGiro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_nomCtaGiro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_nomCtaGiro.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_nomCtaGiro.ForeColor = System.Drawing.Color.Blue;
             this.eti_nomCtaGiro.Location = new System.Drawing.Point(2, 45);
@@ -466,7 +466,7 @@
             // 
             // generalEtiqueta5
             // 
-            this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta5.Font = new System.Drawing.Font("Verdana", 9F);
             this.generalEtiqueta5.ForeColor = System.Drawing.Color.Blue;
             this.generalEtiqueta5.Location = new System.Drawing.Point(2, 2);
@@ -520,7 +520,7 @@
             // 
             // eti_cuenta
             // 
-            this.eti_cuenta.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_cuenta.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_cuenta.Font = new System.Drawing.Font("Verdana", 9F);
             this.eti_cuenta.ForeColor = System.Drawing.Color.Blue;
             this.eti_cuenta.Location = new System.Drawing.Point(2, 2);
@@ -857,9 +857,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
+            this.AutoSize = true;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(238)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(832, 332);
-            this.Controls.Add(this.linO6);
             this.Controls.Add(this.linV1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tx_idOper);
@@ -894,7 +894,10 @@
             this.Controls.Add(this.tx_descrip);
             this.Controls.Add(this.eti_tituloForm);
             this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.linO6);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.KeyPreview = true;
+            this.MinimumSize = new System.Drawing.Size(848, 371);
             this.Name = "Finan_Ingres";
             this.Text = "";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Finan_Ingres_KeyDown);

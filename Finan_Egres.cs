@@ -33,6 +33,7 @@ namespace Conticassa
         public Finan_Egres()
         {
             InitializeComponent();
+            CargaINI(this);
             CargaFormatos();
             chk_giroC_CheckedChanged(null, null);
             sololee("T");   // T=todos los campos, "" ó "C" campos comunes
@@ -166,6 +167,7 @@ namespace Conticassa
             cmb_mon.DisplayMember = "descrizionerid";
             cmb_mon.ValueMember = "idcodice";
         }
+
         private void jalainfo()
         {
             // 31/07/2024 .. variabilizamos los datos que vamos a necesitar

@@ -13,6 +13,7 @@ namespace Conticassa
 {
     public partial class Form1 : Form
     {
+        publicoConf conf = new publicoConf();
         public Form1()
         {
             this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
@@ -23,6 +24,68 @@ namespace Conticassa
             //
 
         }
+        public void CargaINI(Form forma)
+        {
+            foreach (Control oControl in forma.Controls)
+            {
+                if (oControl is TextBox)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
+                if (oControl is Label)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
+                if (oControl is CheckBox)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
+                if (oControl is RadioButton)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
+                if (oControl is ListBox)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
+                if (oControl is Panel)
+                {
+                    foreach (Control control in oControl.Controls)
+                    {
+                        if (control is TextBox)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                        if (control is Label)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                        if (control is CheckBox)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                        if (control is RadioButton)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                        if (control is ListBox)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                    }
+                }
+            }
+        }       // pinta de colores al mundo!
     }
     public class generalTextBox : TextBox
     {

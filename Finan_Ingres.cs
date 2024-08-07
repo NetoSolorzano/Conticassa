@@ -36,6 +36,7 @@ namespace Conticassa
         public Finan_Ingres()
         {
             InitializeComponent();
+            CargaINI(this);
             CargaFormatos();
             chk_giroC_CheckedChanged(null, null);
             sololee("T");   // T=todos los campos, "" ó "C" campos comunes
@@ -109,8 +110,8 @@ namespace Conticassa
         }    // F1 
         private void CargaFormatos()
         {
-            this.BackColor = Color.FromArgb(1, 150, 174, 101); // rgba(150, 174, 101, 0.8)
-            pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
+            //this.BackColor = Color.FromArgb(1, 111, 179, 236); // rgba(111, 179, 236, 0.8)
+            //pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catIngre.AutoCompleteCustomSource = acsc;

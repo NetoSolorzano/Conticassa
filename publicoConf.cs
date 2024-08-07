@@ -16,8 +16,7 @@ namespace Conticassa
         #region font de etiquetas y textbox
         public string nombreFont = "Verdana";
         public string nombreFondo = "White";
-        public string colorFont = "Blue";
-        //public string fondoEtiq = "Aquamarine";
+        public string colorFont = "Black";   // Blue
         // etiquetas          // Color.FromArgb(142,242,243,219);  // brillo,rojo,verde,azul
         public int fondoBrilloE = 142;  
         public int fondoRojoE = 242;
