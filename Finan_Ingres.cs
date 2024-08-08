@@ -173,11 +173,11 @@ namespace Conticassa
                         string consulta = "";
                         if (ntabla == "cassaomg")
                         {
-                            consulta = "ConEgre_cassaOmg";
+                            consulta = "ConIngre_cassaOmg";
                         }
                         if (ntabla == "cassaconti")
                         {
-                            consulta = "ConEgre_cassaConti";
+                            consulta = "ConIngre_cassaConti";
                         }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
@@ -236,15 +236,15 @@ namespace Conticassa
         private void jalaoc()
         {
             tx_idOper.Text = Oegreso.IdMovim;
-            selecFecha1.Value = DateTime.Parse(Oegreso.FechOper);
-            Tx_catIngre.Text = Oegreso.CatEgreso.nombre;
-            eti_nomCat.Text = Oegreso.CatEgreso.largo;
-            cmb_mon.SelectedValue = Oegreso.Moneda.codigo;
-            tx_monto.Text = Oegreso.Monto.monOrige.ToString("#0.00");
-            tx_tipcam.Text = Oegreso.TipCamb.ToString("#0.000");
-            Tx_ctaDes.Text = Oegreso.CajaDes.nombre;
-            eti_nomCaja.Text = Oegreso.CajaDes.largo;
-            tx_descrip.Text = Oegreso.Descrip;
+            selecFecha1.Value = DateTime.Parse(Oingreso.FechOper);
+            Tx_catIngre.Text = Oingreso.CatIngreso.nombre;
+            eti_nomCat.Text = Oingreso.CatIngreso.largo;
+            cmb_mon.SelectedValue = Oingreso.Moneda.codigo;
+            tx_monto.Text = Oingreso.Monto.monOrige.ToString("#0.00");
+            tx_tipcam.Text = Oingreso.TipCamb.ToString("#0.000");
+            Tx_ctaDes.Text = Oingreso.CajaDes.nombre;
+            eti_nomCaja.Text = Oingreso.CajaDes.largo;
+            tx_descrip.Text = Oingreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
 
         #region Botones de comando
@@ -498,8 +498,8 @@ namespace Conticassa
                 Tx_catIngre.Text = listBox1.Items[listBox1.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catIngre.Text.Trim() + "'");
-                eti_nomCat.Text = nc[0].ItemArray[1].ToString();
-                OcatIn.codigo = nc[0].ItemArray[0].ToString();
+                eti_nomCat.Text = nc[0].ItemArray[2].ToString();
+                OcatIn.codigo = nc[0].ItemArray[1].ToString();
                 OcatIn.nombre = Tx_catIngre.Text;
                 OcatIn.largo = eti_nomCat.Text;
                 SendKeys.Send("{TAB}");
@@ -516,8 +516,8 @@ namespace Conticassa
                 Tx_ctaDes.Text = listBox2.Items[listBox2.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + Tx_ctaDes.Text.Trim() + "'");
-                eti_nomCaja.Text = nc[0].ItemArray[1].ToString();
-                Ocajd.codigo = nc[0].ItemArray[0].ToString();
+                eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
+                Ocajd.codigo = nc[0].ItemArray[1].ToString();
                 Ocajd.nombre = Tx_ctaDes.Text;
                 Ocajd.largo = eti_nomCaja.Text;
                 SendKeys.Send("{TAB}");
@@ -534,7 +534,7 @@ namespace Conticassa
                 tx_ctaGiro.Text = listBox3.Items[listBox3.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
-                eti_nomCtaGiro.Text = nc[0].ItemArray[1].ToString();
+                eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -710,20 +710,21 @@ namespace Conticassa
                 string idmov = "";              // id del movimiento
                 if (rb_omg.Checked == true)
                 {
-                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                    // CASA,ID_MOVIM,FECHA,DESTINO,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                    // usuario,dia,ImportoDE,ImportoSE,IDDestino,IDCategoria,codimon,nombmon,TCMonOri,DET_DESTINO,DET_INGRESO
                     fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
-                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // debe ser ingreso
-                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // debe ser ingreso
+                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
+                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString();    // debe ser ingreso
                     Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
                     Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
                     Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
                     Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
                     Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
                     tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
                     Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
                     Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
@@ -733,21 +734,21 @@ namespace Conticassa
                 }
                 else
                 {
-                    // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
-                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                    // CASA,ID_MOVIM,FECHA,CUENTA,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,IDGiroConto,CTA_DESTINO,
+                    // usuario,dia,ImportoDE,ImportoSE,IDConto,IDCategoria,codimon,nombmon,TCMonOri,DET_CUENTA,DET_INGRESO 
                     fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
-                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();   // aca debe ser ingreso
-                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["???"].Value.ToString();    // aca debe ser ingreso
+                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
+                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString(); 
                     Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
                     Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
                     Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
                     Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
                     Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
                     Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
                     tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
                     Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
                     Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
@@ -807,26 +808,71 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        string aa = correlativo(conn, ((rb_omg.Checked == true) ? "MCO" : "MCA"), selecFecha1.Value.Date.Year);
-                        string corre = ("00000000000000" + aa).Substring(-15);          //    verificar el mco y mca 
-                        Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                            Ocajd, tx_descrip.Text, corre);
-                        Oingresos.grabaIngreso(conn);
+                        string corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                        if (corre != "error" && corre != "")
+                        {
+                            Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                Ocajd, tx_descrip.Text, corre);
+                            Oingresos.grabaIngreso(conn);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error en grabar los datos del ingreso","No se completo la operación",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
         }
 
-        private string correlativo(MySqlConnection conn, string idcont, int year)
+        public string correlativo(MySqlConnection conn, string idcont, int year)
         {
             string retorna = "";
-            string consulta = "";
+            int contador = 0;
+            string consulta = "select numero from contatori where idbanco='LIM' and anno=@year and idcontatore=@idcont";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
-
+                micon.Parameters.AddWithValue("@year", year);
+                micon.Parameters.AddWithValue("@idcont", idcont);
+                using (MySqlDataReader dr = micon.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        if (dr.Read())
+                        {
+                            contador = dr.GetInt32(0) + 1;
+                            retorna = CDerecha("00000000000000" + contador.ToString(), 15);
+                        }
+                    }
+                    else
+                    {
+                        retorna = "error";
+                    }
+                }
             }
-
+            if (retorna != "error" && retorna != "")
+            {
+                using (MySqlCommand micon = new MySqlCommand("update contatori set numero=@contador where idbanco='LIM' and anno=@year and idcontatore=@idcont", conn))
+                {
+                    micon.Parameters.AddWithValue("@year", year);
+                    micon.Parameters.AddWithValue("@idcont", idcont);
+                    micon.Parameters.AddWithValue("@contador", contador);
+                    micon.ExecuteNonQuery();
+                }
+            }
             return retorna;
         }
+        public string CDerecha(string sValue, int iMaxLength)
+        {
+            if (string.IsNullOrEmpty(sValue))
+            {
+                sValue = string.Empty;
+            }
+            else if (sValue.Length > iMaxLength)
+            {
+                sValue = sValue.Substring(sValue.Length - iMaxLength, iMaxLength);
+            }
+            return sValue;
+        }                  // devuelve los ultimos n caractares desde la derecha
+
     }
 }

@@ -65,8 +65,10 @@ namespace Conticassa
             if (tipMovPrin == "omg") tabla = "cassaomg";
             else tabla = "cassaconti";
             string consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,tipodesgiro) values (" +
-                                "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDE,@ISE,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@tidgiro)";
+                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,tipodesgiro," +
+                                "valorOrig,codimon,nombmon,tcMonOri) values (" +
+                                "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDE,@ISE,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@tidgiro," +
+                                "@vOrig,@cmon,@nmon,@tcMO)";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
                 //micon.Parameters.AddWithValue("@tab", tabla);
@@ -91,6 +93,11 @@ namespace Conticassa
                 micon.Parameters.AddWithValue("@usua", Program.vg_user);
                 //micon.Parameters.AddWithValue("@idan", );
                 micon.Parameters.AddWithValue("@tidgiro", "");   // esto va con el giroconto creo
+                micon.Parameters.AddWithValue("@vOrig", monto.monOrige);
+                micon.Parameters.AddWithValue("@cmon", moneda.codigo);
+                micon.Parameters.AddWithValue("@nmon", moneda.nombre);
+                micon.Parameters.AddWithValue("@tcMO", monto.tipCOri);
+                //micon.Parameters.AddWithValue("", );
                 micon.ExecuteNonQuery();
             }
         }
