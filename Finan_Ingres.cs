@@ -110,8 +110,6 @@ namespace Conticassa
         }    // F1 
         private void CargaFormatos()
         {
-            //this.BackColor = Color.FromArgb(1, 111, 179, 236); // rgba(111, 179, 236, 0.8)
-            //pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catIngre.AutoCompleteCustomSource = acsc;
@@ -357,6 +355,9 @@ namespace Conticassa
             rb_pers.Enabled = true;
             chk_datSimil.Enabled = true;
             chk_giroC.Enabled = true;
+            cmb_mon.Enabled = true;
+            cmb_mon.SelectedIndex = 0;
+            cmb_mon_SelectedIndexChanged(null, null);
         }
         private void sololee(string quien)  //    // T=todos los campos, "" ó "C" campos comunes
         {
@@ -379,7 +380,7 @@ namespace Conticassa
         }
         #endregion
 
-        #region radiobotones y checks   // me quede aca revisando si pasamos a clase o hacerlo publico
+        #region radiobotones y checks
         private void rb_omg_Click(object sender, EventArgs e)
         {
             if (rb_omg.Checked == true)
@@ -497,9 +498,10 @@ namespace Conticassa
                 Tx_catIngre.Text = listBox1.Items[listBox1.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catIngre.Text.Trim() + "'");
-                eti_nomCat.Text = nc[0].ItemArray[2].ToString();
-                OcatIn.codigo = Tx_catIngre.Text;
-                OcatIn.nombre = eti_nomCat.Text;
+                eti_nomCat.Text = nc[0].ItemArray[1].ToString();
+                OcatIn.codigo = nc[0].ItemArray[0].ToString();
+                OcatIn.nombre = Tx_catIngre.Text;
+                OcatIn.largo = eti_nomCat.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -514,9 +516,10 @@ namespace Conticassa
                 Tx_ctaDes.Text = listBox2.Items[listBox2.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + Tx_ctaDes.Text.Trim() + "'");
-                eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
-                Ocajd.codigo = Tx_ctaDes.Text;
-                Ocajd.nombre = eti_nomCaja.Text;
+                eti_nomCaja.Text = nc[0].ItemArray[1].ToString();
+                Ocajd.codigo = nc[0].ItemArray[0].ToString();
+                Ocajd.nombre = Tx_ctaDes.Text;
+                Ocajd.largo = eti_nomCaja.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -531,7 +534,7 @@ namespace Conticassa
                 tx_ctaGiro.Text = listBox3.Items[listBox3.SelectedIndex].ToString();
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
-                eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
+                eti_nomCtaGiro.Text = nc[0].ItemArray[1].ToString();
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -685,7 +688,15 @@ namespace Conticassa
             Omonto.monEuros = 0;        // serán calculados en
             Omonto.monSoles = 0;        // el valid del campo monto
         }   // selección de moneda
-
+        private void cmb_mon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_mon.SelectedIndex > -1)
+            {
+                Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+                Omone.siglas = cmb_mon.Text;    // siglas de la moneda
+                Omone.nombre = "";
+            }
+        }
         #endregion
 
         #region datagridview
@@ -781,8 +792,7 @@ namespace Conticassa
             if (aaa == DialogResult.Yes)
             {
                 string fecOp = selecFecha1.Value.Date.ToShortDateString();
-                /*
-                Egresos Oegresos = new Egresos();
+                Ingresos Oingresos = new Ingresos();
                 using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
                 {
                     try
@@ -797,14 +807,26 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                            Ocajd, Oprove, tx_descrip.Text, "");
-                        Oegresos.grabaEgreso(conn);
+                        string aa = correlativo(conn, ((rb_omg.Checked == true) ? "MCO" : "MCA"), selecFecha1.Value.Date.Year);
+                        string corre = ("00000000000000" + aa).Substring(-15);          //    verificar el mco y mca 
+                        Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                            Ocajd, tx_descrip.Text, corre);
+                        Oingresos.grabaIngreso(conn);
                     }
                 }
-                */
             }
         }
 
+        private string correlativo(MySqlConnection conn, string idcont, int year)
+        {
+            string retorna = "";
+            string consulta = "";
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+
+            }
+
+            return retorna;
+        }
     }
 }

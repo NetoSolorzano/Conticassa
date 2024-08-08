@@ -35,8 +35,16 @@ namespace Conticassa
                 }
                 if (oControl is Label)
                 {
-                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
-                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                    if (oControl.Name == "eti_tituloForm")
+                    {
+                        oControl.Font = new System.Drawing.Font(conf.nombreFont, 14);
+                        oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                    }
+                    else
+                    {
+                        oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                        oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                    }
                 }
                 if (oControl is CheckBox)
                 {

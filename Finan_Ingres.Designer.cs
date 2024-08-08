@@ -325,6 +325,7 @@
             this.cmb_mon.Name = "cmb_mon";
             this.cmb_mon.Size = new System.Drawing.Size(47, 20);
             this.cmb_mon.TabIndex = 65;
+            this.cmb_mon.SelectedIndexChanged += new System.EventHandler(this.cmb_mon_SelectedIndexChanged);
             this.cmb_mon.SelectedValueChanged += new System.EventHandler(this.cmb_mon_SelectedValueChanged);
             // 
             // Tx_ctaDes
@@ -442,6 +443,7 @@
             this.Bt_graba.Size = new System.Drawing.Size(62, 62);
             this.Bt_graba.TabIndex = 74;
             this.Bt_graba.UseVisualStyleBackColor = false;
+            this.Bt_graba.Click += new System.EventHandler(this.Bt_graba_Click);
             // 
             // panelGeneral4
             // 

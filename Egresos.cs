@@ -70,16 +70,16 @@ namespace Conticassa
             string tabla = "";
             if (tipMovPrin == "omg") tabla = "cassaomg";
             else tabla = "cassaconti";
-            string consulta = "insert into @tab (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
+            string consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
                                 "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro) values (" +
                                 "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDE,@ISE,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro)";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
-                micon.Parameters.AddWithValue("@tab", tabla);
+                ///micon.Parameters.AddWithValue("@tab", tabla);
                 micon.Parameters.AddWithValue("@IDB", "LIM");   // este campo viene de donde ??? arreglar
                 micon.Parameters.AddWithValue("@Ann", DateTime.Now.Year);   // tabla "contatori" debe autoiniciarse al cambiar el año, poner disparador en el login
                 micon.Parameters.AddWithValue("@IDM", IdMovim); // este dato viene del metodo "grabar", '00'+contador de la tabla contatori
-                micon.Parameters.AddWithValue("@DMo", fechOper);
+                micon.Parameters.AddWithValue("@DMo", fechOper.Substring(6, 4) + "-" + fechOper.Substring(3, 2) + "-" + fechOper.Substring(0, 2));
                 micon.Parameters.AddWithValue("@IDCo", cajaDes.codigo);
                 micon.Parameters.AddWithValue("@IDCa", catEgreso.codigo);
                 micon.Parameters.AddWithValue("@IDE", 0);                   // importe en dolares entrada 
