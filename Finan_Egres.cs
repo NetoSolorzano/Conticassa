@@ -168,7 +168,6 @@ namespace Conticassa
             cmb_mon.DisplayMember = "descrizionerid";
             cmb_mon.ValueMember = "idcodice";
         }
-
         private void jalainfo()
         {
             // 31/07/2024 .. variabilizamos los datos que vamos a necesitar
@@ -178,78 +177,6 @@ namespace Conticassa
             row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='limCols'");
             limCols = int.Parse(row[0]["valor"].ToString());
         }
-        private void jalaGrilla(int dAtras, string ntabla)
-        {
-            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
-            {
-                try
-                {
-                    conn.Open();
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        string consulta = "";
-                        if (ntabla == "cassaomg")
-                        {
-                            consulta = "ConEgre_cassaOmg";
-                        }
-                        if (ntabla == "cassaconti")
-                        {
-                            consulta = "ConEgre_cassaConti";
-                        }
-                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
-                        {
-                            micon.CommandType = CommandType.StoredProcedure;
-                            micon.Parameters.AddWithValue("@Vdias", dAtras);
-                            using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
-                            {
-                                dt_grillaE.Clear();
-                                dt_grillaE.Columns.Clear();
-                                da.Fill(dt_grillaE); 
-                                dataGridView1.DataSource = dt_grillaE;
-                            }
-                        }
-                        // buscamos tipo de cambio del día
-                        using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
-                        {
-                            string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
-                            micon.Parameters.AddWithValue("@fec", fcv);
-                            using (MySqlDataReader dr = micon.ExecuteReader())
-                            {
-                                if (dr.HasRows)
-                                {
-                                    if (dr.Read())
-                                    {
-                                        tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString(); //.GetDecimal(0).ToString("#0.00"); //    .ToString("#0.000"); //dr.GetString(0);   // tipo de cambio dolares
-                                        Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3); // Math.Round((decimal)dr.GetFloat(0),3)
-                                        Omonto.tipCOri = Math.Round(dr.GetDecimal(1), 3); // Math.Round((decimal)dr.GetFloat(1),3);  // tipo de cambio euro
-                                        if (Omonto.tipCDol <= 0 || Omonto.tipCOri <= 0)
-                                        {
-                                            MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
-                                                "El tipo de cambio Euros es: " + Omonto.tipCOri.ToString(), "Alerta",MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    var aa = MessageBox.Show("No existen tipos de cambio para la fecha actual" + Environment.NewLine +
-                                        "Desea ingresarlos en este momento?","Atención",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                    if (aa == DialogResult.Yes)
-                                    {
-                                        // llamada a formulario de tipos de cambio
-                                    }
-                                }
-                            }
-                        }
-                        armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Application.Exit();
-                }
-            }
-        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
         private void jalaoc()
         {
             tx_idOper.Text = Oegreso.IdMovim;
@@ -265,39 +192,6 @@ namespace Conticassa
             eti_nomprovee.Text = Oegreso.Proveedor.nombre;
             tx_descrip.Text = Oegreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
-        public void armaGrilla(DataGridView dgv_, int filasLim)
-        {
-            if (dgv_.Rows.Count > 0)
-            {
-                for (int i = 0; i < dgv_.Columns.Count; i++)
-                {
-                    if (i > filasLim)
-                    {
-                        dgv_.Columns[i].Visible = false;
-                    }
-                    else
-                    {
-                        dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-                        _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
-                        if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                    }
-                }
-                int b = 0;
-                for (int i = 0; i < dgv_.Columns.Count; i++)
-                {
-                    int a = dgv_.Columns[i].Width;
-                    b += a;
-                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                    dgv_.Columns[i].Width = a;
-                }
-                if (b < dgv_.Width) dgv_.Width = b - 20;
-                dgv_.ReadOnly = true;
-            }
-            else
-            {
-
-            }
-        }               // ajusta el ancho de las columnas y muestra hasta el limite
 
         #region Botones de comando
         private void Bt_add_Click(object sender, EventArgs e)
@@ -936,7 +830,112 @@ namespace Conticassa
         }
         #endregion
 
-        #region datagridview
+        #region datagridview - Grilla
+        private void jalaGrilla(int dAtras, string ntabla)
+        {
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                try
+                {
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "";
+                        if (ntabla == "cassaomg")
+                        {
+                            consulta = "ConEgre_cassaOmg";
+                        }
+                        if (ntabla == "cassaconti")
+                        {
+                            consulta = "ConEgre_cassaConti";
+                        }
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.CommandType = CommandType.StoredProcedure;
+                            micon.Parameters.AddWithValue("@Vdias", dAtras);
+                            using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                            {
+                                dt_grillaE.Clear();
+                                dt_grillaE.Columns.Clear();
+                                da.Fill(dt_grillaE);
+                                dataGridView1.DataSource = dt_grillaE;
+                            }
+                        }
+                        // buscamos tipo de cambio del día
+                        using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
+                        {
+                            string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
+                            micon.Parameters.AddWithValue("@fec", fcv);
+                            using (MySqlDataReader dr = micon.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    if (dr.Read())
+                                    {
+                                        tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString(); //.GetDecimal(0).ToString("#0.00"); //    .ToString("#0.000"); //dr.GetString(0);   // tipo de cambio dolares
+                                        Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3); // Math.Round((decimal)dr.GetFloat(0),3)
+                                        Omonto.tipCOri = Math.Round(dr.GetDecimal(1), 3); // Math.Round((decimal)dr.GetFloat(1),3);  // tipo de cambio euro
+                                        if (Omonto.tipCDol <= 0 || Omonto.tipCOri <= 0)
+                                        {
+                                            MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
+                                                "El tipo de cambio Euros es: " + Omonto.tipCOri.ToString(), "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var aa = MessageBox.Show("No existen tipos de cambio para la fecha actual" + Environment.NewLine +
+                                        "Desea ingresarlos en este momento?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    if (aa == DialogResult.Yes)
+                                    {
+                                        // llamada a formulario de tipos de cambio
+                                    }
+                                }
+                            }
+                        }
+                        armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                }
+            }
+        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
+        public void armaGrilla(DataGridView dgv_, int filasLim)
+        {
+            if (dgv_.Rows.Count > 0)
+            {
+                for (int i = 0; i < dgv_.Columns.Count; i++)
+                {
+                    if (i > filasLim)
+                    {
+                        dgv_.Columns[i].Visible = false;
+                    }
+                    else
+                    {
+                        dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
+                        if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    }
+                }
+                int b = 0;
+                for (int i = 0; i < dgv_.Columns.Count; i++)
+                {
+                    int a = dgv_.Columns[i].Width;
+                    b += a;
+                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgv_.Columns[i].Width = a;
+                }
+                if (b < dgv_.Width) dgv_.Width = b - 20;
+                dgv_.ReadOnly = true;
+            }
+            else
+            {
+
+            }
+        }                 // ajusta el ancho de las columnas y muestra hasta el limite
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (Tx_modo.Text != "NUEVO")
@@ -1001,7 +1000,25 @@ namespace Conticassa
                 jalaoc();
             }
         }
+        private void insFilaEnDataG()
+        {
+            DataRow fila = dt_grillaE.Rows[0];
+            if (rb_omg.Checked == true)
+            {
+                fila[0] = "";
+                fila[1] = "";
+                // ..
 
+            }
+            if (rb_pers.Checked == true)
+            {
+                fila[0] = "";
+                fila[1] = "";
+                // ..
+
+            }
+            dt_grillaE.Rows.Add(fila);
+        }                                           // INSERTA en la grilla el registro nuevo
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)
@@ -1055,18 +1072,30 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        string corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
-                        if (corre != "error" && corre != "")
+                        if (Tx_modo.Text == "NUEVO")
                         {
-                            Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                Ocajd, Oprove, tx_descrip.Text, corre);
-                            Oegresos.grabaEgreso(conn);
-                            limpiaObj();
-                            limpiaTE();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error en grabar los datos del ingreso", "No se completo la operación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            string corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                            if (corre != "error" && corre != "")
+                            {
+                                try
+                                {
+                                    Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                        Ocajd, Oprove, tx_descrip.Text, corre);
+                                    Oegresos.grabaEgreso(conn);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Error en grabar Egreso");
+                                    return;
+                                }
+                                insFilaEnDataG();       // inserta el registro nuevo en la grilla
+                                limpiaObj();
+                                limpiaTE();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error en grabar los datos del ingreso", "No se completo la operación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
                 }
