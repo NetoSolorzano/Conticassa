@@ -70,9 +70,11 @@ namespace Conticassa
             string tabla = "";
             if (tipMovPrin == "omg") tabla = "cassaomg";
             else tabla = "cassaconti";
-            string consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDE,ImportoSE,ImportoDU," +
-                                "ImportoSU,Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro) values (" +
-                                "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDE,@ISE,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro)";
+            string consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDU,ImportoSU," +
+                                "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
+                                "valorOrig,codimon,nombmon,tcMonOri) values (" +
+                                "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
+                                "@vOrig,@cmon,@nmon,@tcMO)";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
                 ///micon.Parameters.AddWithValue("@tab", tabla);
@@ -82,21 +84,23 @@ namespace Conticassa
                 micon.Parameters.AddWithValue("@DMo", fechOper.Substring(6, 4) + "-" + fechOper.Substring(3, 2) + "-" + fechOper.Substring(0, 2));
                 micon.Parameters.AddWithValue("@IDCo", cajaDes.codigo);
                 micon.Parameters.AddWithValue("@IDCa", catEgreso.codigo);
-                micon.Parameters.AddWithValue("@IDE", 0);                   // importe en dolares entrada 
-                micon.Parameters.AddWithValue("@ISE", 0);                   // importe en soles entrada
-                micon.Parameters.AddWithValue("@IEE", 0);                   // importe en euros entrada
+                //micon.Parameters.AddWithValue("@IEE", 0);                   // importe en euros entrada
                 micon.Parameters.AddWithValue("@IDU", monto.monDolar);    // importe en dolares salida 
                 micon.Parameters.AddWithValue("@ISU", monto.monSoles);    // importe en soles salida
-                micon.Parameters.AddWithValue("@IEU", monto.monEuros);    // importe en euros salida 
+                //micon.Parameters.AddWithValue("@IEU", monto.monEuros);    // importe en euros salida 
                 micon.Parameters.AddWithValue("@Cam", tipCamb);             // tipo de cambio
                 micon.Parameters.AddWithValue("@Des", descrip);
                 micon.Parameters.AddWithValue("@IDG", "");  // luego vemos esto
-                micon.Parameters.AddWithValue("@mon", monto.codMOrige);    // codigo de la moneda origen de la operación
+                micon.Parameters.AddWithValue("@mon", moneda.siglas);    // codigo de la moneda origen de la operación
                 micon.Parameters.AddWithValue("@ctao", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@ctad", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@usua", Program.vg_user);
                 micon.Parameters.AddWithValue("@idan", proveedor.codigo);
                 micon.Parameters.AddWithValue("@tidgiro","");   // esto va con el giroconto creo
+                micon.Parameters.AddWithValue("@vOrig", monto.monOrige);
+                micon.Parameters.AddWithValue("@cmon", moneda.codigo);
+                micon.Parameters.AddWithValue("@nmon", moneda.nombre);
+                micon.Parameters.AddWithValue("@tcMO", monto.tipCOri);
                 micon.ExecuteNonQuery();
             }
         }

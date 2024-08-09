@@ -13,7 +13,7 @@ namespace Conticassa
         string DB_CONN_STR = "server=" + Login.serv + ";port=" + Login.port + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data +
             ";ConnectionLifeTime=" + Login.ctl + ";";
         // datos de la grilla
-        DataTable dt_grilla = new DataTable();
+        internal DataTable dt_grillaE = new DataTable();
         //
         publicoConf conf = new publicoConf();
         AutoCompleteStringCollection acsc = new AutoCompleteStringCollection();     // categorias
@@ -27,17 +27,18 @@ namespace Conticassa
         montos Omonto = new montos();                                               // Objeto monto
         //
         Egresos Oegreso = new Egresos();
+        //Finan_Ingres OFIngresos = new Finan_Ingres();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
         int limCols = 1;                                                            // limite de columnas que muestra la grilla
         public Finan_Egres()
         {
-            InitializeComponent();
-            CargaINI(this);
-            CargaFormatos();
-            chk_giroC_CheckedChanged(null, null);
-            sololee("T");   // T=todos los campos, "" ó "C" campos comunes
-            jalainfo();
+            InitializeComponent();                  // inicializa los objetos graficos
+            CargaINI(this);                         // colorea los objetos graficos
+            CargaFormatos();                        // jala datos de combos y demas
+            chk_giroC_CheckedChanged(null, null);   // 
+            sololee("T");                           // T=todos los campos, "" ó "C" campos comunes
+            jalainfo();                             // jala variables de tabla enlace
         }
         private void Finan_Egres_KeyDown(object sender, KeyEventArgs e)
         {
@@ -201,10 +202,10 @@ namespace Conticassa
                             micon.Parameters.AddWithValue("@Vdias", dAtras);
                             using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
                             {
-                                dt_grilla.Clear();
-                                dt_grilla.Columns.Clear();
-                                da.Fill(dt_grilla);     // me quede aca, error al pasar de omg a personal
-                                dataGridView1.DataSource = dt_grilla;
+                                dt_grillaE.Clear();
+                                dt_grillaE.Columns.Clear();
+                                da.Fill(dt_grillaE); 
+                                dataGridView1.DataSource = dt_grillaE;
                             }
                         }
                         // buscamos tipo de cambio del día
@@ -353,7 +354,7 @@ namespace Conticassa
         #endregion
 
         #region limpiadores, readonlys
-        private void limiaObj()
+        private void limpiaObj()
         {
             OcatEg.codigo = "";                                       // Objeto categoría de egreso
             OcatEg.nombre = "";
@@ -409,6 +410,8 @@ namespace Conticassa
             rb_pers.Enabled = true;
             chk_datSimil.Enabled = true;
             chk_giroC.Enabled = true;
+            cmb_mon.SelectedIndex = -1;
+            cmb_mon_SelectedIndexChanged(null, null);
         }
         private void sololee(string quien)  //    // T=todos los campos, "" ó "C" campos comunes
         {
@@ -432,7 +435,7 @@ namespace Conticassa
         }
         #endregion
 
-        #region radiobotones y checks   // me quede aca revisando si pasamos a clase o hacerlo publico
+        #region radiobotones y checks
         private void rb_omg_Click(object sender, EventArgs e)
         {
             if (rb_omg.Checked == true)
@@ -551,8 +554,9 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CAM' and descrizionerid='" + Tx_catEgre.Text.Trim() + "'");
                 eti_nomCat.Text = nc[0].ItemArray[2].ToString();
-                OcatEg.codigo = Tx_catEgre.Text;
-                OcatEg.nombre = eti_nomCat.Text;
+                OcatEg.codigo = nc[0].ItemArray[1].ToString();
+                OcatEg.nombre = Tx_catEgre.Text;
+                OcatEg.largo = eti_nomCat.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -568,8 +572,9 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + Tx_ctaDes.Text.Trim() + "'");
                 eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
-                Ocajd.codigo = Tx_ctaDes.Text;
-                Ocajd.nombre = eti_nomCaja.Text;
+                Ocajd.codigo = nc[0].ItemArray[1].ToString();
+                Ocajd.nombre = Tx_ctaDes.Text;
+                Ocajd.largo = eti_nomCaja.Text;
                 SendKeys.Send("{TAB}");
             }
         }
@@ -661,7 +666,7 @@ namespace Conticassa
                 string[] retu = ValiIdOper();
                 if (retu[0] == "")
                 {
-                    limiaObj();
+                    limpiaObj();
                     limpiaTE();
                     MessageBox.Show("No existe el código de operación");
                 }
@@ -738,8 +743,7 @@ namespace Conticassa
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    // acá tenemos que ver el asunto de los cambios 
-                    // a los moneda soles dolares y euros
+                    calc_monedas(cmb_mon, monti, decimal.Parse(tx_tipcam.Text));
                 }
             }
         }
@@ -911,18 +915,25 @@ namespace Conticassa
         #region combos
         private void cmb_mon_SelectedValueChanged(object sender, EventArgs e)
         {
-            Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
-            Omone.siglas = cmb_mon.Text;    // siglas de la moneda
-            Omone.nombre = "";              // nombre de la moneda
-
-            // buscamos su tipo de cambio
-
-            Omonto.codMOrige = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
-            Omonto.monDolar = 0;        // estos importes 
-            Omonto.monEuros = 0;        // serán calculados en
-            Omonto.monSoles = 0;        // el valid del campo monto
+            if (Tx_modo.Text != "" && (cmb_mon.SelectedValue != null && cmb_mon.SelectedValue.ToString() != ""))
+            {
+                Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+                Omone.siglas = cmb_mon.Text;    // siglas de la moneda
+                DataRow[] row = Program.dt_definic.Select("idtabella='MON' and idcodice='" + Omone.codigo + "'");
+                Omone.nombre = row[0].ItemArray[2].ToString();
+                if (tx_monto.Text != "" && tx_tipcam.Text != "") calc_monedas(cmb_mon, decimal.Parse(tx_monto.Text), decimal.Parse(tx_tipcam.Text));
+            }
         }   // selección de moneda
-
+        private void cmb_mon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_mon.SelectedIndex > -1 && (cmb_mon.SelectedValue != null && cmb_mon.SelectedValue.ToString() != ""))
+            {
+                Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+                Omone.siglas = cmb_mon.Text;    // siglas de la moneda
+                DataRow[] row = Program.dt_definic.Select("idtabella='MON' and idcodice='" + Omone.codigo + "'");
+                if (row.Length > 1) Omone.nombre = row[0].ItemArray[2].ToString();
+            }
+        }
         #endregion
 
         #region datagridview
@@ -1010,6 +1021,13 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(Tx_ctaDes, "");
+            if (cmb_mon.Text == "")
+            {
+                errorProvider1.SetError(cmb_mon, "Debe seleccionar la moneda");
+                cmb_mon.Focus();
+                return;
+            }
+            errorProvider1.SetError(cmb_mon, "");
             if (tx_monto.Text == "")
             {
                 errorProvider1.SetError(tx_monto, "Debe ingresar un valor");
@@ -1018,7 +1036,7 @@ namespace Conticassa
             }
             errorProvider1.SetError(tx_monto, "");
 
-            var aaa = MessageBox.Show("Confirma que desea crear el egreso?","Confirme por favor",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var aaa = MessageBox.Show("Confirma que desea crear el Egreso?","Confirme por favor",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (aaa == DialogResult.Yes)
             {
                 string fecOp = selecFecha1.Value.Date.ToShortDateString();
@@ -1037,13 +1055,102 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text), 
-                            Ocajd, Oprove, tx_descrip.Text, "");
-                        Oegresos.grabaEgreso(conn);
+                        string corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                        if (corre != "error" && corre != "")
+                        {
+                            Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                Ocajd, Oprove, tx_descrip.Text, corre);
+                            Oegresos.grabaEgreso(conn);
+                            limpiaObj();
+                            limpiaTE();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error en grabar los datos del ingreso", "No se completo la operación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
         }
+        public void calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
+        {
+            if (valOri <= 0) return;
+            if (tipCam <= 0) return;
+            if (combo.SelectedValue == null) return;
+            Omonto.codMOrige = combo.SelectedValue.ToString();              // codigo de la moneda
+            Omonto.monOrige = valOri;
+            if (combo.SelectedValue.ToString() == "MON001") // Soles
+            {
+                Omonto.monSoles = valOri;
+                Omonto.tipCDol = tipCam;
+                Omonto.monDolar = Math.Round((valOri / tipCam), 2);
+                Omonto.tipCOri = tipCam;
+            }
+            if (combo.SelectedValue.ToString() == "MON002") // Dolares
+            {
+                Omonto.tipCDol = tipCam;
+                Omonto.monDolar = valOri;
+                Omonto.monSoles = Math.Round((valOri * tipCam), 2);
+                Omonto.tipCOri = tipCam;
+            }
+            if (combo.SelectedValue.ToString() == "MON003") // Euros
+            {
+                Omonto.tipCDol = 0;
+                Omonto.monEuros = valOri;
+                Omonto.tipCOri = tipCam;
+                Omonto.monSoles = Math.Round((valOri * tipCam), 2);
+            }
+        }
+        public string correlativo(MySqlConnection conn, string idcont, int year)
+        {
+            string retorna = "";
+            int contador = 0;
+            string consulta = "select numero from contatori where idbanco='LIM' and anno=@year and idcontatore=@idcont";
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+                micon.Parameters.AddWithValue("@year", year);
+                micon.Parameters.AddWithValue("@idcont", idcont);
+                using (MySqlDataReader dr = micon.ExecuteReader())
+                {
+                    if (dr.HasRows)
+                    {
+                        if (dr.Read())
+                        {
+                            contador = dr.GetInt32(0) + 1;
+                            retorna = CDerecha("00000000000000" + contador.ToString(), 15);
+                        }
+                    }
+                    else
+                    {
+                        retorna = "error";
+                    }
+                }
+            }
+            if (retorna != "error" && retorna != "")
+            {
+                using (MySqlCommand micon = new MySqlCommand("update contatori set numero=@contador where idbanco='LIM' and anno=@year and idcontatore=@idcont", conn))
+                {
+                    micon.Parameters.AddWithValue("@year", year);
+                    micon.Parameters.AddWithValue("@idcont", idcont);
+                    micon.Parameters.AddWithValue("@contador", contador);
+                    micon.ExecuteNonQuery();
+                }
+            }
+            return retorna;
+        }
+        public string CDerecha(string sValue, int iMaxLength)
+        {
+            if (string.IsNullOrEmpty(sValue))
+            {
+                sValue = string.Empty;
+            }
+            else if (sValue.Length > iMaxLength)
+            {
+                sValue = sValue.Substring(sValue.Length - iMaxLength, iMaxLength);
+            }
+            return sValue;
+        }                  // devuelve los ultimos n caractares desde la derecha
+
 
     }
 }
