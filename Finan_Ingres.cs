@@ -35,12 +35,12 @@ namespace Conticassa
 
         public Finan_Ingres()
         {
-            InitializeComponent();
-            CargaINI(this);
-            CargaFormatos();
-            chk_giroC_CheckedChanged(null, null);
-            sololee("T");   // T=todos los campos, "" ó "C" campos comunes
-            jalainfo();
+            InitializeComponent();                  // inicializa los objetos graficos
+            CargaINI(this);                         // colorea los objetos graficos
+            CargaDatos();                           // jala datos de combos y demas
+            chk_giroC_CheckedChanged(null, null);   // 
+            sololee("T");                           // T=todos los campos, "" ó "C" campos comunes
+            jalainfo();                             // jala variables de tabla enlace
         }
 
         private void Finan_Ingres_KeyDown(object sender, KeyEventArgs e)
@@ -108,7 +108,7 @@ namespace Conticassa
             // Call the base class
             return base.ProcessCmdKey(ref msg, keyData);
         }    // F1 
-        private void CargaFormatos()
+        private void CargaDatos()
         {
             // categorias
             acsc = new AutoCompleteStringCollection();
@@ -356,7 +356,7 @@ namespace Conticassa
             chk_datSimil.Enabled = true;
             chk_giroC.Enabled = true;
             cmb_mon.Enabled = true;
-            cmb_mon.SelectedIndex = 0;
+            cmb_mon.SelectedIndex = -1;
             cmb_mon_SelectedIndexChanged(null, null);
         }
         private void sololee(string quien)  //    // T=todos los campos, "" ó "C" campos comunes
@@ -666,8 +666,7 @@ namespace Conticassa
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    // acá tenemos que ver el asunto de los cambios 
-                    // a los moneda soles dolares y euros
+                    calc_monedas(cmb_mon, monti, decimal.Parse(tx_tipcam.Text));
                 }
             }
         }
@@ -677,24 +676,23 @@ namespace Conticassa
         #region combos
         private void cmb_mon_SelectedValueChanged(object sender, EventArgs e)
         {
-            Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
-            Omone.siglas = cmb_mon.Text;    // siglas de la moneda
-            Omone.nombre = "";              // nombre de la moneda
-
-            // buscamos su tipo de cambio
-
-            Omonto.codMOrige = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
-            Omonto.monDolar = 0;        // estos importes 
-            Omonto.monEuros = 0;        // serán calculados en
-            Omonto.monSoles = 0;        // el valid del campo monto
-        }   // selección de moneda
-        private void cmb_mon_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmb_mon.SelectedIndex > -1)
+            if (Tx_modo.Text != "" && (cmb_mon.SelectedValue != null && cmb_mon.SelectedValue.ToString() != ""))
             {
                 Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
                 Omone.siglas = cmb_mon.Text;    // siglas de la moneda
-                Omone.nombre = "";
+                DataRow[] row = Program.dt_definic.Select("idtabella='MON' and idcodice='" + Omone.codigo + "'");
+                Omone.nombre = row[0].ItemArray[2].ToString();
+                if (tx_monto.Text != "" && tx_tipcam.Text != "") calc_monedas(cmb_mon, decimal.Parse(tx_monto.Text), decimal.Parse(tx_tipcam.Text));
+            }
+        }   // selección de moneda
+        private void cmb_mon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmb_mon.SelectedIndex > -1 && (cmb_mon.SelectedValue != null && cmb_mon.SelectedValue.ToString() != ""))
+            {
+                Omone.codigo = cmb_mon.SelectedValue.ToString();              // codigo de la moneda
+                Omone.siglas = cmb_mon.Text;    // siglas de la moneda
+                DataRow[] row = Program.dt_definic.Select("idtabella='MON' and idcodice='" + Omone.codigo + "'");
+                if (row.Length > 1) Omone.nombre = row[0].ItemArray[2].ToString();
             }
         }
         #endregion
@@ -781,6 +779,13 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(Tx_ctaDes, "");
+            if (cmb_mon.Text == "")
+            {
+                errorProvider1.SetError(cmb_mon, "Debe seleccionar la moneda");
+                cmb_mon.Focus();
+                return;
+            }
+            errorProvider1.SetError(cmb_mon, "");
             if (tx_monto.Text == "")
             {
                 errorProvider1.SetError(tx_monto, "Debe ingresar un valor");
@@ -822,8 +827,36 @@ namespace Conticassa
                     }
                 }
             }
+        }                // graba el registro
+        public void calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
+        {
+            if (valOri <= 0) return;
+            if (tipCam <= 0) return;
+            if (combo.SelectedValue == null) return;
+            Omonto.codMOrige = combo.SelectedValue.ToString();              // codigo de la moneda
+            Omonto.monOrige = valOri;
+            if (combo.SelectedValue.ToString() == "MON001") // Soles
+            {
+                Omonto.monSoles = valOri;
+                Omonto.tipCDol = tipCam;
+                Omonto.monDolar = Math.Round((valOri / tipCam), 2);
+                Omonto.tipCOri = tipCam;
+            }
+            if (combo.SelectedValue.ToString() == "MON002") // Dolares
+            {
+                Omonto.tipCDol = tipCam;
+                Omonto.monDolar = valOri;
+                Omonto.monSoles = Math.Round((valOri * tipCam), 2);
+                Omonto.tipCOri = tipCam;
+            }
+            if (combo.SelectedValue.ToString() == "MON003") // Euros
+            {
+                Omonto.tipCDol = 0;
+                Omonto.monEuros = valOri;
+                Omonto.tipCOri = tipCam;
+                Omonto.monSoles = Math.Round((valOri * tipCam), 2);
+            }
         }
-
         public string correlativo(MySqlConnection conn, string idcont, int year)
         {
             string retorna = "";
