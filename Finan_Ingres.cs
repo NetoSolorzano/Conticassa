@@ -593,7 +593,7 @@ namespace Conticassa
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    oFEgres.calc_monedas(cmb_mon, monti, cambi);
+                    Omonto = oFEgres.calc_monedas(cmb_mon, monti, cambi);
                 }
             }
         }
@@ -607,7 +607,7 @@ namespace Conticassa
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    oFEgres.calc_monedas(cmb_mon, monti, cambi);
+                    Omonto = oFEgres.calc_monedas(cmb_mon, monti, cambi);
                 }
             }
         }

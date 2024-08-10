@@ -1159,11 +1159,11 @@ namespace Conticassa
                 }
             }
         }
-        public void calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
+        public montos calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
         {
-            if (valOri <= 0) return;
-            if (tipCam <= 0) return;
-            if (combo.SelectedValue == null) return;
+            if (valOri <= 0) return Omonto;
+            if (tipCam <= 0) return Omonto;
+            if (combo.SelectedValue == null) return Omonto;
             Omonto.codMOrige = combo.SelectedValue.ToString();              // codigo de la moneda
             Omonto.monOrige = valOri;
             if (combo.SelectedValue.ToString() == "MON001") // Soles
@@ -1187,6 +1187,7 @@ namespace Conticassa
                 Omonto.tipCOri = tipCam;
                 Omonto.monSoles = Math.Round((valOri * tipCam), 2);
             }
+            return Omonto;
         }
         public string correlativo(MySqlConnection conn, string idcont, int year)
         {
