@@ -215,6 +215,13 @@ namespace Conticassa
         private void Bt_anul_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "BORRAR";
+            rb_pers.Checked = true;
+            rb_pers_Click(null, null);
+            sololee("");
+            pan_p.Enabled = true;
+            rb_omg.Enabled = true;
+            rb_pers.Enabled = true;
+            tx_idOper.Focus();
         }
         private void Bt_ver_Click(object sender, EventArgs e)
         {
@@ -1079,7 +1086,26 @@ namespace Conticassa
         }                                           // INSERTA en la grilla el registro nuevo despues de grabar en la B.D.
         #endregion
 
+        #region boton Grabar
         private void Bt_graba_Click(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO")
+            {
+                graba_nuevo();
+            }
+            if (Tx_modo.Text == "EDICION")
+            {
+                graba_edicion();
+            }
+            if (Tx_modo.Text == "BORRAR")
+            {
+                string tabla = "";
+                if (rb_omg.Checked == true) tabla = "cassaomg";
+                else tabla = "cassaconti";
+                graba_borrar(tabla, selecFecha1.Value.Year.ToString(),"000000000" + CDerecha(tx_idOper.Text, 6));
+            }
+        }
+        private void graba_nuevo()
         {
             // validamos datos esenciales
             if (Tx_catEgre.Text == "")
@@ -1111,7 +1137,7 @@ namespace Conticassa
             }
             errorProvider1.SetError(tx_monto, "");
 
-            var aaa = MessageBox.Show("Confirma que desea crear el Egreso?","Confirme por favor",MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var aaa = MessageBox.Show("Confirma que desea crear el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (aaa == DialogResult.Yes)
             {
                 string fecOp = selecFecha1.Value.Date.ToShortDateString();
@@ -1130,7 +1156,7 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        if (Tx_modo.Text == "NUEVO")
+                        if (true)   // Tx_modo.Text == "NUEVO"
                         {
                             string corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
                             if (corre != "error" && corre != "")
@@ -1159,6 +1185,59 @@ namespace Conticassa
                 }
             }
         }
+        private void graba_edicion()
+        {
+
+        }
+        private void graba_borrar(string tabla, string year, string idmov)
+        {
+            // validamos que exista registro que borrar
+            if (tx_idOper.Text == "")
+            {
+                MessageBox.Show("No hay registro que borrar!", "Identificador en blanco", MessageBoxButtons.OK,MessageBoxIcon.Hand);
+                return;
+            }
+            var aaa = MessageBox.Show("Confirma que desea BORRAR el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (aaa == DialogResult.Yes)
+            {
+                // borra en la tabla
+                // borra en la grilla
+                using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                {
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Application.Exit();
+                        return;
+                    }
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "delete from " + tabla + " where anno=@year and idmovimento=@corre";
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.Parameters.AddWithValue("@year", year);
+                            micon.Parameters.AddWithValue("@corre", idmov);
+                            micon.ExecuteNonQuery();
+                        }
+                        for (int i = dt_grillaE.Rows.Count - 1; i >= 0; i--)
+                        {
+                            DataRow dr = dt_grillaE.Rows[i];
+                            if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
+                                dr.Delete();
+                        }
+                        dt_grillaE.AcceptChanges();
+                        limpiaObj();
+                        limpiaTE();
+                    }
+                }
+            }
+        }
+        #endregion
+
         public montos calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
         {
             if (valOri <= 0) return Omonto;
