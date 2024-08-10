@@ -159,78 +159,6 @@ namespace Conticassa
             row = Program.dt_enlaces.Select("formulario='" + nomForm + "' and campo='grillas' and param='limCols'");
             limCols = int.Parse(row[0]["valor"].ToString());
         }
-        private void jalaGrilla(int dAtras, string ntabla)
-        {
-            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
-            {
-                try
-                {
-                    conn.Open();
-                    if (conn.State == ConnectionState.Open)
-                    {
-                        string consulta = "";
-                        if (ntabla == "cassaomg")
-                        {
-                            consulta = "ConIngre_cassaOmg";
-                        }
-                        if (ntabla == "cassaconti")
-                        {
-                            consulta = "ConIngre_cassaConti";
-                        }
-                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
-                        {
-                            micon.CommandType = CommandType.StoredProcedure;
-                            micon.Parameters.AddWithValue("@Vdias", dAtras);
-                            using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
-                            {
-                                dt_grillaI.Clear();
-                                dt_grillaI.Columns.Clear();
-                                da.Fill(dt_grillaI);     // me quede aca, error al pasar de omg a personal
-                                dataGridView1.DataSource = dt_grillaI;
-                            }
-                        }
-                        // buscamos tipo de cambio del día
-                        using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
-                        {
-                            string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
-                            micon.Parameters.AddWithValue("@fec", fcv);
-                            using (MySqlDataReader dr = micon.ExecuteReader())
-                            {
-                                if (dr.HasRows)
-                                {
-                                    if (dr.Read())
-                                    {
-                                        tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString();
-                                        Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3);
-                                        Omonto.tipCOri = Math.Round(dr.GetDecimal(1), 3);
-                                        if (Omonto.tipCDol <= 0 || Omonto.tipCOri <= 0)
-                                        {
-                                            MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
-                                                "El tipo de cambio Euros es: " + Omonto.tipCOri.ToString(), "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    var aa = MessageBox.Show("No existen tipos de cambio para la fecha actual" + Environment.NewLine +
-                                        "Desea ingresarlos en este momento?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                    if (aa == DialogResult.Yes)
-                                    {
-                                        // llamada a formulario de tipos de cambio
-                                    }
-                                }
-                            }
-                        }
-                        oFEgres.armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    Application.Exit();
-                }
-            }
-        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
         private void jalaoc()
         {
             tx_idOper.Text = Oingreso.IdMovim;
@@ -657,14 +585,29 @@ namespace Conticassa
         }     // busca en toda la base de datos
         private void tx_monto_Validating(object sender, CancelEventArgs e)
         {
-            decimal monti = 0;
+            decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
+            decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    oFEgres.calc_monedas(cmb_mon, monti, decimal.Parse(tx_tipcam.Text));
+                    oFEgres.calc_monedas(cmb_mon, monti, cambi);
+                }
+            }
+        }
+        private void tx_tipcam_Validating(object sender, CancelEventArgs e)
+        {
+            decimal monti = 0; decimal cambi = 0;
+            decimal.TryParse(tx_monto.Text, out monti);
+            decimal.TryParse(tx_tipcam.Text, out cambi);
+            if (Tx_modo.Text == "NUEVO" && monti > 0)
+            {
+                Omonto.monOrige = monti;
+                if (true)
+                {
+                    oFEgres.calc_monedas(cmb_mon, monti, cambi);
                 }
             }
         }
@@ -757,7 +700,138 @@ namespace Conticassa
                 jalaoc();
             }
         }
-
+        private void insFilaEnDataG(string _casa, string _corre)
+        {
+            DataRow fila = dt_grillaI.NewRow();
+            string fecOp = selecFecha1.Value.Date.ToShortDateString();
+            if (rb_omg.Checked == true)
+            {
+                // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                // , , Omone, Omonto, decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text, corre
+                fila["CASA"] = _casa;
+                fila["ID_MOVIM"] = _corre;
+                fila["FECHA"] = fecOp;
+                fila["DESTINO"] = Ocajd.nombre;     // nombre cuenta destino
+                fila["INGRESO"] = OcatIn.nombre;     // nombre categoria egreso
+                fila["MONEDA"] = Omone.siglas;      // siglas moneda origen
+                fila["MONTO"] = Omonto.monOrige;    // valor origen
+                fila["DESCRIPCION"] = tx_descrip.Text;
+                fila["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                //fila["PROVEEDOR"] = Oprove.nombre;
+                fila["GIRO_CTA"] = "";
+                fila["idgiroconto"] = "";
+                fila["CTA_DESTINO"] = "";
+                fila["usuario"] = Program.vg_user;
+                //fila["dia"] = "";
+                fila["ImportoDE"] = Omonto.monDolar;
+                fila["ImportoSE"] = Omonto.monSoles;
+                //fila["idanagrafica"] = Oprove.codigo;
+                fila["IDDestino"] = Ocajd.codigo;
+                fila["IDCategoria"] = OcatIn.codigo;
+            }
+            if (rb_pers.Checked == true)
+            {
+                // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                fila["CASA"] = _casa;
+                fila["ID_MOVIM"] = _corre;
+                fila["FECHA"] = fecOp;
+                fila["CUENTA"] = Ocajd.nombre;
+                fila["INGRESO"] = OcatIn.nombre;
+                fila["MONEDA"] = Omone.siglas;
+                fila["MONTO"] = Omonto.monOrige;
+                fila["DESCRIPCION"] = tx_descrip.Text;
+                fila["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                //fila["PROVEEDOR"] = Oprove.nombre;
+                fila["GIRO_CTA"] = "";
+                fila["IDGiroConto"] = "";
+                fila["CTA_DESTINO"] = "";
+                fila["usuario"] = Program.vg_user;
+                //fila["dia"] = "";
+                fila["ImportoDE"] = Omonto.monDolar;
+                fila["ImportoSE"] = Omonto.monSoles;
+                //fila["idanagrafica"] = Oprove.codigo;
+                fila["IDConto"] = Ocajd.codigo;
+                fila["IDCategoria"] = OcatIn.codigo;
+                fila["codimon"] = Omone.codigo;
+                fila["nombmon"] = Omone.nombre;
+                fila["TCMonOri"] = Omonto.tipCOri;
+            }
+            dt_grillaI.Rows.InsertAt(fila, 0);
+        }                                           // INSERTA en la grilla el registro nuevo despues de grabar en la B.D.
+        private void jalaGrilla(int dAtras, string ntabla)
+        {
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                try
+                {
+                    conn.Open();
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "";
+                        if (ntabla == "cassaomg")
+                        {
+                            consulta = "ConIngre_cassaOmg";
+                        }
+                        if (ntabla == "cassaconti")
+                        {
+                            consulta = "ConIngre_cassaConti";
+                        }
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.CommandType = CommandType.StoredProcedure;
+                            micon.Parameters.AddWithValue("@Vdias", dAtras);
+                            using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                            {
+                                dt_grillaI.Clear();
+                                dt_grillaI.Columns.Clear();
+                                da.Fill(dt_grillaI);     // me quede aca, error al pasar de omg a personal
+                                dataGridView1.DataSource = dt_grillaI;
+                            }
+                        }
+                        // buscamos tipo de cambio del día
+                        using (MySqlCommand micon = new MySqlCommand("select ifnull(Cambio1,0),ifnull(Cambio2,0) from cambi where date(datavaluta)=@fec", conn))  // dolares,euros
+                        {
+                            string fcv = selecFecha1.Value.ToString().Substring(6, 4) + "-" + selecFecha1.Value.ToString().Substring(3, 2) + "-" + selecFecha1.Value.ToString().Substring(0, 2);
+                            micon.Parameters.AddWithValue("@fec", fcv);
+                            using (MySqlDataReader dr = micon.ExecuteReader())
+                            {
+                                if (dr.HasRows)
+                                {
+                                    if (dr.Read())
+                                    {
+                                        tx_tipcam.Text = Math.Round(dr.GetDecimal(0), 3).ToString();
+                                        Omonto.tipCDol = Math.Round(dr.GetDecimal(0), 3);
+                                        Omonto.tipCOri = Math.Round(dr.GetDecimal(1), 3);
+                                        if (Omonto.tipCDol <= 0 || Omonto.tipCOri <= 0)
+                                        {
+                                            MessageBox.Show("El tipo de cambio Dólares es: " + Omonto.tipCDol.ToString() + Environment.NewLine +
+                                                "El tipo de cambio Euros es: " + Omonto.tipCOri.ToString(), "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var aa = MessageBox.Show("No existen tipos de cambio para la fecha actual" + Environment.NewLine +
+                                        "Desea ingresarlos en este momento?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                                    if (aa == DialogResult.Yes)
+                                    {
+                                        // llamada a formulario de tipos de cambio
+                                    }
+                                }
+                            }
+                        }
+                        oFEgres.armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                }
+            }
+        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)
@@ -811,22 +885,35 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        string corre = oFEgres.correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
-                        if (corre != "error" && corre != "")
+                        if (Tx_modo.Text == "NUEVO")
                         {
-                            Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                Ocajd, tx_descrip.Text, corre);
-                            Oingresos.grabaIngreso(conn);
-                            limpiaObj();
-                            limpiaTE();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error en grabar los datos del ingreso","No se completo la operación",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                            string corre = oFEgres.correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                            if (corre != "error" && corre != "")
+                            {
+                                try
+                                {
+                                    Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                        Ocajd, tx_descrip.Text, corre);
+                                    Oingresos.grabaIngreso(conn);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Error en grabar el Ingreso");
+                                    return;
+                                }
+                                insFilaEnDataG("LIM", fecOp.Substring(6, 4) + oFEgres.CDerecha("00000" + corre, 6));       // inserta el registro nuevo en la grilla
+                                limpiaObj();
+                                limpiaTE();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error en grabar los datos del ingreso", "No se completo la operación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
                 }
             }
         }                // graba el registro
+
     }
 }

@@ -257,6 +257,7 @@
             this.tx_tipcam.Size = new System.Drawing.Size(77, 15);
             this.tx_tipcam.TabIndex = 68;
             this.tx_tipcam.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tx_tipcam.Validating += new System.ComponentModel.CancelEventHandler(this.tx_tipcam_Validating);
             // 
             // generalEtiqueta1
             // 
@@ -859,7 +860,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(238)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(832, 332);
             this.Controls.Add(this.linV1);

@@ -27,7 +27,6 @@ namespace Conticassa
         montos Omonto = new montos();                                               // Objeto monto
         //
         Egresos Oegreso = new Egresos();
-        //Finan_Ingres OFIngresos = new Finan_Ingres();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
         int limCols = 1;                                                            // limite de columnas que muestra la grilla
@@ -544,16 +543,28 @@ namespace Conticassa
         {
             if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
             {
-                Oprove = ValiProvee(tx_provee.Text);
-                if (Oprove.nombre == "")
+                if (tx_provee.Text.Trim() != "")
+                {
+                    Oprove = ValiProvee(tx_provee.Text);
+                    if (Oprove.nombre == "")
+                    {
+                        eti_nomprovee.Text = "";
+                        tx_provee.Text = "";
+                        MessageBox.Show("No existe el código de proveedor");
+                    }
+                    else
+                    {
+                        eti_nomprovee.Text = Oprove.nombre;
+                    }
+                }
+                else
                 {
                     eti_nomprovee.Text = "";
                     tx_provee.Text = "";
-                    MessageBox.Show("No existe el código de proveedor");
                 }
             }
         }
-        private void tx_idOper_Validating(object sender, CancelEventArgs e)     // busca en toda la base de datos
+        private void tx_idOper_Validating(object sender, CancelEventArgs e)       // busca en toda la base de datos
         {
             if (tx_idOper.Text.Trim() != "" && ("NUEVO,EDICION").Contains(Tx_modo.Text))
             {
@@ -630,18 +641,32 @@ namespace Conticassa
         }
         private void tx_monto_Validating(object sender, CancelEventArgs e)
         {
-            decimal monti = 0;
+            decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
+            decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
                 Omonto.monOrige = monti;
                 if (true)
                 {
-                    calc_monedas(cmb_mon, monti, decimal.Parse(tx_tipcam.Text));
+                    calc_monedas(cmb_mon, monti, cambi);
                 }
             }
         }
-
+        private void tx_tipcam_Validating(object sender, CancelEventArgs e)
+        {
+            decimal monti = 0; decimal cambi = 0;
+            decimal.TryParse(tx_monto.Text, out monti);
+            decimal.TryParse(tx_tipcam.Text, out cambi);
+            if (Tx_modo.Text == "NUEVO" && monti > 0)
+            {
+                Omonto.monOrige = monti;
+                if (true)
+                {
+                    calc_monedas(cmb_mon, monti, cambi);
+                }
+            }
+        }
         public string[] ValiIdOper()
         {
             string[] retorna = { "", "", "", "", "", "", "", "", "", "",
@@ -729,10 +754,9 @@ namespace Conticassa
                 }
             }
             return retorna;
-        }           // valida idOper, si hay jala datos, sino No
+        }                                           // valida idOper, si hay jala datos, sino No
         public provees ValiProvee(string idAnag)
         {
-            //bool retorna = false;
             provees retona = new provees();
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
@@ -741,7 +765,7 @@ namespace Conticassa
                     conn.Open();
                     if (conn.State == ConnectionState.Open)
                     {
-                        using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where idanagrafica=@codi", conn))
+                        using (MySqlCommand micon = new MySqlCommand("select ragionesociale from anag_for where TRIM(idanagrafica)=@codi", conn))
                         {
                             micon.Parameters.AddWithValue("@codi", idAnag.Trim());
                             using (MySqlDataReader dr = micon.ExecuteReader())
@@ -752,9 +776,6 @@ namespace Conticassa
                                     {
                                         if (dr[0] != null && dr[0].ToString() != "")
                                         {
-                                            //eti_nomprovee.Text = dr[0].ToString();
-                                            //Oprove.codigo = tx_provee.Text;
-                                            //Oprove.nombre = eti_nomprovee.Text;
                                             retona.codigo = idAnag;
                                             retona.nombre = dr[0].ToString();
                                         }
@@ -762,8 +783,6 @@ namespace Conticassa
                                 }
                                 else
                                 {
-                                    //Oprove.codigo = "";
-                                    //Oprove.nombre = "";
                                     retona.codigo = "";
                                     retona.nombre = "";
                                 }
@@ -774,14 +793,12 @@ namespace Conticassa
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    //tx_provee.Text = "";
-                    //eti_nomprovee.Text = "";
                     retona.codigo = "";
                     retona.nombre = "";
                 }
             }
             return retona;
-        }           // valida existencia del proveedor
+        }                               // valida existencia del proveedor
         public bool ValiCtaCon(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
@@ -792,7 +809,7 @@ namespace Conticassa
                 retorna = true;
             }
             return retorna;
-        }           // valida existencia de la cuenta destino
+        }                                 // valida existencia de la cuenta destino
         public bool Vali_CAM(string _nombre)
         {
             // validamos la existencia del nombre en ... descrizionerid
@@ -1000,25 +1017,66 @@ namespace Conticassa
                 jalaoc();
             }
         }
-        private void insFilaEnDataG()
+        private void insFilaEnDataG(string _casa, string _corre)
         {
-            DataRow fila = dt_grillaE.Rows[0];
+            DataRow fila = dt_grillaE.NewRow();
+            string fecOp = selecFecha1.Value.Date.ToShortDateString();
             if (rb_omg.Checked == true)
             {
-                fila[0] = "";
-                fila[1] = "";
-                // ..
-
+                // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                // , , Omone, Omonto, decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text, corre
+                fila["CASA"] = _casa;
+                fila["ID_MOVIM"] = _corre;
+                fila["FECHA"] = fecOp;
+                fila["DESTINO"] = Ocajd.nombre;     // nombre cuenta destino
+                fila["EGRESO"] = OcatEg.nombre;     // nombre categoria egreso
+                fila["MONEDA"] = Omone.siglas;      // siglas moneda origen
+                fila["MONTO"] = Omonto.monOrige;    // valor origen
+                fila["DESCRIPCION"] = tx_descrip.Text;
+                fila["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                fila["PROVEEDOR"] = Oprove.nombre;
+                fila["GIRO_CTA"] = "";
+                fila["idgiroconto"] = "";
+                fila["CTA_DESTINO"] = "";
+                fila["usuario"] = Program.vg_user;
+                //fila["dia"] = "";
+                fila["ImportoDU"] = Omonto.monDolar;
+                fila["ImportoSU"] = Omonto.monSoles;
+                fila["idanagrafica"] = Oprove.codigo;
+                fila["IDDestino"] = Ocajd.codigo;
+                fila["IDCategoria"] = OcatEg.codigo;
             }
             if (rb_pers.Checked == true)
             {
-                fila[0] = "";
-                fila[1] = "";
-                // ..
-
+                // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                fila["CASA"] = _casa;
+                fila["ID_MOVIM"] = _corre;
+                fila["FECHA"] = fecOp;
+                fila["CUENTA"] = Ocajd.nombre;
+                fila["EGRESO"] = OcatEg.nombre;
+                fila["MONEDA"] = Omone.siglas;
+                fila["MONTO"] = Omonto.monOrige;
+                fila["DESCRIPCION"] = tx_descrip.Text;
+                fila["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                fila["PROVEEDOR"] = Oprove.nombre;
+                fila["GIRO_CTA"] = "";
+                fila["IDGiroConto"] = "";
+                fila["CTA_DESTINO"] = "";
+                fila["usuario"] = Program.vg_user;
+                //fila["dia"] = "";
+                fila["ImportoDU"] = Omonto.monDolar;
+                fila["ImportoSU"] = Omonto.monSoles;
+                fila["idanagrafica"] = Oprove.codigo;
+                fila["IDConto"] = Ocajd.codigo;
+                fila["IDCategoria"] = OcatEg.codigo;
+                fila["codimon"] = Omone.codigo;
+                fila["nombmon"] = Omone.nombre;
+                fila["TCMonOri"] = Omonto.tipCOri;
             }
-            dt_grillaE.Rows.Add(fila);
-        }                                           // INSERTA en la grilla el registro nuevo
+            dt_grillaE.Rows.InsertAt(fila, 0); //.Add(fila);
+        }                                           // INSERTA en la grilla el registro nuevo despues de grabar en la B.D.
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)
@@ -1087,8 +1145,8 @@ namespace Conticassa
                                 {
                                     MessageBox.Show(ex.Message, "Error en grabar Egreso");
                                     return;
-                                }
-                                insFilaEnDataG();       // inserta el registro nuevo en la grilla
+                                }   // CONCAT(a.Anno, RIGHT(a.IDMovimento, 6))
+                                insFilaEnDataG("LIM", fecOp.Substring(6, 4) + CDerecha("00000" + corre, 6));       // inserta el registro nuevo en la grilla
                                 limpiaObj();
                                 limpiaTE();
                             }
@@ -1179,7 +1237,6 @@ namespace Conticassa
             }
             return sValue;
         }                  // devuelve los ultimos n caractares desde la derecha
-
 
     }
 }
