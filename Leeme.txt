@@ -5,7 +5,7 @@
 - Clave: Conti00*
 
 Pendientes:
-- FUNCION DE BORRADO, iniciamos con borrado simple del registro, sin borrar girocontos
+- FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, iniciamos con edicion simple del registro, sin cambiar girocontos
 - GIROCONTO en Ingresos y Egresos
 - Arreglar el form de ayuda, darle la forma y estilo 

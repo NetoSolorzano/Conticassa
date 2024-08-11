@@ -196,6 +196,13 @@ namespace Conticassa
         private void Bt_anul_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "BORRAR";
+            rb_pers.Checked = true;
+            rb_pers_Click(null, null);
+            sololee("");
+            pan_p.Enabled = true;
+            rb_omg.Enabled = true;
+            rb_pers.Enabled = true;
+            tx_idOper.Focus();
         }
         private void Bt_ver_Click(object sender, EventArgs e)
         {
@@ -786,7 +793,7 @@ namespace Conticassa
                             {
                                 dt_grillaI.Clear();
                                 dt_grillaI.Columns.Clear();
-                                da.Fill(dt_grillaI);     // me quede aca, error al pasar de omg a personal
+                                da.Fill(dt_grillaI);
                                 dataGridView1.DataSource = dt_grillaI;
                             }
                         }
@@ -835,6 +842,36 @@ namespace Conticassa
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO")
+            {
+                graba_nuevo();
+            }
+            if (Tx_modo.Text == "EDICION")
+            {
+                graba_edicion();
+            }
+            if (Tx_modo.Text == "BORRAR")
+            {
+                // validamos que exista registro que borrar
+                if (tx_idOper.Text == "")
+                {
+                    MessageBox.Show("No hay registro que borrar!", "Identificador en blanco", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    return;
+                }
+                var aaa = MessageBox.Show("Confirma que desea BORRAR el Ingreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (aaa == DialogResult.Yes)
+                {
+                    string tabla = "";
+                    if (rb_omg.Checked == true) tabla = "cassaomg";
+                    else tabla = "cassaconti";
+                    oFEgres.graba_borrar(tabla, selecFecha1.Value.Year.ToString(), "000000000" + oFEgres.CDerecha(tx_idOper.Text, 6), dt_grillaI);
+                    limpiaObj();
+                    limpiaTE();
+                }
+            }
+        }
+        private void graba_nuevo()
         {
             // validamos datos esenciales
             if (Tx_catIngre.Text == "")
@@ -913,7 +950,11 @@ namespace Conticassa
                     }
                 }
             }
-        }                // graba el registro
+        }
+        private void graba_edicion()
+        {
+
+        }
 
     }
 }

@@ -68,13 +68,25 @@ namespace Conticassa
         public void grabaEgreso(MySqlConnection conn)
         {
             string tabla = "";
-            if (tipMovPrin == "omg") tabla = "cassaomg";
-            else tabla = "cassaconti";
-            string consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDU,ImportoSU," +
-                                "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
-                                "valorOrig,codimon,nombmon,tcMonOri) values (" +
-                                "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
-                                "@vOrig,@cmon,@nmon,@tcMO)";
+            string consulta = "";
+            if (tipMovPrin == "omg")
+            {
+                tabla = "cassaomg";
+                consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDDestino,IDCategoria,ImportoDU,ImportoSU," +
+                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
+                                    "valorOrig,codimon,nombmon,tcMonOri) values (" +
+                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
+                                    "@vOrig,@cmon,@nmon,@tcMO)";
+            }
+            else
+            {
+                tabla = "cassaconti";
+                consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDU,ImportoSU," +
+                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
+                                    "valorOrig,codimon,nombmon,tcMonOri) values (" +
+                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
+                                    "@vOrig,@cmon,@nmon,@tcMO)";
+            }
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
                 ///micon.Parameters.AddWithValue("@tab", tabla);

@@ -1099,10 +1099,22 @@ namespace Conticassa
             }
             if (Tx_modo.Text == "BORRAR")
             {
-                string tabla = "";
-                if (rb_omg.Checked == true) tabla = "cassaomg";
-                else tabla = "cassaconti";
-                graba_borrar(tabla, selecFecha1.Value.Year.ToString(),"000000000" + CDerecha(tx_idOper.Text, 6));
+                // validamos que exista registro que borrar
+                if (tx_idOper.Text == "")
+                {
+                    MessageBox.Show("No hay registro que borrar!", "Identificador en blanco", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    return;
+                }
+                var aaa = MessageBox.Show("Confirma que desea BORRAR el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (aaa == DialogResult.Yes)
+                {
+                    string tabla = "";
+                    if (rb_omg.Checked == true) tabla = "cassaomg";
+                    else tabla = "cassaconti";
+                    graba_borrar(tabla, selecFecha1.Value.Year.ToString(), "000000000" + CDerecha(tx_idOper.Text, 6), dt_grillaE);
+                    limpiaObj();
+                    limpiaTE();
+                }
             }
         }
         private void graba_nuevo()
@@ -1189,16 +1201,9 @@ namespace Conticassa
         {
 
         }
-        private void graba_borrar(string tabla, string year, string idmov)
+        public void graba_borrar(string tabla, string year, string idmov, DataTable dgv)
         {
-            // validamos que exista registro que borrar
-            if (tx_idOper.Text == "")
-            {
-                MessageBox.Show("No hay registro que borrar!", "Identificador en blanco", MessageBoxButtons.OK,MessageBoxIcon.Hand);
-                return;
-            }
-            var aaa = MessageBox.Show("Confirma que desea BORRAR el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (aaa == DialogResult.Yes)
+            if (true)
             {
                 // borra en la tabla
                 // borra en la grilla
@@ -1223,15 +1228,13 @@ namespace Conticassa
                             micon.Parameters.AddWithValue("@corre", idmov);
                             micon.ExecuteNonQuery();
                         }
-                        for (int i = dt_grillaE.Rows.Count - 1; i >= 0; i--)
+                        for (int i = dgv.Rows.Count - 1; i >= 0; i--)
                         {
-                            DataRow dr = dt_grillaE.Rows[i];
+                            DataRow dr = dgv.Rows[i];
                             if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
                                 dr.Delete();
                         }
-                        dt_grillaE.AcceptChanges();
-                        limpiaObj();
-                        limpiaTE();
+                        dgv.AcceptChanges();
                     }
                 }
             }
