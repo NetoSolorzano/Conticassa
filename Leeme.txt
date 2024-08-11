@@ -6,7 +6,7 @@
 
 Pendientes:
 - FUNCION DE BORRADO, con borrar girocontos
-- FUNCION DE EDICION, iniciamos con edicion simple del registro, sin cambiar girocontos
+- FUNCION DE EDICION, iniciamos con edicion simple del registro, sin cambiar girocontos ... me quede grabando edicion egresos
 - GIROCONTO en Ingresos y Egresos
 - Arreglar el form de ayuda, darle la forma y estilo 
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config

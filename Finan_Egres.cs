@@ -206,7 +206,8 @@ namespace Conticassa
             Tx_modo.Text = "EDICION";
             rb_pers.Checked = true;
             rb_pers_Click(null, null);
-            sololee("");
+            //sololee("");
+            escribe("EDICION");  // el parametro no lo estamos usando 11/08/2024
             pan_p.Enabled = true;
             rb_omg.Enabled = true;
             rb_pers.Enabled = true;
@@ -296,7 +297,8 @@ namespace Conticassa
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
-            tx_idOper.ReadOnly = true;
+            if (quien == "EDICION") tx_idOper.ReadOnly = false;
+            else tx_idOper.ReadOnly = true;
             Tx_catEgre.ReadOnly = false;
             Tx_ctaDes.ReadOnly = false;
             tx_ctaGiro.ReadOnly = false;
@@ -1197,9 +1199,42 @@ namespace Conticassa
                 }
             }
         }
-        private void graba_edicion()
+        public void graba_edicion(string tabla, string year, string idmov, DataTable dgv)
         {
-
+            if (true)
+            {
+                using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                {
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Application.Exit();
+                        return;
+                    }
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string consulta = "update " + tabla + " set .....  " +
+                            "where anno=@year and idmovimento=@corre";
+                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                        {
+                            micon.Parameters.AddWithValue("@year", year);
+                            micon.Parameters.AddWithValue("@corre", idmov);
+                            micon.ExecuteNonQuery();
+                        }
+                        for (int i = dgv.Rows.Count - 1; i >= 0; i--)
+                        {
+                            DataRow dr = dgv.Rows[i];
+                            if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
+                                dr.Delete();
+                        }
+                        dgv.AcceptChanges();
+                    }
+                }
+            }
         }
         public void graba_borrar(string tabla, string year, string idmov, DataTable dgv)
         {
