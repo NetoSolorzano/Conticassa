@@ -1085,7 +1085,72 @@ namespace Conticassa
                 fila["TCMonOri"] = Omonto.tipCOri;
             }
             dt_grillaE.Rows.InsertAt(fila, 0); //.Add(fila);
-        }                                           // INSERTA en la grilla el registro nuevo despues de grabar en la B.D.
+        }                // INSERTA en la grilla el registro nuevo despues de grabar en la B.D.
+        private void actFilaEnDataG(string _casa, string _corre)
+        {
+            string fecOp = selecFecha1.Value.Date.ToShortDateString();
+            for (int i = dt_grillaE.Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow dr = dt_grillaE.Rows[i];
+                if (dr["ID_MOVIM"].ToString() == (_corre.Substring(0, 4) + CDerecha(_corre, 6)))
+                    if (rb_omg.Checked == true)
+                    {
+                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                        //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                        // , , Omone, Omonto, decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text, corre
+                        dr["CASA"] = _casa;
+                        dr["ID_MOVIM"] = _corre;
+                        dr["FECHA"] = fecOp;
+                        dr["DESTINO"] = Ocajd.nombre;     // nombre cuenta destino
+                        dr["EGRESO"] = OcatEg.nombre;     // nombre categoria egreso
+                        dr["MONEDA"] = Omone.siglas;      // siglas moneda origen
+                        dr["MONTO"] = Omonto.monOrige;    // valor origen
+                        dr["DESCRIPCION"] = tx_descrip.Text;
+                        dr["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                        dr["PROVEEDOR"] = Oprove.nombre;
+                        dr["GIRO_CTA"] = "";
+                        dr["idgiroconto"] = "";
+                        dr["CTA_DESTINO"] = "";
+                        dr["usuario"] = Program.vg_user;
+                        //dr["dia"] = "";
+                        dr["ImportoDU"] = Omonto.monDolar;
+                        dr["ImportoSU"] = Omonto.monSoles;
+                        dr["idanagrafica"] = Oprove.codigo;
+                        dr["IDDestino"] = Ocajd.codigo;
+                        dr["IDCategoria"] = OcatEg.codigo;
+                    }
+                if (rb_pers.Checked == true)
+                {
+                    // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                    // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                    dr["CASA"] = _casa;
+                    dr["ID_MOVIM"] = _corre;
+                    dr["FECHA"] = fecOp;
+                    dr["CUENTA"] = Ocajd.nombre;
+                    dr["EGRESO"] = OcatEg.nombre;
+                    dr["MONEDA"] = Omone.siglas;
+                    dr["MONTO"] = Omonto.monOrige;
+                    dr["DESCRIPCION"] = tx_descrip.Text;
+                    dr["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                    dr["PROVEEDOR"] = Oprove.nombre;
+                    dr["GIRO_CTA"] = "";
+                    dr["IDGiroConto"] = "";
+                    dr["CTA_DESTINO"] = "";
+                    dr["usuario"] = Program.vg_user;
+                    //dr["dia"] = "";
+                    dr["ImportoDU"] = Omonto.monDolar;
+                    dr["ImportoSU"] = Omonto.monSoles;
+                    dr["idanagrafica"] = Oprove.codigo;
+                    dr["IDConto"] = Ocajd.codigo;
+                    dr["IDCategoria"] = OcatEg.codigo;
+                    dr["codimon"] = Omone.codigo;
+                    dr["nombmon"] = Omone.nombre;
+                    dr["TCMonOri"] = Omonto.tipCOri;
+                }
+                dr.AcceptChanges();
+            }
+            dt_grillaE.AcceptChanges();
+        }                // ACTUALIZA la grilla despues de haber actualizado la tabla
         #endregion
 
         #region boton Grabar
@@ -1097,7 +1162,18 @@ namespace Conticassa
             }
             if (Tx_modo.Text == "EDICION")
             {
-                graba_edicion();
+                if (tx_idOper.Text == "")
+                {
+                    MessageBox.Show("No hay registro que Editar!", "Identificador en blanco", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    return;
+                }
+                var aaa = MessageBox.Show("Confirma que desea EDITAR el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (aaa == DialogResult.Yes)
+                {
+                    graba_edicion(dt_grillaE);
+                    limpiaObj();
+                    limpiaTE();
+                }
             }
             if (Tx_modo.Text == "BORRAR")
             {
@@ -1199,7 +1275,7 @@ namespace Conticassa
                 }
             }
         }
-        public void graba_edicion(string tabla, string year, string idmov, DataTable dgv)
+        public void graba_edicion(DataTable dgv)
         {
             if (true)
             {
@@ -1217,21 +1293,11 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        string consulta = "update " + tabla + " set .....  " +
-                            "where anno=@year and idmovimento=@corre";
-                        using (MySqlCommand micon = new MySqlCommand(consulta, conn))
-                        {
-                            micon.Parameters.AddWithValue("@year", year);
-                            micon.Parameters.AddWithValue("@corre", idmov);
-                            micon.ExecuteNonQuery();
-                        }
-                        for (int i = dgv.Rows.Count - 1; i >= 0; i--)
-                        {
-                            DataRow dr = dgv.Rows[i];
-                            if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
-                                dr.Delete();
-                        }
-                        dgv.AcceptChanges();
+                        string fecOp = selecFecha1.Value.Date.ToShortDateString();
+                        Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                        Ocajd, Oprove, tx_descrip.Text, tx_idOper.Text);
+                        Oegreso.EditaEgreso(conn, tx_idOper.Text.Substring(0, 4), CDerecha(tx_idOper.Text, 6));
+                        actFilaEnDataG("LIM", tx_idOper.Text);
                     }
                 }
             }

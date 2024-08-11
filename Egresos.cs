@@ -116,5 +116,56 @@ namespace Conticassa
                 micon.ExecuteNonQuery();
             }
         }
+        public void EditaEgreso(MySqlConnection conn, string year, string corre)
+        {
+            string tabla = "";
+            string consulta = "";
+            if (tipMovPrin == "omg")
+            {
+                tabla = "cassaomg";
+                consulta = "update " + tabla + " set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDDestino=@IDCo,IDCategoria=@IDCa," +
+                    "ImportoDU=@IDU,ImportoSU=@ISU,Cambio=@Cam,Descrizione=@Des,IDGiroConto=@IDG,monori=@mon,ctaori=@ctao,ctades=@ctad," +
+                    "usuario=@usua,diaM=now(),idanagrafica=@idan,tipodesgiro=@tidgiro,valorOrig=@vOrig,codimon=@cmon,nombmon=@nmon,tcMonOri=@tcMO " +
+                    "where anno=@year and idmovimento=@corre";
+            }
+            else
+            {
+                tabla = "cassaconti";
+                consulta = "update " + tabla + " set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDConto=@IDCo,IDCategoria=@IDCa," +
+                    "ImportoDU=@IDU,ImportoSU=@ISU,Cambio=@Cam,Descrizione=@Des,IDGiroConto=@IDG,monori=@mon,ctaori=@ctao,ctades=@ctad," +
+                    "usuario=@usua,diaM=now(),idanagrafica=@idan,tipodesgiro=@tidgiro,valorOrig=@vOrig,codimon=@cmon,nombmon=@nmon,tcMonOri=@tcMO " +
+                    "where anno=@year and idmovimento=@corre";
+            }
+            using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+            {
+                micon.Parameters.AddWithValue("@IDB", "LIM");   // este campo viene de donde ??? arreglar
+                micon.Parameters.AddWithValue("@Ann", DateTime.Now.Year);   // tabla "contatori" debe autoiniciarse al cambiar el año, poner disparador en el login
+                //micon.Parameters.AddWithValue("@IDM", IdMovim); // este dato viene del metodo "grabar", '00'+contador de la tabla contatori
+                micon.Parameters.AddWithValue("@DMo", fechOper.Substring(6, 4) + "-" + fechOper.Substring(3, 2) + "-" + fechOper.Substring(0, 2));
+                micon.Parameters.AddWithValue("@IDCo", cajaDes.codigo);
+                micon.Parameters.AddWithValue("@IDCa", catEgreso.codigo);
+                //micon.Parameters.AddWithValue("@IEE", 0);                   // importe en euros entrada
+                micon.Parameters.AddWithValue("@IDU", monto.monDolar);    // importe en dolares salida 
+                micon.Parameters.AddWithValue("@ISU", monto.monSoles);    // importe en soles salida
+                //micon.Parameters.AddWithValue("@IEU", monto.monEuros);    // importe en euros salida 
+                micon.Parameters.AddWithValue("@Cam", tipCamb);             // tipo de cambio
+                micon.Parameters.AddWithValue("@Des", descrip);
+                micon.Parameters.AddWithValue("@IDG", "");  // luego vemos esto
+                micon.Parameters.AddWithValue("@mon", moneda.siglas);    // codigo de la moneda origen de la operación
+                micon.Parameters.AddWithValue("@ctao", ""); // esto va con el giroconto creo
+                micon.Parameters.AddWithValue("@ctad", ""); // esto va con el giroconto creo
+                micon.Parameters.AddWithValue("@usua", Program.vg_user);
+                micon.Parameters.AddWithValue("@idan", proveedor.codigo);
+                micon.Parameters.AddWithValue("@tidgiro", "");   // esto va con el giroconto creo
+                micon.Parameters.AddWithValue("@vOrig", monto.monOrige);
+                micon.Parameters.AddWithValue("@cmon", moneda.codigo);
+                micon.Parameters.AddWithValue("@nmon", moneda.nombre);
+                micon.Parameters.AddWithValue("@tcMO", monto.tipCOri);
+                micon.Parameters.AddWithValue("@year", year);
+                micon.Parameters.AddWithValue("@corre", corre);
+                micon.ExecuteNonQuery();
+            }
+
+        }
     }
 }
