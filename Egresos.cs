@@ -122,16 +122,14 @@ namespace Conticassa
             string consulta = "";
             if (tipMovPrin == "omg")
             {
-                tabla = "cassaomg";
-                consulta = "update " + tabla + " set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDDestino=@IDCo,IDCategoria=@IDCa," +
+                consulta = "update cassaomg set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDDestino=@IDCo,IDCategoria=@IDCa," +
                     "ImportoDU=@IDU,ImportoSU=@ISU,Cambio=@Cam,Descrizione=@Des,IDGiroConto=@IDG,monori=@mon,ctaori=@ctao,ctades=@ctad," +
                     "usuario=@usua,diaM=now(),idanagrafica=@idan,tipodesgiro=@tidgiro,valorOrig=@vOrig,codimon=@cmon,nombmon=@nmon,tcMonOri=@tcMO " +
                     "where anno=@year and idmovimento=@corre";
             }
             else
             {
-                tabla = "cassaconti";
-                consulta = "update " + tabla + " set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDConto=@IDCo,IDCategoria=@IDCa," +
+                consulta = "update cassaconti set IDBanco=@IDB,Anno=@Ann,DataMovimento=@DMo,IDConto=@IDCo,IDCategoria=@IDCa," +
                     "ImportoDU=@IDU,ImportoSU=@ISU,Cambio=@Cam,Descrizione=@Des,IDGiroConto=@IDG,monori=@mon,ctaori=@ctao,ctades=@ctad," +
                     "usuario=@usua,diaM=now(),idanagrafica=@idan,tipodesgiro=@tidgiro,valorOrig=@vOrig,codimon=@cmon,nombmon=@nmon,tcMonOri=@tcMO " +
                     "where anno=@year and idmovimento=@corre";

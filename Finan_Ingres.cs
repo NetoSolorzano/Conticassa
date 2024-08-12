@@ -39,6 +39,7 @@ namespace Conticassa
             chk_giroC_CheckedChanged(null, null);   // 
             sololee("T");                           // T=todos los campos, "" ó "C" campos comunes
             jalainfo();                             // jala variables de tabla enlace
+            initCampos();                           // limita maximos de ancho en campos y mayusculas
         }
 
         private void Finan_Ingres_KeyDown(object sender, KeyEventArgs e)
@@ -172,6 +173,14 @@ namespace Conticassa
             eti_nomCaja.Text = Oingreso.CajaDes.largo;
             tx_descrip.Text = Oingreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
+        private void initCampos()
+        {
+            Tx_catIngre.MaxLength = 20;
+            Tx_ctaDes.MaxLength = 20;
+            tx_ctaGiro.MaxLength = 20;
+            tx_descrip.MaxLength = 100;
+            tx_idOper.MaxLength = 15;
+        }
 
         #region Botones de comando
         private void Bt_add_Click(object sender, EventArgs e)
@@ -187,7 +196,7 @@ namespace Conticassa
             Tx_modo.Text = "EDICION";
             rb_pers.Checked = true;
             rb_pers_Click(null, null);
-            sololee("");
+            escribe("EDICION");    // sololee("")
             pan_p.Enabled = true;
             rb_omg.Enabled = true;
             rb_pers.Enabled = true;
@@ -275,7 +284,7 @@ namespace Conticassa
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
-            tx_idOper.ReadOnly = true;
+            if (quien == "EDICION") tx_idOper.ReadOnly = true;
             Tx_catIngre.ReadOnly = false;
             Tx_ctaDes.ReadOnly = false;
             tx_ctaGiro.ReadOnly = false;
@@ -839,6 +848,73 @@ namespace Conticassa
                 }
             }
         }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
+        public void actFilaEnDataI(DataTable dt, string _casa, string _corre)
+        {
+            string fecOp = selecFecha1.Value.Date.ToShortDateString();
+            for (int i = dt.Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow dr = dt.Rows[i];
+                if (dr["ID_MOVIM"].ToString() == (_corre.Substring(0, 4) + oFEgres.CDerecha(_corre, 6)))
+                {
+                    if (rb_omg.Checked == true)
+                    {
+                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                        //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                        // , , Omone, Omonto, decimal.Parse(tx_tipcam.Text), Ocajd, Oprove, tx_descrip.Text, corre
+                        dr["CASA"] = _casa;
+                        dr["ID_MOVIM"] = _corre;
+                        dr["FECHA"] = fecOp;
+                        dr["DESTINO"] = Ocajd.nombre;     // nombre cuenta destino
+                        dr["INGRESO"] = OcatIn.nombre;     // nombre categoria ingreso
+                        dr["MONEDA"] = Omone.siglas;      // siglas moneda origen
+                        dr["MONTO"] = Omonto.monOrige;    // valor origen
+                        dr["DESCRIPCION"] = tx_descrip.Text;
+                        dr["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                        //dr["PROVEEDOR"] = ;
+                        dr["GIRO_CTA"] = "";
+                        dr["idgiroconto"] = "";
+                        dr["CTA_DESTINO"] = "";
+                        dr["usuario"] = Program.vg_user;
+                        //dr["dia"] = "";
+                        dr["ImportoDE"] = Omonto.monDolar;
+                        dr["ImportoSE"] = Omonto.monSoles;
+                        //dr["idanagrafica"] = ;
+                        dr["IDDestino"] = Ocajd.codigo;
+                        dr["IDCategoria"] = OcatIn.codigo;
+                    }
+                    if (rb_pers.Checked == true)
+                    {
+                        // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                        // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                        dr["CASA"] = _casa;
+                        dr["ID_MOVIM"] = _corre;
+                        dr["FECHA"] = fecOp;
+                        dr["CUENTA"] = Ocajd.nombre;
+                        dr["INGRESO"] = OcatIn.nombre;
+                        dr["MONEDA"] = Omone.siglas;
+                        dr["MONTO"] = Omonto.monOrige;
+                        dr["DESCRIPCION"] = tx_descrip.Text;
+                        dr["TIP_CAMBIO"] = decimal.Parse(tx_tipcam.Text);
+                        //dr["PROVEEDOR"] = ;
+                        dr["GIRO_CTA"] = "";
+                        dr["IDGiroConto"] = "";
+                        dr["CTA_DESTINO"] = "";
+                        dr["usuario"] = Program.vg_user;
+                        //dr["dia"] = "";
+                        dr["ImportoDE"] = Omonto.monDolar;
+                        dr["ImportoSE"] = Omonto.monSoles;
+                        //dr["idanagrafica"] = ;
+                        dr["IDConto"] = Ocajd.codigo;
+                        dr["IDCategoria"] = OcatIn.codigo;
+                        dr["codimon"] = Omone.codigo;
+                        dr["nombmon"] = Omone.nombre;
+                        dr["TCMonOri"] = Omonto.tipCOri;
+                    }
+                    dr.AcceptChanges();
+                }
+            }
+            dt.AcceptChanges();
+        }                // ACTUALIZA la grilla despues de haber actualizado la tabla
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)
@@ -849,7 +925,18 @@ namespace Conticassa
             }
             if (Tx_modo.Text == "EDICION")
             {
-                graba_edicion();
+                if (tx_idOper.Text == "")
+                {
+                    MessageBox.Show("No hay registro que Editar!", "Identificador en blanco", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    return;
+                }
+                var aaa = MessageBox.Show("Confirma que desea EDITAR el Ingreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (aaa == DialogResult.Yes)
+                {
+                    graba_edicion();
+                    limpiaObj();
+                    limpiaTE();
+                }
             }
             if (Tx_modo.Text == "BORRAR")
             {
@@ -953,7 +1040,30 @@ namespace Conticassa
         }
         private void graba_edicion()
         {
-
+            if (true)
+            {
+                using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                {
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Application.Exit();
+                        return;
+                    }
+                    if (conn.State == ConnectionState.Open)
+                    {
+                        string fecOp = selecFecha1.Value.Date.ToShortDateString();
+                        Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                        Ocajd, tx_descrip.Text, tx_idOper.Text);
+                        Oingreso.EditaIngreso(conn, tx_idOper.Text.Substring(0, 4), ("000000000" + oFEgres.CDerecha(tx_idOper.Text, 6)));
+                        actFilaEnDataI(dt_grillaI, "LIM", tx_idOper.Text);
+                    }
+                }
+            }
         }
 
     }
