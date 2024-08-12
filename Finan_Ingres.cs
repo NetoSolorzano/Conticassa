@@ -183,6 +183,7 @@ namespace Conticassa
         }
 
         #region Botones de comando
+        // acá falta todo el asunto de leer los permisos del usuario
         private void Bt_add_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "NUEVO";
@@ -216,6 +217,13 @@ namespace Conticassa
         private void Bt_ver_Click(object sender, EventArgs e)
         {
             Tx_modo.Text = "VISUALIZAR";
+            rb_pers.Checked = true;
+            rb_pers_Click(null, null);
+            sololee("");
+            pan_p.Enabled = true;
+            rb_omg.Enabled = true;
+            rb_pers.Enabled = true;
+            tx_idOper.Focus();
         }
         private void Bt_print_Click(object sender, EventArgs e)
         {

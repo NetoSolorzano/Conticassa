@@ -15,7 +15,7 @@ namespace Conticassa
     {
         publicoConf conf = new publicoConf();
         #region variables
-        string img_log1 = @"C:\omg-peru\imAGENES\images6.jpg";
+        string img_log1 = "";   //@"C:\omg-peru\imAGENES\images6.jpg";
         string nomclie = "";
         string dirclie = "";
         string distemi = "";
@@ -120,6 +120,8 @@ namespace Conticassa
                 {
                     da.Fill(Program.dt_enlaces);
                 }
+                DataRow[] rila = Program.dt_enlaces.Select("formulario = 'Main' and campo='imagen' and param='logo'");
+                img_log1 = rila[0]["valor"].ToString();
             }
         }
         private void cuadre()
@@ -140,6 +142,7 @@ namespace Conticassa
             //bt_almacen.Top = bt_pedidos.Top + bt_pedidos.Height + 0;
             bt_maestras.Top = bt_validac.Top + bt_validac.Height + 0;
             bt_pcontrol.Top = bt_maestras.Top + bt_maestras.Height + 0;
+
         }
         private void coloracion()
         {

@@ -395,9 +395,9 @@
             this.panelGeneral5.Controls.Add(this.tx_ctaGiro);
             this.panelGeneral5.Controls.Add(this.chk_giroC);
             this.panelGeneral5.ForeColor = System.Drawing.Color.Blue;
-            this.panelGeneral5.Location = new System.Drawing.Point(577, 33);
+            this.panelGeneral5.Location = new System.Drawing.Point(565, 33);
             this.panelGeneral5.Name = "panelGeneral5";
-            this.panelGeneral5.Size = new System.Drawing.Size(253, 64);
+            this.panelGeneral5.Size = new System.Drawing.Size(265, 64);
             this.panelGeneral5.TabIndex = 82;
             // 
             // eti_nomCtaGiro
@@ -405,9 +405,9 @@
             this.eti_nomCtaGiro.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_nomCtaGiro.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_nomCtaGiro.ForeColor = System.Drawing.Color.Blue;
-            this.eti_nomCtaGiro.Location = new System.Drawing.Point(2, 45);
+            this.eti_nomCtaGiro.Location = new System.Drawing.Point(1, 45);
             this.eti_nomCtaGiro.Name = "eti_nomCtaGiro";
-            this.eti_nomCtaGiro.Size = new System.Drawing.Size(247, 15);
+            this.eti_nomCtaGiro.Size = new System.Drawing.Size(261, 15);
             this.eti_nomCtaGiro.TabIndex = 5;
             // 
             // tx_ctaGiro
@@ -416,7 +416,7 @@
             this.tx_ctaGiro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tx_ctaGiro.Font = new System.Drawing.Font("Verdana", 9F);
             this.tx_ctaGiro.ForeColor = System.Drawing.Color.Blue;
-            this.tx_ctaGiro.Location = new System.Drawing.Point(5, 23);
+            this.tx_ctaGiro.Location = new System.Drawing.Point(0, 23);
             this.tx_ctaGiro.Name = "tx_ctaGiro";
             this.tx_ctaGiro.Size = new System.Drawing.Size(129, 22);
             this.tx_ctaGiro.TabIndex = 56;
@@ -723,6 +723,7 @@
             this.Bt_print.Size = new System.Drawing.Size(32, 32);
             this.Bt_print.Text = "Bt_close";
             this.Bt_print.ToolTipText = "Imprime (Ctrl P)";
+            this.Bt_print.Visible = false;
             this.Bt_print.Click += new System.EventHandler(this.Bt_print_Click);
             // 
             // toolStripSeparator4
