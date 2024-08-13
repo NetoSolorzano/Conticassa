@@ -100,6 +100,7 @@
             this.bt_maestras.Text = "Maestras";
             this.bt_maestras.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.bt_maestras.UseVisualStyleBackColor = true;
+            this.bt_maestras.Click += new System.EventHandler(this.bt_maestras_Click);
             // 
             // bt_pcontrol
             // 
@@ -115,6 +116,7 @@
             this.bt_pcontrol.Text = "Configuración";
             this.bt_pcontrol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.bt_pcontrol.UseVisualStyleBackColor = true;
+            this.bt_pcontrol.Click += new System.EventHandler(this.bt_pcontrol_Click);
             // 
             // bt_serWeb
             // 

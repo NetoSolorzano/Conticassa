@@ -160,16 +160,10 @@ namespace Conticassa
         }
 
         #region botones_click   // menus
+
         #region finanzas
         private void bt_finan_Click(object sender, EventArgs e)
         {
-            /*
-            Image img_F1 = Image.FromFile(imgF1);
-            Image img_F2 = Image.FromFile(imgF2);
-            Image img_F3 = Image.FromFile(imgF3);
-            Image img_F4 = Image.FromFile(imgF4);
-            Image img_F5 = Image.FromFile(imgF5);
-            */
             pic_icon_menu.Image = Resource1.inbox_done20;
             menuStrip1.Items.Clear();
             menuStrip1.Items.Add("Ingresos", Resource1.plus_circle20, fin_ingresos_Click);           // img_F1
@@ -209,6 +203,54 @@ namespace Conticassa
 
         }
         #endregion
+
+        #region maestras
+        private void bt_maestras_Click(object sender, EventArgs e)
+        {
+            pic_icon_menu.Image = Resource1.database_system20;
+            menuStrip1.Items.Clear();
+            menuStrip1.Items.Add("Proveedores", Resource1.cart_fill20, maes_proveed_Click);
+            menuStrip1.Items.Add("Tip.Cambio", Resource1.euro20, maes_tipcam_Click);
+            //
+            menuStrip1.Visible = true;
+        }
+        private void maes_proveed_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void maes_tipcam_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region configuración
+        private void bt_pcontrol_Click(object sender, EventArgs e)
+        {
+            pic_icon_menu.Image = Resource1.settings20;
+            menuStrip1.Items.Clear();
+            menuStrip1.Items.Add("Permisos", Resource1.permisos20, pcon_permisos_Click);
+            menuStrip1.Items.Add("Enlaces", Resource1.link20, pcon_enlaces_Click);
+            //
+            menuStrip1.Visible = true;
+        }
+        private void pcon_permisos_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void pcon_enlaces_Click(object sender, EventArgs e)
+        {
+            enlaces enl = new enlaces();
+            enl.TopLevel = false;
+            enl.Parent = this;
+            enl.Left = pn_centro.Width / 3;
+            enl.Top = pn_centro.Height / 3;
+            pn_centro.Controls.Add(enl);
+            //if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
+            enl.Show();
+        }
+        #endregion
+
         private void bt_salir_Click(object sender, EventArgs e)
         {
             Application.Exit();

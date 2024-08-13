@@ -34,6 +34,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="AdvancedDataGridView, Version=0.1.0.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ADGV.0.1.0.10\lib\net40\AdvancedDataGridView.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>packages\BouncyCastle.Cryptography.2.3.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
@@ -106,6 +109,12 @@
       <DependentUpon>ayuda2.cs</DependentUpon>
     </Compile>
     <Compile Include="Egresos.cs" />
+    <Compile Include="enlaces.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="enlaces.designer.cs">
+      <DependentUpon>enlaces.cs</DependentUpon>
+    </Compile>
     <Compile Include="Finan_Egres.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -142,8 +151,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="tipcamref.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tipcamref.designer.cs">
+      <DependentUpon>tipcamref.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ayuda2.resx">
       <DependentUpon>ayuda2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="enlaces.resx">
+      <DependentUpon>enlaces.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Finan_Egres.resx">
       <DependentUpon>Finan_Egres.cs</DependentUpon>
@@ -172,6 +190,9 @@
     <EmbeddedResource Include="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tipcamref.resx">
+      <DependentUpon>tipcamref.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -207,11 +228,18 @@
     <None Include="Resources\arrow_right [#365].png" />
     <None Include="Resources\arrow_right_in [#386].png" />
     <Content Include="Leeme.txt" />
+    <None Include="Resources\arrow_repeat [#244].png" />
+    <None Include="Resources\database_system20.png" />
+    <None Include="Resources\cart_fill20.png" />
     <Content Include="Resources\edit20.png" />
+    <None Include="Resources\link_round [#1110].png" />
+    <None Include="Resources\euro20.png" />
     <Content Include="Resources\new_tab20.png" />
     <None Include="Resources\printer [#1599].png" />
     <None Include="Resources\search_left [#1504].png" />
     <None Include="Resources\save_item [#1409].png" />
+    <None Include="Resources\settings [#1491].png" />
+    <None Include="Resources\save_item [#1411].png" />
     <Content Include="shut_down40.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

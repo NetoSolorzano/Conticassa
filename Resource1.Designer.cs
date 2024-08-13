@@ -103,9 +103,29 @@ namespace Conticassa {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cart_fill20 {
+            get {
+                object obj = ResourceManager.GetObject("cart_fill20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap close20 {
             get {
                 object obj = ResourceManager.GetObject("close20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database_system20 {
+            get {
+                object obj = ResourceManager.GetObject("database_system20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +156,16 @@ namespace Conticassa {
         internal static System.Drawing.Bitmap edit20 {
             get {
                 object obj = ResourceManager.GetObject("edit20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap euro20 {
+            get {
+                object obj = ResourceManager.GetObject("euro20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,6 +223,16 @@ namespace Conticassa {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap link20 {
+            get {
+                object obj = ResourceManager.GetObject("link20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap minus_circle20 {
             get {
                 object obj = ResourceManager.GetObject("minus_circle20", resourceCulture);
@@ -206,6 +246,16 @@ namespace Conticassa {
         internal static System.Drawing.Bitmap new_tab20 {
             get {
                 object obj = ResourceManager.GetObject("new_tab20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap permisos20 {
+            get {
+                object obj = ResourceManager.GetObject("permisos20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -243,9 +293,29 @@ namespace Conticassa {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap save40 {
+            get {
+                object obj = ResourceManager.GetObject("save40", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap search_left20 {
             get {
                 object obj = ResourceManager.GetObject("search_left20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap settings20 {
+            get {
+                object obj = ResourceManager.GetObject("settings20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
