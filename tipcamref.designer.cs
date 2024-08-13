@@ -372,7 +372,7 @@
             // 
             // bt_agr
             // 
-            this.bt_agr.Image = global::TransCarga.Properties.Resources.process24;
+            //this.bt_agr.Image = global::TransCarga.Properties.Resources.process24;
             this.bt_agr.Location = new System.Drawing.Point(330, 3);
             this.bt_agr.Name = "bt_agr";
             this.bt_agr.Size = new System.Drawing.Size(32, 32);

@@ -105,7 +105,7 @@ namespace Conticassa
             ForeColor = Color.FromName(conf.colorFont);
             BorderStyle = BorderStyle.None;
         }
-        bool allowSpace = false;
+        //bool allowSpace = false;
     }
     public class NumericTextBox : TextBox
     {
@@ -198,7 +198,7 @@ namespace Conticassa
             BackColor = Color.FromArgb(conf.fondoRojoE, conf.fondoVerdeE, conf.fondoAzulE);  // FromName(conf.fondoEtiq);
             ForeColor = Color.FromName(conf.colorFont);
         }
-        bool allowSpace = false;
+        //bool allowSpace = false;
     }
     public class generalBoton : Button
     {

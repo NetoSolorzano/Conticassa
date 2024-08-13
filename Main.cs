@@ -18,11 +18,6 @@ namespace Conticassa
         string img_log1 = "";   //@"C:\omg-peru\imAGENES\images6.jpg";
         string nomclie = "";
         string dirclie = "";
-        string distemi = "";
-        string provemi = "";
-        string urbemis = "";
-        string depaemi = "";
-        string urlemis = "";
         #endregion
         // conexion a la base de datos
         string DB_CONN_STR = "server=" + Login.serv + ";port=" + Login.port + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data +
@@ -220,7 +215,14 @@ namespace Conticassa
         }
         private void maes_tipcam_Click(object sender, EventArgs e)
         {
-
+            tipcamref ffe1 = new tipcamref();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            //ffe1.Top = ffe1.Height + pn_centro.Bottom;
+            pn_centro.Controls.Add(ffe1);
+            if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
+            ffe1.Show();
         }
         #endregion
 

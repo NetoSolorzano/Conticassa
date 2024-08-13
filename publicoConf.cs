@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -212,6 +213,32 @@ namespace Conticassa
                     cmb.SelectedIndex = -1;
                 }
             }
+        }
+        public string iplan()                                               // retorna la IP lan del cliente
+        {
+            string strHostName = System.Net.Dns.GetHostName();
+            IPHostEntry ipEntry = System.Net.Dns.GetHostEntry(strHostName);
+            foreach (IPAddress ipAddress in ipEntry.AddressList)
+            {
+                if (ipAddress.AddressFamily.ToString() == "InterNetwork")
+                {
+                    return ipAddress.ToString();
+                }
+            }
+            return "--";
+        }
+        public string ipwan()                                               // retorna la IP wan del cliente
+        {
+            string externalip = "";
+            try
+            {
+                externalip = new WebClient().DownloadString("http://icanhazip.com");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Imposible obtener dirección WAN");
+            }
+            return externalip;
         }
 
     }

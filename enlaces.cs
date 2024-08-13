@@ -442,11 +442,6 @@ namespace Conticassa
                 tx_idr.Text = rin;
                 jalaoc("tx_idr");
             }
-            else
-            {
-                MessageBox.Show("Solo el usuario Administrador " + Environment.NewLine +
-                    "puede modificar los anlaces de datos", "Error en tipo de usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
         private void Bt_close_Click(object sender, EventArgs e)
         {

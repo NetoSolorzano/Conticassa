@@ -118,7 +118,6 @@ namespace Conticassa
         }
         public void EditaEgreso(MySqlConnection conn, string year, string corre)
         {
-            string tabla = "";
             string consulta = "";
             if (tipMovPrin == "omg")
             {

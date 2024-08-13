@@ -9,7 +9,7 @@ namespace Conticassa
 {
     public partial class tipcamref : Form1
     {
-        static string nomform = "vtipcam";               // nombre del formulario
+        static string nomform = "tipcamref";               // nombre del formulario
         string asd = Program.vg_user;        // usuario conectado al sistema
         string verapp = System.Diagnostics.FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion;
         //static string nomtab = "tipcamref";
@@ -36,7 +36,7 @@ namespace Conticassa
         string v_noM3 = "";
         string v_noM4 = "";
         Finan_Egres OFegres = new Finan_Egres();
-        //publico lp = new publico(); 
+        publicoConf lp = new publicoConf();
         // string de conexion
         string DB_CONN_STR = "server=" + Login.serv + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data + ";";
         DataTable dtg = new DataTable();
@@ -67,7 +67,7 @@ namespace Conticassa
             toolTipNombre.SetToolTip(toolStrip1, nomform);   // Set up the ToolTip text for the object
             */
             init();
-            toolboton();
+            //toolboton();
             limpiar();
             sololee();
             dataload();
@@ -77,24 +77,17 @@ namespace Conticassa
         }
         private void init()
         {
-            //this.BackColor = Color.FromName(colback);
-            //toolStrip1.BackColor = Color.FromName(colstrp);
-            //advancedDataGridView1.DefaultCellStyle.BackColor = Color.FromName(colgrid);
-            //advancedDataGridView1.DefaultCellStyle.ForeColor = Color.FromName(colfogr);
-            //advancedDataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromName(colsfon);
-            //advancedDataGridView1.DefaultCellStyle.SelectionForeColor = Color.FromName(colsfgr);
-
             jalainfo();
-            Bt_add.Image = Image.FromFile(img_btN);
-            Bt_edit.Image = Image.FromFile(img_btE);
-            Bt_anul.Image = Image.FromFile(img_btA);
-            Bt_print.Image = Image.FromFile(img_btP);
-            Bt_ver.Image = Image.FromFile(img_btV);
-            Bt_close.Image = Image.FromFile(img_btq);
-            Bt_ini.Image = Image.FromFile(img_bti);
-            Bt_sig.Image = Image.FromFile(img_bts);
-            Bt_ret.Image = Image.FromFile(img_btr);
-            Bt_fin.Image = Image.FromFile(img_btf);
+            Bt_add.Image = (Image)Resource1.ResourceManager.GetObject("new_tab20"); // Image.FromFile(img_btN);
+            Bt_edit.Image = (Image)Resource1.ResourceManager.GetObject("edit20");
+            Bt_anul.Image = (Image)Resource1.ResourceManager.GetObject("delete20");
+            //Bt_print.Image = ;
+            Bt_ver.Image = (Image)Resource1.ResourceManager.GetObject("search_left20");
+            Bt_close.Image = (Image)Resource1.ResourceManager.GetObject("close20");
+            Bt_ini.Image = (Image)Resource1.ResourceManager.GetObject("arrow_in_left20");
+            Bt_sig.Image = (Image)Resource1.ResourceManager.GetObject("arrow_right20");
+            Bt_ret.Image = (Image)Resource1.ResourceManager.GetObject("arrow_left20");
+            Bt_fin.Image = (Image)Resource1.ResourceManager.GetObject("arrow_in_right20");
             // año y mes
             dtp_yea.Format = DateTimePickerFormat.Custom;
             dtp_yea.CustomFormat = "yyyy";
@@ -133,20 +126,6 @@ namespace Conticassa
             advancedDataGridView1.Columns[3].ReadOnly = false;          // las celdas de esta columna pueden cambiarse
             advancedDataGridView1.Columns[3].Tag = "validaNO";          // las celdas de esta columna se validan
             advancedDataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            // mext3
-            advancedDataGridView1.Columns[4].Visible = true;
-            advancedDataGridView1.Columns[4].HeaderText = v_noM3; // "mext3"
-            advancedDataGridView1.Columns[4].Width = 60;
-            advancedDataGridView1.Columns[4].ReadOnly = false;          // las celdas de esta columna pueden cambiarse
-            advancedDataGridView1.Columns[4].Tag = "validaNO";          // las celdas de esta columna se validan
-            advancedDataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            // mext4
-            advancedDataGridView1.Columns[5].Visible = true;
-            advancedDataGridView1.Columns[5].HeaderText = v_noM4; // "mext4"
-            advancedDataGridView1.Columns[5].Width = 60;
-            advancedDataGridView1.Columns[5].ReadOnly = false;
-            advancedDataGridView1.Columns[5].Tag = "validaNO";          // las celdas de esta columna se NO se validan
-            advancedDataGridView1.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
         private void jalainfo()                 // obtiene datos de imagenes
         {
@@ -194,7 +173,7 @@ namespace Conticassa
                 Application.Exit();
                 return;
             }
-            string consulta = "select idcodice,descrizionerid,codigo from desc_mon";
+            string consulta = "select idcodice,descrizionerid,descrizione from desc_mon";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
                 using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
@@ -202,11 +181,12 @@ namespace Conticassa
                     da.Fill(dtm);
                 }
             }
-            // dtm.Rows[0].ItemArray[2].ToString() -> es la moneda local
-            v_noM1 = (dtm.Rows.Count == 2) ? dtm.Rows[1].ItemArray[2].ToString() : "";
-            v_noM2 = (dtm.Rows.Count == 3) ? dtm.Rows[2].ItemArray[2].ToString() : "";
-            v_noM3 = (dtm.Rows.Count == 4) ? dtm.Rows[3].ItemArray[2].ToString() : "";
-            v_noM4 = (dtm.Rows.Count == 5) ? dtm.Rows[4].ItemArray[2].ToString() : "";
+            if (dtm.Rows.Count == 2) v_noM1 = dtm.Rows[1].ItemArray[2].ToString();
+            if (dtm.Rows.Count == 3)
+            {
+                v_noM1 = dtm.Rows[1].ItemArray[2].ToString();
+                v_noM2 = dtm.Rows[2].ItemArray[2].ToString();
+            }
             conn.Close();
         }
         private void bt_agr_Click(object sender, EventArgs e)
@@ -216,7 +196,7 @@ namespace Conticassa
                 conn.Open();
                 if (conn.State == ConnectionState.Open)
                 {
-                    string consulta = "select id,fechope,mext1,mext2,mext3,mext4 from tipcamref where year(fechope)=@yea and month(fechope)=@mes";
+                    string consulta = "select id,datavaluta,cambio1,cambio2 from cambi where year(datavaluta)=@yea and month(datavaluta)=@mes";
                     using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                     {
                         micon.Parameters.AddWithValue("@yea", dtp_yea.Value.Year.ToString());
@@ -229,12 +209,13 @@ namespace Conticassa
                             if (dtg.Rows.Count > 0) grilla();
                             else
                             {
-                                string inserta = "insert into tipcamref (fechope,verapp,userc,fechc,diriplan4,diripwan4) values ";
+                                string inserta = "insert into cambi (datavaluta) values ";
                                 int days = DateTime.DaysInMonth(dtp_yea.Value.Year, dtp_mes.Value.Month);
                                 for (int i=1; i<=days; i++)
                                 {
-                                    inserta = inserta + "('" + dtp_yea.Value.Year.ToString() + "-" + OFegres.CDerecha("0" + dtp_mes.Value.Month.ToString(),2) + "-" + OFegres.CDerecha("0" + i.ToString(),2) +
-                                        "','" + verapp + "','" + asd + "'," + "now(),'" + lib.iplan() + "','" + lib.ipwan() + "')";
+                                    inserta = inserta + "('" + dtp_yea.Value.Year.ToString() + "-" + 
+                                        OFegres.CDerecha("0" + dtp_mes.Value.Month.ToString(),2) + "-" + 
+                                        OFegres.CDerecha("0" + i.ToString(),2) + "')";
                                     if (i != days) inserta = inserta + ",";
                                 }
                                 using (MySqlCommand minsert = new MySqlCommand(inserta, conn))
@@ -294,6 +275,7 @@ namespace Conticassa
         #region botones_de_comando_y_permisos  
         public void toolboton()
         {
+            /*
             DataTable mdtb = new DataTable();
             const string consbot = "select * from permisos where formulario=@nomform and usuario=@use";
             MySqlConnection conn = new MySqlConnection(DB_CONN_STR);
@@ -355,6 +337,7 @@ namespace Conticassa
                 }
                 else { this.Bt_close.Visible = false; }
             }
+            */
         }
         #region botones
         private void Bt_add_Click(object sender, EventArgs e)
@@ -472,9 +455,10 @@ namespace Conticassa
                     {
                         using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
                         {
-                            if (lib.procConn(conn) == true)
+                            conn.Open();
+                            if (conn.State == ConnectionState.Open)
                             {
-                                string actua = "update tipcamref set " + campo + " = " + e.FormattedValue +
+                                string actua = "update cambi set " + campo + " = " + e.FormattedValue +
                                     " where id=@idr";    // advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()
                                 using (MySqlCommand micon = new MySqlCommand(actua, conn))
                                 {
