@@ -18,19 +18,6 @@ namespace Conticassa
         public string perMo = "";
         public string perAn = "";
         public string perIm = "";
-        string img_btN = "";
-        string img_btE = "";
-        string img_btA = "";
-        string img_btq = "";
-        string img_btP = "";
-        string img_btV = "";
-        string img_bti = "";            // ir al inicio
-        string img_bts = "";            // siguiente
-        string img_btr = "";            // regresa
-        string img_btf = "";            // ir al final
-        string img_grab = "";
-        string img_anul = "";
-        string vEstAnu = "";            // estado de serie anulada
         string v_noM1 = "";
         string v_noM2 = "";
         string v_noM3 = "";
@@ -133,23 +120,8 @@ namespace Conticassa
             {
                 for (int t = 0; t < Program.dt_enlaces.Rows.Count; t++)
                 {
-                    DataRow row = Program.dt_enlaces.Rows[t];
-                    if (row["campo"].ToString() == "imagenes")
-                    {
-                        if (row["param"].ToString() == "img_btN") img_btN = row["valor"].ToString().Trim();         // imagen del boton de accion NUEVO
-                        if (row["param"].ToString() == "img_btE") img_btE = row["valor"].ToString().Trim();         // imagen del boton de accion EDITAR
-                        if (row["param"].ToString() == "img_btA") img_btA = row["valor"].ToString().Trim();         // imagen del boton de accion ANULAR/BORRAR
-                        if (row["param"].ToString() == "img_btQ") img_btq = row["valor"].ToString().Trim();         // imagen del boton de accion SALIR
-                        if (row["param"].ToString() == "img_btP") img_btP = row["valor"].ToString().Trim();         // imagen del boton de accion IMPRIMIR
-                        if (row["param"].ToString() == "img_btV") img_btV = row["valor"].ToString().Trim();         // imagen del boton de accion VISUALIZAR
-                        if (row["param"].ToString() == "img_bti") img_bti = row["valor"].ToString().Trim();         // imagen del boton de accion IR AL INICIO
-                        if (row["param"].ToString() == "img_bts") img_bts = row["valor"].ToString().Trim();         // imagen del boton de accion SIGUIENTE
-                        if (row["param"].ToString() == "img_btr") img_btr = row["valor"].ToString().Trim();         // imagen del boton de accion RETROCEDE
-                        if (row["param"].ToString() == "img_btf") img_btf = row["valor"].ToString().Trim();         // imagen del boton de accion IR AL FINAL
-                        if (row["param"].ToString() == "img_gra") img_grab = row["valor"].ToString().Trim();         // imagen del boton grabar nuevo
-                        if (row["param"].ToString() == "img_anu") img_anul = row["valor"].ToString().Trim();         // imagen del boton grabar anular
-                    }
-                    if (row["campo"].ToString() == "estado" && row["param"].ToString() == "anulado") vEstAnu = row["valor"].ToString().Trim();
+                    //DataRow row = Program.dt_enlaces.Rows[t];
+                    //if (row["campo"].ToString() == "estado" && row["param"].ToString() == "anulado") vEstAnu = row["valor"].ToString().Trim();
                 }
             }
             catch (MySqlException ex)

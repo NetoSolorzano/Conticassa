@@ -99,6 +99,9 @@ namespace Conticassa
                         {
                             Tx_catIngre.Text = ayu2.ReturnValueA[1];
                             eti_nomCat.Text = ayu2.ReturnValueA[2];
+                            OcatIn.codigo = ayu2.ReturnValueA[0];
+                            OcatIn.nombre = ayu2.ReturnValueA[1];
+                            OcatIn.largo = ayu2.ReturnValueA[2];
                         }
                     }
                 }

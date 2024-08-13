@@ -97,6 +97,9 @@ namespace Conticassa
                         {
                             Tx_catEgre.Text = ayu2.ReturnValueA[1];
                             eti_nomCat.Text = ayu2.ReturnValueA[2];
+                            OcatEg.codigo = ayu2.ReturnValueA[0];
+                            OcatEg.nombre = ayu2.ReturnValueA[1];
+                            OcatEg.largo = ayu2.ReturnValueA[2];
                         }
                     }
                 }
