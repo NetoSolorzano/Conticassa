@@ -30,6 +30,7 @@ namespace Conticassa
             para3 = param3;              //
             para4 = param4;              // 
             InitializeComponent();
+            tx_buscar.CharacterCasing = CharacterCasing.Upper;
         }
         private void ayuda2_Load(object sender, EventArgs e)
         {
@@ -57,22 +58,22 @@ namespace Conticassa
             if (para1 == "omg" && para2 == "cuenta" && para3 == "activos" && para4 == "")
             {
                 consulta = "select idcodice,descrizionerid,descrizione " +
-                "from desc_ where numero=0";
+                "from desc_ where numero=0 order by descrizionerid asc";
             }
             if (para1 == "personal" && para2 == "cuenta" && para3 == "activos" && para4 == "")    // CUENTAS PERSONALES
             {
                 consulta = "select idcodice,descrizionerid,descrizione " +
-                    "from desc_con where numero=0";
+                    "from desc_con where numero=0 order by descrizionerid asc";
             }
             if (para1 != "" && para2 == "tEgresos" && para3 == "activos" && para4 == "")
             {
                 consulta = "select idcodice,descrizionerid,descrizione " +
-                    "from desc_cam where numero=1";
+                    "from desc_cam where numero=1 order by descrizionerid asc";
             }
             if (para1 == "provee" && para2 == "" && para3 == "activos" && para4 == "")          // proveedores
             {
                 consulta = "select idanagrafica,ragionesociale,indirizzo1 " +
-                    "from anag_for where stato=1";
+                    "from anag_for where stato=1 order by ragionesociale asc";
             }
             dataGridView1.Rows.Clear();
             dataGridView1.ColumnCount = 3;
@@ -82,6 +83,7 @@ namespace Conticassa
             dataGridView1.Columns[1].Name = "NOMBRE";
             dataGridView1.Columns[1].Width = 150;
             dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[1].DefaultCellStyle.BackColor = Color.FromName("info");
             dataGridView1.Columns[2].Name = (para1 == "provee") ? " DIRECCION" : "DETALLE";
             dataGridView1.Columns[2].Width = 320;
             dataGridView1.Columns[2].ReadOnly = true;
@@ -102,9 +104,9 @@ namespace Conticassa
                         {
                             DataRow row = dtDatos.Rows[li];
                             dataGridView1.Rows.Add(
-                                                row.ItemArray[0].ToString(),
-                                                row.ItemArray[1].ToString(),
-                                                row.ItemArray[2].ToString()
+                                                row.ItemArray[0].ToString().ToUpper(),
+                                                row.ItemArray[1].ToString().ToUpper(),
+                                                row.ItemArray[2].ToString().ToUpper()
                                                 );
                         }
                     }
@@ -132,13 +134,13 @@ namespace Conticassa
         {
             if (tx_codigo.Text.Trim() != "")
             {
-                ReturnValue0 = tx_codigo.Text;  // tx_id.Text
-                ReturnValue1 = tx_nombre.Text;
+                ReturnValue0 = tx_codigo.Text.Trim().ToUpper();  // tx_id.Text
+                ReturnValue1 = tx_nombre.Text.Trim().ToUpper();
                 ReturnValue2 = "";
                 {
-                    ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                    ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                    ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                    ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();
+                    ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();
+                    ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString().ToUpper();
                     ReturnValueA[3] = "";
                 }
             }
@@ -149,13 +151,13 @@ namespace Conticassa
         {
             string cellva = "";
             {
-                tx_nombre.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                cellva = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                tx_nombre.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();
+                cellva = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();
                 tx_codigo.Text = cellva;
                 tx_id.Text = "";
-                ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString();   // codigo
-                ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString();   // nombre
-                ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString();   // detalle / dirección
+                ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();   // codigo
+                ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();   // nombre
+                ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString().ToUpper();   // detalle / dirección
                 ReturnValueA[3] = "";
             }
             //Program.retorna1 = cellva;
@@ -166,13 +168,13 @@ namespace Conticassa
         {
             if (e.KeyChar == Convert.ToChar(Keys.Enter))
             {
-                ReturnValue1 = tx_codigo.Text;
-                ReturnValue0 = tx_id.Text;
-                ReturnValue2 = tx_nombre.Text;
+                ReturnValue1 = tx_codigo.Text.Trim().ToUpper();
+                ReturnValue0 = tx_id.Text.Trim().ToUpper();
+                ReturnValue2 = tx_nombre.Text.Trim().ToUpper();
                 {
-                    ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString();
-                    ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                    ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                    ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();
+                    ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();
+                    ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString().ToUpper();
                     ReturnValueA[3] = "";
                 }
                 this.Close();
@@ -188,16 +190,14 @@ namespace Conticassa
                 for (li = 0; li < dtDatos.Rows.Count; li++) // 
                 {
                     DataRow row = dtDatos.Rows[li];
-                    //string cols3 = "omg,personal,tEgresos,provee";         // busqueda en columna 1
-                    //string col14 = "????";             // 14 columnas
                     {
                         if (true)   // cols3.Contains(para1)
                         {
-                            if (row.ItemArray[1].ToString().ToLower().Contains(tx_buscar.Text.Trim().ToLower()))
+                            if (row.ItemArray[1].ToString().ToUpper().Contains(tx_buscar.Text.Trim().ToUpper()))
                             {
-                                dataGridView1.Rows.Add(row.ItemArray[0].ToString(),
-                                                row.ItemArray[1].ToString(),
-                                                row.ItemArray[2].ToString()
+                                dataGridView1.Rows.Add(row.ItemArray[0].ToString().ToUpper(),
+                                                row.ItemArray[1].ToString().ToUpper(),
+                                                row.ItemArray[2].ToString().ToUpper()
                                                 );
                             }
                         }
@@ -213,9 +213,9 @@ namespace Conticassa
                 {
                     DataRow row = dtDatos.Rows[li];
                     dataGridView1.Rows.Add(
-                                        row.ItemArray[0].ToString(),
-                                        row.ItemArray[1].ToString(),
-                                        row.ItemArray[2].ToString()
+                                        row.ItemArray[0].ToString().ToUpper(),
+                                        row.ItemArray[1].ToString().ToUpper(),
+                                        row.ItemArray[2].ToString().ToUpper()
                                         );
                 }
             }
@@ -225,13 +225,13 @@ namespace Conticassa
         {
             string cellva = "";
             {
-                tx_nombre.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString();
-                cellva = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                tx_nombre.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();
+                cellva = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();
                 tx_codigo.Text = cellva;
                 tx_id.Text = "";
-                ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString();   // codigo
-                ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString();   // nombre
-                ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString();   // descripcion / direccion
+                ReturnValueA[0] = dataGridView1.CurrentRow.Cells[0].Value.ToString().ToUpper();   // codigo
+                ReturnValueA[1] = dataGridView1.CurrentRow.Cells[1].Value.ToString().ToUpper();   // nombre
+                ReturnValueA[2] = dataGridView1.CurrentRow.Cells[2].Value.ToString().ToUpper();   // descripcion / direccion
                 ReturnValueA[3] = "";
             }
             tx_codigo.Focus();

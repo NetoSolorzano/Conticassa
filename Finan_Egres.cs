@@ -138,7 +138,7 @@ namespace Conticassa
             acsc.Clear();
             foreach (DataRow row in depar)
             {
-                acsc.Add(row["descrizionerid"].ToString().Trim());
+                acsc.Add(row["descrizionerid"].ToString().Trim().ToUpper());
             }
             listBox1.Visible = false;
             // cuentas personales
@@ -150,7 +150,7 @@ namespace Conticassa
             accd.Clear();
             foreach (DataRow row in depar)
             {
-                accd.Add(row["descrizionerid"].ToString().Trim());
+                accd.Add(row["descrizionerid"].ToString().Trim().ToUpper());
             }
             listBox2.Visible = false;
             // giroconto
@@ -162,7 +162,7 @@ namespace Conticassa
             acgc.Clear();
             foreach (DataRow row in depar)
             {
-                acgc.Add(row["descrizionerid"].ToString().Trim());
+                acgc.Add(row["descrizionerid"].ToString().Trim().ToUpper());
             }
             listBox3.Visible = false;
             // monedas
@@ -198,11 +198,14 @@ namespace Conticassa
         private void initCampos()
         {
             Tx_catEgre.MaxLength = 20;
+            Tx_catEgre.CharacterCasing = CharacterCasing.Upper;
             Tx_ctaDes.MaxLength = 20;
+            Tx_ctaDes.CharacterCasing = CharacterCasing.Upper;
             tx_ctaGiro.MaxLength = 20;
+            tx_ctaGiro.CharacterCasing = CharacterCasing.Upper;
             tx_descrip.MaxLength = 100;
             tx_idOper.MaxLength = 15;
-        }
+        }                                               // inicializa ancho de campos y upper case
 
         #region Botones de comando
         // acá falta todo el asunto de leer los permisos del usuario

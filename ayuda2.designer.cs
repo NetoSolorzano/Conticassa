@@ -67,10 +67,10 @@
             // 
             // tx_codigo
             // 
-            this.tx_codigo.Location = new System.Drawing.Point(150, 466);
+            this.tx_codigo.Location = new System.Drawing.Point(120, 466);
             this.tx_codigo.Name = "tx_codigo";
             this.tx_codigo.ReadOnly = true;
-            this.tx_codigo.Size = new System.Drawing.Size(151, 20);
+            this.tx_codigo.Size = new System.Drawing.Size(121, 20);
             this.tx_codigo.TabIndex = 2;
             this.tx_codigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tx_codigo_KeyPress);
             // 
@@ -81,18 +81,20 @@
             this.tx_id.ReadOnly = true;
             this.tx_id.Size = new System.Drawing.Size(64, 20);
             this.tx_id.TabIndex = 3;
+            this.tx_id.Visible = false;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 469);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(131, 13);
+            this.label1.Size = new System.Drawing.Size(106, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Información seleccionada ";
+            this.label1.Text = "Código seleccionado";
             // 
             // tx_buscar
             // 
+            this.tx_buscar.BackColor = System.Drawing.SystemColors.Info;
             this.tx_buscar.Location = new System.Drawing.Point(106, 2);
             this.tx_buscar.Name = "tx_buscar";
             this.tx_buscar.Size = new System.Drawing.Size(335, 20);
