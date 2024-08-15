@@ -410,7 +410,7 @@
             this.pan_p.Location = new System.Drawing.Point(2, 34);
             this.pan_p.Name = "pan_p";
             this.pan_p.Size = new System.Drawing.Size(339, 21);
-            this.pan_p.TabIndex = 36;
+            this.pan_p.TabIndex = 0;
             // 
             // rb_pers
             // 
@@ -537,7 +537,7 @@
             this.Tx_ctaDes.Location = new System.Drawing.Point(129, 117);
             this.Tx_ctaDes.Name = "Tx_ctaDes";
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
-            this.Tx_ctaDes.TabIndex = 7;
+            this.Tx_ctaDes.TabIndex = 8;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
             this.Tx_ctaDes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_ctaDes_KeyPress);
             this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
@@ -559,11 +559,12 @@
             this.tx_tipcam.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tx_tipcam.Font = new System.Drawing.Font("Verdana", 9F);
             this.tx_tipcam.ForeColor = System.Drawing.Color.Blue;
-            this.tx_tipcam.Location = new System.Drawing.Point(388, 98);
+            this.tx_tipcam.Location = new System.Drawing.Point(130, 2);
             this.tx_tipcam.Name = "tx_tipcam";
             this.tx_tipcam.Size = new System.Drawing.Size(77, 15);
-            this.tx_tipcam.TabIndex = 6;
+            this.tx_tipcam.TabIndex = 1;
             this.tx_tipcam.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.tx_tipcam.Leave += new System.EventHandler(this.tx_tipcam_Leave);
             this.tx_tipcam.Validating += new System.ComponentModel.CancelEventHandler(this.tx_tipcam_Validating);
             // 
             // tx_monto
@@ -575,7 +576,7 @@
             this.tx_monto.Location = new System.Drawing.Point(178, 98);
             this.tx_monto.Name = "tx_monto";
             this.tx_monto.Size = new System.Drawing.Size(80, 15);
-            this.tx_monto.TabIndex = 5;
+            this.tx_monto.TabIndex = 6;
             this.tx_monto.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tx_monto.Validating += new System.ComponentModel.CancelEventHandler(this.tx_monto_Validating);
             // 
@@ -587,7 +588,7 @@
             this.cmb_mon.Location = new System.Drawing.Point(129, 95);
             this.cmb_mon.Name = "cmb_mon";
             this.cmb_mon.Size = new System.Drawing.Size(47, 20);
-            this.cmb_mon.TabIndex = 4;
+            this.cmb_mon.TabIndex = 5;
             this.cmb_mon.SelectedIndexChanged += new System.EventHandler(this.cmb_mon_SelectedIndexChanged);
             this.cmb_mon.SelectedValueChanged += new System.EventHandler(this.cmb_mon_SelectedValueChanged);
             // 
@@ -607,7 +608,7 @@
             this.generalEtiqueta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta2.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta2.Location = new System.Drawing.Point(261, 98);
+            this.generalEtiqueta2.Location = new System.Drawing.Point(2, 2);
             this.generalEtiqueta2.Name = "generalEtiqueta2";
             this.generalEtiqueta2.Size = new System.Drawing.Size(125, 15);
             this.generalEtiqueta2.TabIndex = 6;
@@ -616,10 +617,10 @@
             // selecFecha1
             // 
             this.selecFecha1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.selecFecha1.Location = new System.Drawing.Point(388, 57);
+            this.selecFecha1.Location = new System.Drawing.Point(471, 57);
             this.selecFecha1.Name = "selecFecha1";
-            this.selecFecha1.Size = new System.Drawing.Size(99, 20);
-            this.selecFecha1.TabIndex = 1;
+            this.selecFecha1.Size = new System.Drawing.Size(16, 20);
+            this.selecFecha1.TabIndex = 3;
             // 
             // generalEtiqueta1
             // 
@@ -641,7 +642,7 @@
             this.Tx_catEgre.Location = new System.Drawing.Point(129, 79);
             this.Tx_catEgre.Name = "Tx_catEgre";
             this.Tx_catEgre.Size = new System.Drawing.Size(129, 14);
-            this.Tx_catEgre.TabIndex = 2;
+            this.Tx_catEgre.TabIndex = 4;
             this.Tx_catEgre.TextChanged += new System.EventHandler(this.Tx_catEgre_TextChanged);
             this.Tx_catEgre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_catEgre_KeyPress);
             this.Tx_catEgre.Leave += new System.EventHandler(this.Tx_catEgre_Leave);
@@ -673,21 +674,21 @@
             // 
             this.panelGeneral4.BackColor = System.Drawing.Color.White;
             this.panelGeneral4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelGeneral4.Controls.Add(this.chk_datSimil);
-            this.panelGeneral4.Controls.Add(this.generalEtiqueta5);
+            this.panelGeneral4.Controls.Add(this.generalEtiqueta2);
+            this.panelGeneral4.Controls.Add(this.tx_tipcam);
             this.panelGeneral4.ForeColor = System.Drawing.Color.Blue;
             this.panelGeneral4.Location = new System.Drawing.Point(340, 34);
             this.panelGeneral4.Name = "panelGeneral4";
             this.panelGeneral4.Size = new System.Drawing.Size(221, 21);
-            this.panelGeneral4.TabIndex = 42;
+            this.panelGeneral4.TabIndex = 1;
             // 
             // chk_datSimil
             // 
             this.chk_datSimil.AutoSize = true;
-            this.chk_datSimil.Location = new System.Drawing.Point(171, 3);
+            this.chk_datSimil.Location = new System.Drawing.Point(544, 99);
             this.chk_datSimil.Name = "chk_datSimil";
             this.chk_datSimil.Size = new System.Drawing.Size(15, 14);
-            this.chk_datSimil.TabIndex = 1;
+            this.chk_datSimil.TabIndex = 7;
             this.chk_datSimil.UseVisualStyleBackColor = true;
             // 
             // generalEtiqueta5
@@ -695,7 +696,7 @@
             this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta5.Font = new System.Drawing.Font("Verdana", 9F);
             this.generalEtiqueta5.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta5.Location = new System.Drawing.Point(2, 2);
+            this.generalEtiqueta5.Location = new System.Drawing.Point(418, 98);
             this.generalEtiqueta5.Name = "generalEtiqueta5";
             this.generalEtiqueta5.Size = new System.Drawing.Size(122, 15);
             this.generalEtiqueta5.TabIndex = 0;
@@ -902,7 +903,7 @@
             this.tx_idOper.Location = new System.Drawing.Point(129, 61);
             this.tx_idOper.Name = "tx_idOper";
             this.tx_idOper.Size = new System.Drawing.Size(129, 13);
-            this.tx_idOper.TabIndex = 59;
+            this.tx_idOper.TabIndex = 2;
             this.tx_idOper.Validating += new System.ComponentModel.CancelEventHandler(this.tx_idOper_Validating);
             // 
             // Finan_Egres
@@ -911,7 +912,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.tx_idOper);
+            this.Controls.Add(this.generalEtiqueta5);
             this.Controls.Add(this.eti_idOper);
             this.Controls.Add(this.listBox3);
             this.Controls.Add(this.eti_nomCat);
@@ -927,7 +930,6 @@
             this.Controls.Add(this.linO2);
             this.Controls.Add(this.linO1);
             this.Controls.Add(this.selecFecha1);
-            this.Controls.Add(this.tx_tipcam);
             this.Controls.Add(this.generalEtiqueta1);
             this.Controls.Add(this.eti_nomCaja);
             this.Controls.Add(this.Tx_catEgre);
@@ -937,7 +939,6 @@
             this.Controls.Add(this.cmb_mon);
             this.Controls.Add(this.Tx_ctaDes);
             this.Controls.Add(this.generalEtiqueta3);
-            this.Controls.Add(this.generalEtiqueta2);
             this.Controls.Add(this.generalEtiqueta7);
             this.Controls.Add(this.generalEtiqueta4);
             this.Controls.Add(this.tx_provee);

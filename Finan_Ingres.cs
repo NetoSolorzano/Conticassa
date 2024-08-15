@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -186,6 +187,7 @@ namespace Conticassa
             tx_ctaGiro.CharacterCasing = CharacterCasing.Upper;
             tx_descrip.MaxLength = 100;
             tx_idOper.MaxLength = 15;
+            
         }                                               // inicializa ancho de campos y upper case
 
         #region Botones de comando
@@ -299,6 +301,7 @@ namespace Conticassa
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
             if (quien == "EDICION") tx_idOper.ReadOnly = true;
+            Tx_fecha.ReadOnly = false;
             Tx_catIngre.ReadOnly = false;
             Tx_ctaDes.ReadOnly = false;
             tx_ctaGiro.ReadOnly = false;

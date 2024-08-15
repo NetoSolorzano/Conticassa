@@ -853,6 +853,14 @@ namespace Conticassa
             }
             return retorna;
         }
+        private void tx_tipcam_Leave(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
+            {
+                tx_idOper.Focus();
+            }
+        }
+
         #endregion
 
         #region combos
@@ -1446,6 +1454,5 @@ namespace Conticassa
             }
             return sValue;
         }                  // devuelve los ultimos n caractares desde la derecha
-
     }
 }

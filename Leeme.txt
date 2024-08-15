@@ -5,10 +5,10 @@
 - Clave: Conti00*
 
 Pendientes:
+- Me quede arreglando el asunto de la fecha con masketextbox en form ingresos 14/08/2024
 - FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, con girocontos
 - GIROCONTO en Ingresos y Egresos
-- Arreglar el form de ayuda, darle la forma y estilo 
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
 - Crear función en el Login.cs para que valide cambio de año en el servidor, si es así, debe reiniciar contadores, tabla: contatori
 - Revisar si en definiciones es 0 ó 1 el valor del campo "numero" para los registros activos

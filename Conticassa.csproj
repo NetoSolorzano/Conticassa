@@ -108,6 +108,12 @@
     <Compile Include="ayuda2.designer.cs">
       <DependentUpon>ayuda2.cs</DependentUpon>
     </Compile>
+    <Compile Include="definiciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="definiciones.Designer.cs">
+      <DependentUpon>definiciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="Egresos.cs" />
     <Compile Include="enlaces.cs">
       <SubType>Form</SubType>
@@ -159,6 +165,9 @@
     </Compile>
     <EmbeddedResource Include="ayuda2.resx">
       <DependentUpon>ayuda2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="definiciones.resx">
+      <DependentUpon>definiciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="enlaces.resx">
       <DependentUpon>enlaces.cs</DependentUpon>

@@ -360,7 +360,7 @@
             this.advancedDataGridView1.DateWithTime = false;
             this.advancedDataGridView1.Location = new System.Drawing.Point(3, 6);
             this.advancedDataGridView1.Name = "advancedDataGridView1";
-            this.advancedDataGridView1.Size = new System.Drawing.Size(650, 334);
+            this.advancedDataGridView1.Size = new System.Drawing.Size(650, 333);
             this.advancedDataGridView1.TabIndex = 0;
             this.advancedDataGridView1.TimeFilter = false;
             this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);

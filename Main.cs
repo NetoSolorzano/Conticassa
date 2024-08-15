@@ -233,6 +233,7 @@ namespace Conticassa
             menuStrip1.Items.Clear();
             menuStrip1.Items.Add("Permisos", Resource1.permisos20, pcon_permisos_Click);
             menuStrip1.Items.Add("Enlaces", Resource1.link20, pcon_enlaces_Click);
+            menuStrip1.Items.Add("Definiciones", Resource1.link20, pcon_definic_Click);
             //
             menuStrip1.Visible = true;
         }
@@ -250,6 +251,16 @@ namespace Conticassa
             pn_centro.Controls.Add(enl);
             //if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
             enl.Show();
+        }
+        private void pcon_definic_Click(object sender, EventArgs e)
+        {
+            definiciones fde = new definiciones();
+            fde.TopLevel = false;
+            fde.Parent = this;
+            fde.Left = pn_centro.Width / 3;
+            fde.Top = pn_centro.Height / 3;
+            pn_centro.Controls.Add(fde);
+            fde.Show();
         }
         #endregion
 

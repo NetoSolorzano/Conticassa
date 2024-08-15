@@ -33,6 +33,11 @@ namespace Conticassa
                     oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
                     oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
                 }
+                if (oControl is MaskedTextBox)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                }
                 if (oControl is Label)
                 {
                     if (oControl.Name == "eti_tituloForm")
@@ -69,6 +74,11 @@ namespace Conticassa
                         {
                             control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
                             control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                        }
+                        if (oControl is MaskedTextBox)
+                        {
+                            oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
                         }
                         if (control is Label)
                         {
@@ -188,6 +198,17 @@ namespace Conticassa
             }
         }
         */
+    }
+    public class fechaTextBox : MaskedTextBox
+    {
+        publicoConf conf = new publicoConf();
+        public fechaTextBox()
+        {
+            Font = new Font(conf.nombreFont, conf.tamañoFont);
+            BackColor = Color.FromName(conf.nombreFondo); // Color.Aqua;
+            ForeColor = Color.FromName(conf.colorFont);
+            BorderStyle = BorderStyle.None;
+        }
     }
     public class generalEtiqueta : Label
     {
