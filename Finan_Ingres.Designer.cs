@@ -97,7 +97,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.linV1 = new System.Windows.Forms.Label();
             this.linO6 = new System.Windows.Forms.Label();
-            this.generalTextBox1 = new Conticassa.generalTextBox();
+            this.Tx_fecha = new System.Windows.Forms.MaskedTextBox();
             this.panelGeneral5.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.pan_p.SuspendLayout();
@@ -110,7 +110,7 @@
             // 
             this.eti_tituloForm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.eti_tituloForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(205)))), ((int)(((byte)(131)))));
+            this.eti_tituloForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(227)))), ((int)(((byte)(109)))));
             this.eti_tituloForm.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eti_tituloForm.ForeColor = System.Drawing.Color.Black;
             this.eti_tituloForm.Location = new System.Drawing.Point(1, 1);
@@ -245,7 +245,8 @@
             this.selecFecha1.Location = new System.Drawing.Point(469, 56);
             this.selecFecha1.Name = "selecFecha1";
             this.selecFecha1.Size = new System.Drawing.Size(18, 20);
-            this.selecFecha1.TabIndex = 3;
+            this.selecFecha1.TabIndex = 333;
+            this.selecFecha1.ValueChanged += new System.EventHandler(this.selecFecha1_ValueChanged);
             // 
             // tx_tipcam
             // 
@@ -339,7 +340,7 @@
             this.Tx_ctaDes.Location = new System.Drawing.Point(129, 116);
             this.Tx_ctaDes.Name = "Tx_ctaDes";
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
-            this.Tx_ctaDes.TabIndex = 8;
+            this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
             this.Tx_ctaDes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_ctaDes_KeyPress);
             // 
@@ -465,7 +466,7 @@
             this.chk_datSimil.Location = new System.Drawing.Point(543, 98);
             this.chk_datSimil.Name = "chk_datSimil";
             this.chk_datSimil.Size = new System.Drawing.Size(15, 14);
-            this.chk_datSimil.TabIndex = 7;
+            this.chk_datSimil.TabIndex = 88;
             this.chk_datSimil.UseVisualStyleBackColor = true;
             // 
             // generalEtiqueta5
@@ -543,7 +544,7 @@
             this.tx_descrip.Multiline = true;
             this.tx_descrip.Name = "tx_descrip";
             this.tx_descrip.Size = new System.Drawing.Size(431, 34);
-            this.tx_descrip.TabIndex = 9;
+            this.tx_descrip.TabIndex = 8;
             // 
             // dataGridView1
             // 
@@ -737,6 +738,7 @@
             // Tx_modo
             // 
             this.Tx_modo.BackColor = System.Drawing.SystemColors.Control;
+            this.Tx_modo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Tx_modo.Name = "Tx_modo";
             this.Tx_modo.ReadOnly = true;
             this.Tx_modo.Size = new System.Drawing.Size(100, 35);
@@ -858,24 +860,26 @@
             this.linO6.Size = new System.Drawing.Size(557, 2);
             this.linO6.TabIndex = 97;
             // 
-            // generalTextBox1
+            // Tx_fecha
             // 
-            this.generalTextBox1.BackColor = System.Drawing.Color.White;
-            this.generalTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.generalTextBox1.Font = new System.Drawing.Font("Verdana", 8F);
-            this.generalTextBox1.ForeColor = System.Drawing.Color.Black;
-            this.generalTextBox1.Location = new System.Drawing.Point(388, 59);
-            this.generalTextBox1.Name = "generalTextBox1";
-            this.generalTextBox1.Size = new System.Drawing.Size(79, 13);
-            this.generalTextBox1.TabIndex = 99;
+            this.Tx_fecha.BeepOnError = true;
+            this.Tx_fecha.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Tx_fecha.InsertKeyMode = System.Windows.Forms.InsertKeyMode.Overwrite;
+            this.Tx_fecha.Location = new System.Drawing.Point(386, 60);
+            this.Tx_fecha.Mask = "00/00/0000";
+            this.Tx_fecha.Name = "Tx_fecha";
+            this.Tx_fecha.Size = new System.Drawing.Size(81, 13);
+            this.Tx_fecha.TabIndex = 3;
+            this.Tx_fecha.ValidatingType = typeof(System.DateTime);
+            this.Tx_fecha.Click += new System.EventHandler(this.Tx_fecha_Click);
             // 
             // Finan_Ingres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(238)))), ((int)(((byte)(224)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(227)))), ((int)(((byte)(109)))));
             this.ClientSize = new System.Drawing.Size(832, 332);
-            this.Controls.Add(this.generalTextBox1);
+            this.Controls.Add(this.Tx_fecha);
             this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.linV1);
             this.Controls.Add(this.generalEtiqueta5);
@@ -1002,6 +1006,6 @@
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label linO6;
         private System.Windows.Forms.Label linV1;
-        private generalTextBox generalTextBox1;
+        private System.Windows.Forms.MaskedTextBox Tx_fecha;
     }
 }

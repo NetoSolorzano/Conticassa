@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -34,8 +35,10 @@ namespace Conticassa
 
         public Finan_Ingres()
         {
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             InitializeComponent();                  // inicializa los objetos graficos
             CargaINI(this);                         // colorea los objetos graficos
+            oFEgres.colorea(this, "#578a3b", "#badaa9", "#f2faed");   // pinta el mundo de colores
             CargaDatos();                           // jala datos de combos y demas
             chk_giroC_CheckedChanged(null, null);   // 
             sololee("T");                           // T=todos los campos, "" ó "C" campos comunes
@@ -198,7 +201,8 @@ namespace Conticassa
             rb_pers.Checked = true;
             rb_pers_Click(null, null);
             escribe("");
-            Tx_catIngre.Focus();
+            Tx_fecha.Text = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            tx_tipcam.Focus();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
@@ -620,6 +624,7 @@ namespace Conticassa
         {
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
+            tx_monto.Text = Math.Round(monti, 2).ToString("#,000.00");
             decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
@@ -643,6 +648,19 @@ namespace Conticassa
                     Omonto = oFEgres.calc_monedas(cmb_mon, monti, cambi);
                 }
             }
+        }
+        private void selecFecha1_ValueChanged(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
+            {
+                Tx_fecha.Text = selecFecha1.Value.Date.ToString("dd/MM/yyyy");
+            }
+        }
+        private void Tx_fecha_Click(object sender, EventArgs e)
+        {
+            var mtb = (MaskedTextBox)sender;
+            mtb.Select(0, 0);
+            mtb.Focus();
         }
 
         #endregion

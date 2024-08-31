@@ -5,7 +5,7 @@
 - Clave: Conti00*
 
 Pendientes:
-- Me quede arreglando el asunto de la fecha con masketextbox en form ingresos 14/08/2024
+- me quede en poner colores de datos fijos 31/08/2024
 - FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, con girocontos
 - GIROCONTO en Ingresos y Egresos

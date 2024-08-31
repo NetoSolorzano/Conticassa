@@ -58,12 +58,12 @@ namespace Conticassa
             if (para1 == "omg" && para2 == "cuenta" && para3 == "activos" && para4 == "")
             {
                 consulta = "select idcodice,descrizionerid,descrizione " +
-                "from desc_ where numero=0 order by descrizionerid asc";
+                "from desc_des where numero=1 order by descrizionerid asc";
             }
             if (para1 == "personal" && para2 == "cuenta" && para3 == "activos" && para4 == "")    // CUENTAS PERSONALES
             {
                 consulta = "select idcodice,descrizionerid,descrizione " +
-                    "from desc_con where numero=0 order by descrizionerid asc";
+                    "from desc_con where numero=1 order by descrizionerid asc";
             }
             if (para1 != "" && para2 == "tEgresos" && para3 == "activos" && para4 == "")
             {

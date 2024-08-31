@@ -35,6 +35,7 @@ namespace Conticassa
             InitializeComponent();                  // inicializa los objetos graficos
             CargaINI(this);                         // colorea los objetos graficos
             CargaFormatos();                        // jala datos de combos y demas
+            colorea(this, "#e35b46", "#f58f7f", "#fae0dc");    // pinta el mundo de colores!
             chk_giroC_CheckedChanged(null, null);   // 
             sololee("T");                           // T=todos los campos, "" ó "C" campos comunes
             jalainfo();                             // jala variables de tabla enlace
@@ -127,8 +128,8 @@ namespace Conticassa
         }    // F1 
         private void CargaFormatos()
         {
-            this.BackColor = Color.FromArgb(1, 150, 174, 101); // rgba(150, 174, 101, 0.8)
-            pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
+            //this.BackColor = Color.FromArgb(1, 150, 174, 101); // rgba(150, 174, 101, 0.8)
+            //pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catEgre.AutoCompleteCustomSource = acsc;
@@ -170,6 +171,87 @@ namespace Conticassa
             cmb_mon.DataSource = depar.CopyToDataTable();
             cmb_mon.DisplayMember = "descrizionerid";
             cmb_mon.ValueMember = "idcodice";
+        }
+        public void colorea(Form este, string fuerte, string normal, string suave)
+        {
+            este.BackColor = ColorTranslator.FromHtml(normal); // cuando usamos FromHtml NO da error por fondo transparente
+            foreach (Control oControl in este.Controls)
+            {
+                if (oControl is TextBox)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is MaskedTextBox)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is Label)
+                {
+                    if (oControl.Name == "eti_tituloForm")
+                    {
+                        oControl.BackColor = ColorTranslator.FromHtml(fuerte); // cuando usamos FromHtml NO da error por fondo transparente
+                    }
+                    else
+                    {
+                        oControl.BackColor = ColorTranslator.FromHtml(normal); // cuando usamos FromHtml NO da error por fondo transparente
+                    }
+                }
+                if (oControl is CheckBox)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is RadioButton)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is ListBox)
+                {
+                    oControl.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                    oControl.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is ComboBox)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                }
+                if (oControl is Panel)
+                {
+                    oControl.BackColor = ColorTranslator.FromHtml(suave);
+                    foreach (Control control in oControl.Controls)
+                    {
+                        if (control is TextBox)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                        }
+                        if (oControl is MaskedTextBox)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                        }
+                        if (control is Label)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(normal); // Color.FromArgb(1, 186, 218, 169);
+                        }
+                        if (control is CheckBox)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                        }
+                        if (control is RadioButton)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                        }
+                        if (control is ListBox)
+                        {
+                            control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                            control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                            oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                        }
+                        if (control is ComboBox)
+                        {
+                            control.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                        }
+                    }
+                }
+            }
         }
         private void jalainfo()
         {
@@ -675,6 +757,7 @@ namespace Conticassa
         {
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
+            tx_monto.Text = Math.Round(monti, 2).ToString("#,000.00");
             decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
@@ -860,7 +943,19 @@ namespace Conticassa
                 tx_idOper.Focus();
             }
         }
-
+        private void Tx_fecha_Click(object sender, EventArgs e)
+        {
+            var mtb = (MaskedTextBox)sender;
+            mtb.Select(0, 0);
+            mtb.Focus();
+        }
+        private void selecFecha1_ValueChanged(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
+            {
+                Tx_fecha.Text = selecFecha1.Value.Date.ToString("dd/MM/yyyy");
+            }
+        }
         #endregion
 
         #region combos

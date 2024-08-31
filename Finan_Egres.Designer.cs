@@ -101,6 +101,7 @@
             this.listBox3 = new System.Windows.Forms.ListBox();
             this.eti_idOper = new Conticassa.generalEtiqueta();
             this.tx_idOper = new Conticassa.NumericTextBox();
+            this.Tx_fecha = new System.Windows.Forms.MaskedTextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pan_p.SuspendLayout();
@@ -285,6 +286,7 @@
             // Tx_modo
             // 
             this.Tx_modo.BackColor = System.Drawing.SystemColors.Control;
+            this.Tx_modo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Tx_modo.Name = "Tx_modo";
             this.Tx_modo.ReadOnly = true;
             this.Tx_modo.Size = new System.Drawing.Size(100, 35);
@@ -504,7 +506,7 @@
             this.tx_provee.Location = new System.Drawing.Point(129, 136);
             this.tx_provee.Name = "tx_provee";
             this.tx_provee.Size = new System.Drawing.Size(129, 14);
-            this.tx_provee.TabIndex = 9;
+            this.tx_provee.TabIndex = 8;
             this.tx_provee.Leave += new System.EventHandler(this.Tx_provee_Leave);
             // 
             // generalEtiqueta6
@@ -537,7 +539,7 @@
             this.Tx_ctaDes.Location = new System.Drawing.Point(129, 117);
             this.Tx_ctaDes.Name = "Tx_ctaDes";
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
-            this.Tx_ctaDes.TabIndex = 8;
+            this.Tx_ctaDes.TabIndex = 7;
             this.Tx_ctaDes.TextChanged += new System.EventHandler(this.Tx_ctaDes_TextChanged);
             this.Tx_ctaDes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Tx_ctaDes_KeyPress);
             this.Tx_ctaDes.Leave += new System.EventHandler(this.Tx_ctaDes_Leave);
@@ -620,7 +622,8 @@
             this.selecFecha1.Location = new System.Drawing.Point(471, 57);
             this.selecFecha1.Name = "selecFecha1";
             this.selecFecha1.Size = new System.Drawing.Size(16, 20);
-            this.selecFecha1.TabIndex = 3;
+            this.selecFecha1.TabIndex = 333;
+            this.selecFecha1.ValueChanged += new System.EventHandler(this.selecFecha1_ValueChanged);
             // 
             // generalEtiqueta1
             // 
@@ -668,7 +671,7 @@
             this.tx_descrip.Multiline = true;
             this.tx_descrip.Name = "tx_descrip";
             this.tx_descrip.Size = new System.Drawing.Size(431, 34);
-            this.tx_descrip.TabIndex = 10;
+            this.tx_descrip.TabIndex = 9;
             // 
             // panelGeneral4
             // 
@@ -726,7 +729,7 @@
             this.Bt_graba.Location = new System.Drawing.Point(678, 114);
             this.Bt_graba.Name = "Bt_graba";
             this.Bt_graba.Size = new System.Drawing.Size(62, 62);
-            this.Bt_graba.TabIndex = 11;
+            this.Bt_graba.TabIndex = 10;
             this.Bt_graba.UseVisualStyleBackColor = false;
             this.Bt_graba.Click += new System.EventHandler(this.Bt_graba_Click);
             // 
@@ -906,12 +909,26 @@
             this.tx_idOper.TabIndex = 2;
             this.tx_idOper.Validating += new System.ComponentModel.CancelEventHandler(this.tx_idOper_Validating);
             // 
+            // Tx_fecha
+            // 
+            this.Tx_fecha.BeepOnError = true;
+            this.Tx_fecha.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Tx_fecha.InsertKeyMode = System.Windows.Forms.InsertKeyMode.Overwrite;
+            this.Tx_fecha.Location = new System.Drawing.Point(387, 61);
+            this.Tx_fecha.Mask = "00/00/0000";
+            this.Tx_fecha.Name = "Tx_fecha";
+            this.Tx_fecha.Size = new System.Drawing.Size(81, 13);
+            this.Tx_fecha.TabIndex = 3;
+            this.Tx_fecha.ValidatingType = typeof(System.DateTime);
+            this.Tx_fecha.Click += new System.EventHandler(this.Tx_fecha_Click);
+            // 
             // Finan_Egres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.Tx_fecha);
             this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.tx_idOper);
             this.Controls.Add(this.generalEtiqueta5);
@@ -1047,5 +1064,6 @@
         private System.Windows.Forms.ListBox listBox3;
         private NumericTextBox tx_idOper;
         private generalEtiqueta eti_idOper;
+        private System.Windows.Forms.MaskedTextBox Tx_fecha;
     }
 }
