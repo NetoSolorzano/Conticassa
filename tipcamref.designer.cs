@@ -456,7 +456,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripButton Bt_fin;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private ADGV.AdvancedDataGridView advancedDataGridView1;
+        //private ADGV.AdvancedDataGridView advancedDataGridView1;
         private System.Windows.Forms.DateTimePicker dtp_yea;
         private System.Windows.Forms.DateTimePicker dtp_mes;
         private System.Windows.Forms.Button bt_agr;

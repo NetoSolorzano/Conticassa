@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using ADGV;
 using MySql.Data.MySqlClient;
 
 namespace Conticassa
@@ -115,8 +116,9 @@ namespace Conticassa
                     {
                         if (!string.IsNullOrEmpty(ayu2.ReturnValue1))   // 0=codigo, 1=descripCorta, 2=descripLarga
                         {
-                            tx_provee.Text = ayu2.ReturnValueA[0];
-                            eti_nomprovee.Text = ayu2.ReturnValueA[1];
+                            tx_dat_provee.Text = ayu2.ReturnValueA[0];
+                            tx_provee.Text = ayu2.ReturnValueA[1];
+                            eti_nomprovee.Text = ayu2.ReturnValueA[1]; // 31/08/2024 ya no usamos
                             SendKeys.Send("{Tab}");
                         }
                     }
@@ -128,8 +130,6 @@ namespace Conticassa
         }    // F1 
         private void CargaFormatos()
         {
-            //this.BackColor = Color.FromArgb(1, 150, 174, 101); // rgba(150, 174, 101, 0.8)
-            //pan_p.BackColor = Color.FromArgb(conf.fondoPrinRojoE, conf.fondoPrinVerdeE, conf.fondoPriAzulE);
             // categorias
             acsc = new AutoCompleteStringCollection();
             Tx_catEgre.AutoCompleteCustomSource = acsc;
@@ -273,8 +273,10 @@ namespace Conticassa
             tx_tipcam.Text = Oegreso.TipCamb.ToString("#0.000");
             Tx_ctaDes.Text = Oegreso.CajaDes.nombre;
             eti_nomCaja.Text = Oegreso.CajaDes.largo;
-            tx_provee.Text = Oegreso.Proveedor.codigo;
-            eti_nomprovee.Text = Oegreso.Proveedor.nombre;
+            //tx_provee.Text = Oegreso.Proveedor.codigo;    
+            tx_dat_provee.Text = Oegreso.Proveedor.codigo;
+            tx_provee.Text = Oegreso.Proveedor.nombre;
+            eti_nomprovee.Text = Oegreso.Proveedor.nombre;  // 31/08/2024 ya no es necesario
             tx_descrip.Text = Oegreso.Descrip;
         }                                                   // muestra en el formulario los objetos de la clase Egresos
         private void initCampos()
@@ -297,7 +299,9 @@ namespace Conticassa
             rb_pers.Checked = true;
             rb_pers_Click(null, null);
             escribe("");
-            Tx_catEgre.Focus();
+            Tx_fecha.Text = DateTime.Now.Date.ToString("dd/MM/yyyy");
+            if (tx_tipcam.Text == "") tx_tipcam.Focus();
+            else Tx_catEgre.Focus();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
@@ -391,6 +395,7 @@ namespace Conticassa
             tx_descrip.Clear();
             tx_monto.Clear();
             tx_provee.Clear();
+            tx_dat_provee.Clear();
             tx_tipcam.Clear();
             //
             eti_nomCaja.Text = "";
@@ -409,7 +414,7 @@ namespace Conticassa
             tx_ctaGiro.ReadOnly = false;
             tx_descrip.ReadOnly = false;
             tx_monto.ReadOnly = false;
-            tx_provee.ReadOnly = false;
+            tx_provee.ReadOnly = true; // false; 31/08/2024 solo se jala con F1, no se puede validar por nombre
             tx_tipcam.ReadOnly = false;
             //
             cmb_mon.Enabled = true;
@@ -476,6 +481,21 @@ namespace Conticassa
                 eti_nomCtaGiro.Visible = false;
             }
         }
+        private void chk_datSimil_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO")
+            {
+                if (chk_datSimil.CheckState == CheckState.Checked)
+                {
+                    if (Tx_catEgre.Text == "" && Tx_ctaDes.Text == "" && tx_provee.Text == "" )
+                    {
+                        jala_ultimo("EGRESO", ((rb_omg.Checked == true) ? rb_omg.Text : rb_pers.Text), Tx_fecha.Text);
+                    }
+                }
+
+            }
+        }
+
         #endregion
 
         #region autocompletado cat.egresos y cta.destino
@@ -659,7 +679,7 @@ namespace Conticassa
             {
                 if (tx_provee.Text.Trim() != "")
                 {
-                    Oprove = ValiProvee(tx_provee.Text);
+                    Oprove = ValiProvee(tx_dat_provee.Text);  // tx_provee.Text
                     if (Oprove.nombre == "")
                     {
                         eti_nomprovee.Text = "";
@@ -668,7 +688,8 @@ namespace Conticassa
                     }
                     else
                     {
-                        eti_nomprovee.Text = Oprove.nombre;
+                        tx_provee.Text = Oprove.nombre;
+                        eti_nomprovee.Text = Oprove.nombre; // 31/08/2024 ya no lo usamos
                     }
                 }
                 else
@@ -757,7 +778,7 @@ namespace Conticassa
         {
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
-            tx_monto.Text = Math.Round(monti, 2).ToString("#,000.00");
+            tx_monto.Text = Math.Round(monti, 2).ToString("#,##0.00");
             decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
@@ -773,6 +794,7 @@ namespace Conticassa
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
             decimal.TryParse(tx_tipcam.Text, out cambi);
+            tx_tipcam.Text = Math.Round(cambi, 3).ToString("#0.000");
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
                 Omonto.monOrige = monti;
@@ -1010,7 +1032,7 @@ namespace Conticassa
                                 dt_grillaE.Clear();
                                 dt_grillaE.Columns.Clear();
                                 da.Fill(dt_grillaE);
-                                dataGridView1.DataSource = dt_grillaE;
+                                advancedDataGridView1.DataSource = dt_grillaE;
                             }
                         }
                         // buscamos tipo de cambio del día
@@ -1045,7 +1067,7 @@ namespace Conticassa
                                 }
                             }
                         }
-                        armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
+                        armaGrilla(advancedDataGridView1, limCols);      // cuadramos las columnas de la grilla
                     }
                 }
                 catch (Exception ex)
@@ -1055,7 +1077,7 @@ namespace Conticassa
                 }
             }
         }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
-        public void armaGrilla(DataGridView dgv_, int filasLim)
+        private void armaGrilla(AdvancedDataGridView dgv_, int filasLim) // DataGridView dgv_, int filasLim
         {
             if (dgv_.Rows.Count > 0)
             {
@@ -1088,7 +1110,7 @@ namespace Conticassa
 
             }
         }                 // ajusta el ancho de las columnas y muestra hasta el limite
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void advancedadvancedDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (Tx_modo.Text != "NUEVO")
             {
@@ -1099,53 +1121,53 @@ namespace Conticassa
                 if (rb_omg.Checked == true)
                 {
                     // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
-                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
-                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
-                    OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
-                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
-                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
-                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
-                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
-                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
-                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
-                    Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
-                    Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
-                    Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
-                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
-                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
+                    OcatEg.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
+                    Omone.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = advancedDataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
+                    Ocajd.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
+                    Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
+                    Oprove.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
+                    Oprove.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
+                    descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
                 else
                 {
                     // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
                     //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
-                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatEg.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
-                    OcatEg.nombre = dataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
-                    OcatEg.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
-                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
-                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
-                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
-                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
-                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
-                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
-                    Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
-                    Oprove.codigo = dataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
-                    Oprove.nombre = dataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
-                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
-                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
+                    OcatEg.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_EGRESO"].Value.ToString();
+                    Omone.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = advancedDataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoDU"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoSU"].Value.ToString());
+                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
+                    Ocajd.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
+                    Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
+                    Oprove.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["idanagrafica"].Value.ToString();
+                    Oprove.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
+                    descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
                 Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
                         Ocajd, Oprove, descr, idmov);
@@ -1279,9 +1301,19 @@ namespace Conticassa
             }
             dt.AcceptChanges();
         }                // ACTUALIZA la grilla despues de haber actualizado la tabla
+        private void advancedDataGridView1_SortStringChanged(object sender, EventArgs e)
+        {
+            DataTable dtg = (DataTable)advancedDataGridView1.DataSource;
+            dtg.DefaultView.Sort = advancedDataGridView1.SortString;
+        }
+        private void advancedDataGridView1_FilterStringChanged(object sender, EventArgs e)                  // filtro de las columnas
+        {
+            DataTable dtg = (DataTable)advancedDataGridView1.DataSource;
+            dtg.DefaultView.RowFilter = advancedDataGridView1.FilterString;
+        }
         #endregion
 
-        #region boton Grabar
+        #region botones Grabar, nuevo prov.
         private void Bt_graba_Click(object sender, EventArgs e)
         {
             if (Tx_modo.Text == "NUEVO")
@@ -1468,6 +1500,30 @@ namespace Conticassa
                 }
             }
         }
+        private void bt_Pnuevo_Click(object sender, EventArgs e)
+        {
+            // me quede aca 31/08/2024
+            if (Tx_modo.Text == "NUEVO" && bt_Pnuevo.Enabled == true)
+            {
+                string para1 = "provee";
+                string para2 = "";
+                string para3 = "";
+                string para4 = "";    // todos | activos
+                ayuda1 ayu1 = new ayuda1(para1, para2, para3, para4);
+                var result = ayu1.ShowDialog();
+                if (result == DialogResult.Cancel)
+                {
+                    if (!string.IsNullOrEmpty(ayu1.ReturnValue1))
+                    {
+                        tx_dat_provee.Text = ayu1.ReturnValue0;
+                        tx_provee.Text = ayu1.ReturnValue1;
+                        eti_nomprovee.Text = ayu1.ReturnValue1; // 31/08/2024 ya no usamos
+                        SendKeys.Send("{Tab}");
+                    }
+                }
+            }
+        }
+
         #endregion
 
         public montos calc_monedas(ComboBox combo, decimal valOri, decimal tipCam)
@@ -1549,5 +1605,24 @@ namespace Conticassa
             }
             return sValue;
         }                  // devuelve los ultimos n caractares desde la derecha
+        public string[] jala_ultimo(string tipo, string tcuenta, string fecha)
+        {
+            string [] retorna = new string[2];
+
+            eti_nomCat.Text = nc[0].ItemArray[2].ToString();
+            OcatEg.codigo = nc[0].ItemArray[1].ToString();
+            OcatEg.nombre = Tx_catEgre.Text;
+            OcatEg.largo = eti_nomCat.Text;
+
+            eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
+            Ocajd.codigo = nc[0].ItemArray[1].ToString();
+            Ocajd.nombre = Tx_ctaDes.Text;
+            Ocajd.largo = eti_nomCaja.Text;
+
+            tx_provee.Text = ;
+            Tx_provee_Leave(null, null);
+
+            return retorna;
+        }
     }
 }

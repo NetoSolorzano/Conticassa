@@ -88,6 +88,7 @@
       <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -102,6 +103,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ayuda1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ayuda1.designer.cs">
+      <DependentUpon>ayuda1.cs</DependentUpon>
+    </Compile>
     <Compile Include="ayuda2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,12 +164,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
-    <Compile Include="tipcamref.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="tipcamref.designer.cs">
-      <DependentUpon>tipcamref.cs</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="ayuda1.resx">
+      <DependentUpon>ayuda1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ayuda2.resx">
       <DependentUpon>ayuda2.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,9 +203,6 @@
     <EmbeddedResource Include="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="tipcamref.resx">
-      <DependentUpon>tipcamref.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

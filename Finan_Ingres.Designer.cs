@@ -62,13 +62,11 @@
             this.Bt_graba = new Conticassa.generalBoton();
             this.panelGeneral4 = new Conticassa.panelGeneral();
             this.chk_datSimil = new System.Windows.Forms.CheckBox();
-            this.generalEtiqueta5 = new Conticassa.generalEtiqueta();
             this.pan_p = new Conticassa.panelGeneral();
             this.rb_pers = new Conticassa.radioBoton();
             this.rb_omg = new Conticassa.radioBoton();
             this.eti_cuenta = new Conticassa.generalEtiqueta();
             this.tx_descrip = new Conticassa.generalTextBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.Bt_add = new System.Windows.Forms.ToolStripButton();
@@ -98,12 +96,13 @@
             this.linV1 = new System.Windows.Forms.Label();
             this.linO6 = new System.Windows.Forms.Label();
             this.Tx_fecha = new System.Windows.Forms.MaskedTextBox();
+            this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
             this.panelGeneral5.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.pan_p.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // eti_tituloForm
@@ -462,23 +461,13 @@
             // 
             // chk_datSimil
             // 
-            this.chk_datSimil.AutoSize = true;
-            this.chk_datSimil.Location = new System.Drawing.Point(543, 98);
+            this.chk_datSimil.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chk_datSimil.Location = new System.Drawing.Point(436, 97);
             this.chk_datSimil.Name = "chk_datSimil";
-            this.chk_datSimil.Size = new System.Drawing.Size(15, 14);
+            this.chk_datSimil.Size = new System.Drawing.Size(122, 15);
             this.chk_datSimil.TabIndex = 88;
+            this.chk_datSimil.Text = "Datos similares";
             this.chk_datSimil.UseVisualStyleBackColor = true;
-            // 
-            // generalEtiqueta5
-            // 
-            this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
-            this.generalEtiqueta5.Font = new System.Drawing.Font("Verdana", 9F);
-            this.generalEtiqueta5.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta5.Location = new System.Drawing.Point(416, 97);
-            this.generalEtiqueta5.Name = "generalEtiqueta5";
-            this.generalEtiqueta5.Size = new System.Drawing.Size(122, 15);
-            this.generalEtiqueta5.TabIndex = 0;
-            this.generalEtiqueta5.Text = "Datos similares";
             // 
             // pan_p
             // 
@@ -545,22 +534,6 @@
             this.tx_descrip.Name = "tx_descrip";
             this.tx_descrip.Size = new System.Drawing.Size(431, 34);
             this.tx_descrip.TabIndex = 8;
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 176);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(828, 117);
-            this.dataGridView1.TabIndex = 95;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
             // toolStrip1
             // 
@@ -873,6 +846,22 @@
             this.Tx_fecha.ValidatingType = typeof(System.DateTime);
             this.Tx_fecha.Click += new System.EventHandler(this.Tx_fecha_Click);
             // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.AutoGenerateContextFilters = true;
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.DateWithTime = false;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(0, 181);
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.Size = new System.Drawing.Size(832, 116);
+            this.advancedDataGridView1.TabIndex = 338;
+            this.advancedDataGridView1.TimeFilter = false;
+            this.advancedDataGridView1.SortStringChanged += new System.EventHandler(this.advancedDataGridView1_SortStringChanged);
+            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);
+            this.advancedDataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
+            // 
             // Finan_Ingres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -882,7 +871,6 @@
             this.Controls.Add(this.Tx_fecha);
             this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.linV1);
-            this.Controls.Add(this.generalEtiqueta5);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tx_idOper);
             this.Controls.Add(this.eti_idOper);
@@ -913,8 +901,8 @@
             this.Controls.Add(this.pan_p);
             this.Controls.Add(this.tx_descrip);
             this.Controls.Add(this.eti_tituloForm);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.linO6);
+            this.Controls.Add(this.advancedDataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(848, 371);
@@ -927,10 +915,10 @@
             this.panelGeneral4.PerformLayout();
             this.pan_p.ResumeLayout(false);
             this.pan_p.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -971,13 +959,11 @@
         private generalBoton Bt_graba;
         private panelGeneral panelGeneral4;
         private System.Windows.Forms.CheckBox chk_datSimil;
-        private generalEtiqueta generalEtiqueta5;
         private panelGeneral pan_p;
         private radioBoton rb_pers;
         private radioBoton rb_omg;
         private generalEtiqueta eti_cuenta;
         private generalTextBox tx_descrip;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton Bt_add;
@@ -1007,5 +993,6 @@
         private System.Windows.Forms.Label linO6;
         private System.Windows.Forms.Label linV1;
         private System.Windows.Forms.MaskedTextBox Tx_fecha;
+        private ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }

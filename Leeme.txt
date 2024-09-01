@@ -5,7 +5,7 @@
 - Clave: Conti00*
 
 Pendientes:
-- me quede en poner colores de datos fijos 31/08/2024
+- me quede 
 - FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, con girocontos
 - GIROCONTO en Ingresos y Egresos

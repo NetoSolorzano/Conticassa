@@ -4,6 +4,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using ADGV;
 using MySql.Data.MySqlClient;
 
 namespace Conticassa
@@ -202,7 +203,8 @@ namespace Conticassa
             rb_pers_Click(null, null);
             escribe("");
             Tx_fecha.Text = DateTime.Now.Date.ToString("dd/MM/yyyy");
-            tx_tipcam.Focus();
+            if (tx_tipcam.Text == "") tx_tipcam.Focus();
+            else Tx_catIngre.Focus();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
@@ -624,7 +626,7 @@ namespace Conticassa
         {
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
-            tx_monto.Text = Math.Round(monti, 2).ToString("#,000.00");
+            tx_monto.Text = Math.Round(monti, 2).ToString("#,##0.00");
             decimal.TryParse(tx_tipcam.Text, out cambi);
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
@@ -640,6 +642,7 @@ namespace Conticassa
             decimal monti = 0; decimal cambi = 0;
             decimal.TryParse(tx_monto.Text, out monti);
             decimal.TryParse(tx_tipcam.Text, out cambi);
+            tx_tipcam.Text = Math.Round(cambi, 3).ToString("#0.000");
             if (Tx_modo.Text == "NUEVO" && monti > 0)
             {
                 Omonto.monOrige = monti;
@@ -702,49 +705,49 @@ namespace Conticassa
                 {
                     // CASA,ID_MOVIM,FECHA,DESTINO,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,idgiroconto,CTA_DESTINO,
                     // usuario,dia,ImportoDE,ImportoSE,IDDestino,IDCategoria,codimon,nombmon,TCMonOri,DET_DESTINO,DET_INGRESO
-                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
-                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
-                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString();    // debe ser ingreso
-                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
-                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
-                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
-                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
-                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
-                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
-                    Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
-                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
-                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatIn.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatIn.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
+                    OcatIn.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString();    // debe ser ingreso
+                    Omone.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = advancedDataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
+                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
+                    Ocajd.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
+                    Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
+                    descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
                 else
                 {
                     // CASA,ID_MOVIM,FECHA,CUENTA,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,IDGiroConto,CTA_DESTINO,
                     // usuario,dia,ImportoDE,ImportoSE,IDConto,IDCategoria,codimon,nombmon,TCMonOri,DET_CUENTA,DET_INGRESO 
-                    fecOp = dataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
-                    OcatIn.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
-                    OcatIn.nombre = dataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
-                    OcatIn.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString(); 
-                    Omone.codigo = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omone.siglas = dataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
-                    Omone.nombre = dataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
-                    Omonto.codMOrige = dataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omonto.monOrige = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
-                    Omonto.tipCDol = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
-                    tipca = decimal.Parse(dataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Ocajd.codigo = dataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
-                    Ocajd.nombre = dataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
-                    Ocajd.largo = dataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
-                    descr = dataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
-                    idmov = dataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
+                    OcatIn.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
+                    OcatIn.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
+                    OcatIn.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_INGRESO"].Value.ToString(); 
+                    Omone.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omone.siglas = advancedDataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
+                    Omone.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
+                    Omonto.codMOrige = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
+                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
+                    Omonto.tipCDol = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
+                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Ocajd.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDConto"].Value.ToString();
+                    Ocajd.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["CUENTA"].Value.ToString();
+                    Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
+                    descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
+                    idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                 }
                 Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                         Ocajd, descr, idmov);
@@ -838,7 +841,7 @@ namespace Conticassa
                                 dt_grillaI.Clear();
                                 dt_grillaI.Columns.Clear();
                                 da.Fill(dt_grillaI);
-                                dataGridView1.DataSource = dt_grillaI;
+                                advancedDataGridView1.DataSource = dt_grillaI;
                             }
                         }
                         // buscamos tipo de cambio del día
@@ -873,7 +876,7 @@ namespace Conticassa
                                 }
                             }
                         }
-                        oFEgres.armaGrilla(dataGridView1, limCols);      // cuadramos las columnas de la grilla
+                        armaGrilla(advancedDataGridView1, limCols);      // cuadramos las columnas de la grilla
                     }
                 }
                 catch (Exception ex)
@@ -883,6 +886,39 @@ namespace Conticassa
                 }
             }
         }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
+        private void armaGrilla(AdvancedDataGridView dgv_, int filasLim) // DataGridView dgv_, int filasLim
+        {
+            if (dgv_.Rows.Count > 1)
+            {
+                for (int i = 0; i < dgv_.Columns.Count; i++)
+                {
+                    if (i > filasLim)
+                    {
+                        dgv_.Columns[i].Visible = false;
+                    }
+                    else
+                    {
+                        dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                        _ = decimal.TryParse(dgv_.Rows[0].Cells[i].Value.ToString(), out decimal vd);
+                        if (vd != 0) dgv_.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    }
+                }
+                int b = 0;
+                for (int i = 0; i < dgv_.Columns.Count; i++)
+                {
+                    int a = dgv_.Columns[i].Width;
+                    b += a;
+                    dgv_.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                    dgv_.Columns[i].Width = a;
+                }
+                if (b < dgv_.Width) dgv_.Width = b - 20;
+                dgv_.ReadOnly = true;
+            }
+            else
+            {
+
+            }
+        }                 // ajusta el ancho de las columnas y muestra hasta el limite
         public void actFilaEnDataI(DataTable dt, string _casa, string _corre)
         {
             string fecOp = selecFecha1.Value.Date.ToShortDateString();
@@ -950,6 +986,16 @@ namespace Conticassa
             }
             dt.AcceptChanges();
         }                // ACTUALIZA la grilla despues de haber actualizado la tabla
+        private void advancedDataGridView1_SortStringChanged(object sender, EventArgs e)
+        {
+            DataTable dtg = (DataTable)advancedDataGridView1.DataSource;
+            dtg.DefaultView.Sort = advancedDataGridView1.SortString;
+        }
+        private void advancedDataGridView1_FilterStringChanged(object sender, EventArgs e)                  // filtro de las columnas
+        {
+            DataTable dtg = (DataTable)advancedDataGridView1.DataSource;
+            dtg.DefaultView.RowFilter = advancedDataGridView1.FilterString;
+        }
         #endregion
 
         private void Bt_graba_Click(object sender, EventArgs e)

@@ -54,7 +54,6 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.pan_p = new Conticassa.panelGeneral();
             this.rb_pers = new Conticassa.radioBoton();
             this.rb_omg = new Conticassa.radioBoton();
@@ -62,7 +61,6 @@
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.generalEtiqueta7 = new Conticassa.generalEtiqueta();
-            this.eti_nomprovee = new Conticassa.generalEtiqueta();
             this.tx_provee = new Conticassa.generalTextBox();
             this.generalEtiqueta6 = new Conticassa.generalEtiqueta();
             this.eti_nomCaja = new Conticassa.generalEtiqueta();
@@ -80,7 +78,6 @@
             this.tx_descrip = new Conticassa.generalTextBox();
             this.panelGeneral4 = new Conticassa.panelGeneral();
             this.chk_datSimil = new System.Windows.Forms.CheckBox();
-            this.generalEtiqueta5 = new Conticassa.generalEtiqueta();
             this.eti_tituloForm = new Conticassa.generalEtiqueta();
             this.Bt_graba = new Conticassa.generalBoton();
             this.panelGeneral5 = new Conticassa.panelGeneral();
@@ -102,12 +99,16 @@
             this.eti_idOper = new Conticassa.generalEtiqueta();
             this.tx_idOper = new Conticassa.NumericTextBox();
             this.Tx_fecha = new System.Windows.Forms.MaskedTextBox();
+            this.eti_nomprovee = new Conticassa.generalEtiqueta();
+            this.tx_dat_provee = new System.Windows.Forms.TextBox();
+            this.bt_Pnuevo = new System.Windows.Forms.Button();
+            this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.pan_p.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.panelGeneral5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -385,22 +386,6 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(3, 45);
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(2, 192);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(829, 138);
-            this.dataGridView1.TabIndex = 35;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
-            // 
             // pan_p
             // 
             this.pan_p.BackColor = System.Drawing.Color.White;
@@ -487,26 +472,17 @@
             this.generalEtiqueta7.Text = "Descripción";
             this.generalEtiqueta7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // eti_nomprovee
-            // 
-            this.eti_nomprovee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
-            this.eti_nomprovee.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.eti_nomprovee.ForeColor = System.Drawing.Color.Blue;
-            this.eti_nomprovee.Location = new System.Drawing.Point(261, 136);
-            this.eti_nomprovee.Name = "eti_nomprovee";
-            this.eti_nomprovee.Size = new System.Drawing.Size(297, 15);
-            this.eti_nomprovee.TabIndex = 16;
-            // 
             // tx_provee
             // 
             this.tx_provee.BackColor = System.Drawing.Color.White;
             this.tx_provee.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tx_provee.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tx_provee.ForeColor = System.Drawing.Color.Blue;
-            this.tx_provee.Location = new System.Drawing.Point(129, 136);
+            this.tx_provee.Location = new System.Drawing.Point(129, 137);
             this.tx_provee.Name = "tx_provee";
-            this.tx_provee.Size = new System.Drawing.Size(129, 14);
+            this.tx_provee.Size = new System.Drawing.Size(429, 14);
             this.tx_provee.TabIndex = 8;
+            this.tx_provee.Tag = "nombre del proveedor";
             this.tx_provee.Leave += new System.EventHandler(this.Tx_provee_Leave);
             // 
             // generalEtiqueta6
@@ -536,7 +512,7 @@
             this.Tx_ctaDes.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Tx_ctaDes.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Tx_ctaDes.ForeColor = System.Drawing.Color.Blue;
-            this.Tx_ctaDes.Location = new System.Drawing.Point(129, 117);
+            this.Tx_ctaDes.Location = new System.Drawing.Point(129, 118);
             this.Tx_ctaDes.Name = "Tx_ctaDes";
             this.Tx_ctaDes.Size = new System.Drawing.Size(129, 14);
             this.Tx_ctaDes.TabIndex = 7;
@@ -687,23 +663,15 @@
             // 
             // chk_datSimil
             // 
-            this.chk_datSimil.AutoSize = true;
-            this.chk_datSimil.Location = new System.Drawing.Point(544, 99);
+            this.chk_datSimil.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chk_datSimil.Location = new System.Drawing.Point(425, 98);
             this.chk_datSimil.Name = "chk_datSimil";
-            this.chk_datSimil.Size = new System.Drawing.Size(15, 14);
+            this.chk_datSimil.Size = new System.Drawing.Size(134, 16);
             this.chk_datSimil.TabIndex = 7;
+            this.chk_datSimil.Text = "Datos similares";
+            this.chk_datSimil.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.chk_datSimil.UseVisualStyleBackColor = true;
-            // 
-            // generalEtiqueta5
-            // 
-            this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
-            this.generalEtiqueta5.Font = new System.Drawing.Font("Verdana", 9F);
-            this.generalEtiqueta5.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta5.Location = new System.Drawing.Point(418, 98);
-            this.generalEtiqueta5.Name = "generalEtiqueta5";
-            this.generalEtiqueta5.Size = new System.Drawing.Size(122, 15);
-            this.generalEtiqueta5.TabIndex = 0;
-            this.generalEtiqueta5.Text = "Datos similares";
+            this.chk_datSimil.CheckStateChanged += new System.EventHandler(this.chk_datSimil_CheckStateChanged);
             // 
             // eti_tituloForm
             // 
@@ -922,16 +890,65 @@
             this.Tx_fecha.ValidatingType = typeof(System.DateTime);
             this.Tx_fecha.Click += new System.EventHandler(this.Tx_fecha_Click);
             // 
+            // eti_nomprovee
+            // 
+            this.eti_nomprovee.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.eti_nomprovee.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eti_nomprovee.ForeColor = System.Drawing.Color.Blue;
+            this.eti_nomprovee.Location = new System.Drawing.Point(566, 136);
+            this.eti_nomprovee.Name = "eti_nomprovee";
+            this.eti_nomprovee.Size = new System.Drawing.Size(14, 15);
+            this.eti_nomprovee.TabIndex = 16;
+            this.eti_nomprovee.Tag = "nombre del proveedor ";
+            this.eti_nomprovee.Visible = false;
+            // 
+            // tx_dat_provee
+            // 
+            this.tx_dat_provee.Location = new System.Drawing.Point(781, 156);
+            this.tx_dat_provee.Name = "tx_dat_provee";
+            this.tx_dat_provee.Size = new System.Drawing.Size(24, 20);
+            this.tx_dat_provee.TabIndex = 334;
+            this.tx_dat_provee.Tag = "codigo del proveedor";
+            this.tx_dat_provee.Visible = false;
+            // 
+            // bt_Pnuevo
+            // 
+            this.bt_Pnuevo.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bt_Pnuevo.Location = new System.Drawing.Point(91, 135);
+            this.bt_Pnuevo.Name = "bt_Pnuevo";
+            this.bt_Pnuevo.Size = new System.Drawing.Size(39, 18);
+            this.bt_Pnuevo.TabIndex = 336;
+            this.bt_Pnuevo.Text = "Nuevo";
+            this.bt_Pnuevo.UseVisualStyleBackColor = true;
+            this.bt_Pnuevo.Click += new System.EventHandler(this.bt_Pnuevo_Click);
+            // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.AutoGenerateContextFilters = true;
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.DateWithTime = false;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(0, 198);
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.Size = new System.Drawing.Size(833, 131);
+            this.advancedDataGridView1.TabIndex = 337;
+            this.advancedDataGridView1.TimeFilter = false;
+            this.advancedDataGridView1.SortStringChanged += new System.EventHandler(this.advancedDataGridView1_SortStringChanged);
+            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);
+            this.advancedDataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.advancedadvancedDataGridView1_CellDoubleClick);
+            // 
             // Finan_Egres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.bt_Pnuevo);
+            this.Controls.Add(this.tx_dat_provee);
             this.Controls.Add(this.Tx_fecha);
             this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.tx_idOper);
-            this.Controls.Add(this.generalEtiqueta5);
             this.Controls.Add(this.eti_idOper);
             this.Controls.Add(this.listBox3);
             this.Controls.Add(this.eti_nomCat);
@@ -965,9 +982,9 @@
             this.Controls.Add(this.eti_tituloForm);
             this.Controls.Add(this.panelGeneral4);
             this.Controls.Add(this.pan_p);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tx_descrip);
+            this.Controls.Add(this.advancedDataGridView1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.KeyPreview = true;
             this.MinimumSize = new System.Drawing.Size(849, 400);
@@ -977,7 +994,6 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Finan_Egres_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.pan_p.ResumeLayout(false);
             this.pan_p.PerformLayout();
             this.panelGeneral4.ResumeLayout(false);
@@ -985,6 +1001,7 @@
             this.panelGeneral5.ResumeLayout(false);
             this.panelGeneral5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1017,7 +1034,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripButton Bt_fin;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private panelGeneral pan_p;
         private generalEtiqueta eti_cuenta;
         private radioBoton rb_pers;
@@ -1028,7 +1044,6 @@
         private selecFecha selecFecha1;
         private panelGeneral panelGeneral4;
         private System.Windows.Forms.CheckBox chk_datSimil;
-        private generalEtiqueta generalEtiqueta5;
         private generalEtiqueta eti_tituloForm;
         private generalBoton Bt_graba;
         private panelGeneral panelGeneral5;
@@ -1043,7 +1058,6 @@
         private generalEtiqueta generalEtiqueta2;
         private generalTextBox tx_descrip;
         private generalEtiqueta generalEtiqueta7;
-        private generalEtiqueta eti_nomprovee;
         private generalTextBox tx_provee;
         private generalEtiqueta generalEtiqueta6;
         private generalEtiqueta eti_nomCaja;
@@ -1065,5 +1079,10 @@
         private NumericTextBox tx_idOper;
         private generalEtiqueta eti_idOper;
         private System.Windows.Forms.MaskedTextBox Tx_fecha;
+        private generalEtiqueta eti_nomprovee;
+        private System.Windows.Forms.TextBox tx_dat_provee;
+        private System.Windows.Forms.Button bt_Pnuevo;
+        private ADGV.AdvancedDataGridView advancedDataGridView1;
+        //private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }
