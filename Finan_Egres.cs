@@ -403,7 +403,7 @@ namespace Conticassa
             eti_nomCtaGiro.Text = "";
             eti_nomprovee.Text = "";
             //
-            cmb_mon.SelectedIndex = 0;
+            cmb_mon.SelectedIndex = -1; // no debe ser cero 02/09/2024 porque el objeto moneda esta limpio
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
@@ -487,9 +487,15 @@ namespace Conticassa
             {
                 if (chk_datSimil.CheckState == CheckState.Checked)
                 {
+                    // Si los campos principales estan en blanco, jalamos el ultimo del dia,casa y tipo
                     if (Tx_catEgre.Text == "" && Tx_ctaDes.Text == "" && tx_provee.Text == "" )
                     {
+                        // al 02/09/2024 no estoy seguro de hacer esto
                         jala_ultimo("EGRESO", ((rb_omg.Checked == true) ? rb_omg.Text : rb_pers.Text), Tx_fecha.Text);
+                    }
+                    else
+                    {
+                        // si los campos principales no estan en blanco, no jala nada 
                     }
                 }
 
@@ -1076,7 +1082,7 @@ namespace Conticassa
                     Application.Exit();
                 }
             }
-        }                      // muestra datos de la fecha actual hasta <dAtras> días atras 
+        }            // muestra datos de la fecha actual hasta <dAtras> días atras 
         private void armaGrilla(AdvancedDataGridView dgv_, int filasLim) // DataGridView dgv_, int filasLim
         {
             if (dgv_.Rows.Count > 0)
@@ -1372,6 +1378,14 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(Tx_ctaDes, "");
+            if (tx_tipcam.Text.Trim() == "0" || tx_tipcam.Text.Trim() == "")
+            {
+                errorProvider1.SetIconAlignment(tx_tipcam, ErrorIconAlignment.TopLeft);
+                errorProvider1.SetError(tx_tipcam, "Debe ingresar el tipo de cambio");
+                tx_tipcam.Focus();
+                return;
+            }
+            errorProvider1.SetError(tx_tipcam, "");
             if (cmb_mon.Text == "")
             {
                 errorProvider1.SetError(cmb_mon, "Debe seleccionar la moneda");
@@ -1432,6 +1446,10 @@ namespace Conticassa
                             }
                         }
                     }
+                }
+                if (chk_datSimil.CheckState == CheckState.Checked)
+                {
+                    jala_ultimo("EGRESO", ((rb_omg.Checked == true) ? rb_omg.Text : rb_pers.Text), Tx_fecha.Text);
                 }
             }
         }
@@ -1605,24 +1623,36 @@ namespace Conticassa
             }
             return sValue;
         }                  // devuelve los ultimos n caractares desde la derecha
-        public string[] jala_ultimo(string tipo, string tcuenta, string fecha)
+        private string[] jala_ultimo(string tipo, string tcuenta, string fecha)
         {
+            // los datos deben jalarse de la grilla actual porque ahi estan los datos! 
             string [] retorna = new string[2];
 
-            eti_nomCat.Text = nc[0].ItemArray[2].ToString();
-            OcatEg.codigo = nc[0].ItemArray[1].ToString();
-            OcatEg.nombre = Tx_catEgre.Text;
-            OcatEg.largo = eti_nomCat.Text;
+            DataRow[] row = dt_grillaE.Select("FECHA='" + Tx_fecha.Text + "'", "ID_MOVIM DESC");
 
-            eti_nomCaja.Text = nc[0].ItemArray[2].ToString();
-            Ocajd.codigo = nc[0].ItemArray[1].ToString();
-            Ocajd.nombre = Tx_ctaDes.Text;
-            Ocajd.largo = eti_nomCaja.Text;
+            // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+            //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+            DataRow[] cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[19].ToString() + "' and idtabella='CAM'");
+            OcatEg.codigo = row[0].ItemArray[19].ToString();
+            eti_nomCat.Text = cam[0].ItemArray[3].ToString();
+            OcatEg.nombre = cam[0].ItemArray[3].ToString();
+            OcatEg.largo = cam[0].ItemArray[2].ToString();
+            Tx_catEgre.Text = OcatEg.nombre;
+            
+            cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[18].ToString() + "' and idtabella='CON'");
+            eti_nomCaja.Text = cam[0].ItemArray[3].ToString();
+            Ocajd.codigo = row[0].ItemArray[18].ToString();
+            Ocajd.nombre = cam[0].ItemArray[3].ToString();
+            Ocajd.largo = cam[0].ItemArray[2].ToString();
+            Tx_ctaDes.Text = Ocajd.nombre;
 
-            tx_provee.Text = ;
-            Tx_provee_Leave(null, null);
+            tx_dat_provee.Text = row[0].ItemArray[17].ToString();
+            if (tx_dat_provee.Text != "")
+            {
+                Tx_provee_Leave(null, null);
 
+            }
             return retorna;
-        }
+        }   // jala el ultimo registro OMG/Personal, Egreso/Ingreso, Fecha
     }
 }

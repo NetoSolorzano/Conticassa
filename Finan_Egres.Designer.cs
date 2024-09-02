@@ -931,7 +931,7 @@
             this.advancedDataGridView1.DateWithTime = false;
             this.advancedDataGridView1.Location = new System.Drawing.Point(0, 198);
             this.advancedDataGridView1.Name = "advancedDataGridView1";
-            this.advancedDataGridView1.Size = new System.Drawing.Size(833, 131);
+            this.advancedDataGridView1.Size = new System.Drawing.Size(833, 133);
             this.advancedDataGridView1.TabIndex = 337;
             this.advancedDataGridView1.TimeFilter = false;
             this.advancedDataGridView1.SortStringChanged += new System.EventHandler(this.advancedDataGridView1_SortStringChanged);
@@ -944,6 +944,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.eti_nomprovee);
             this.Controls.Add(this.bt_Pnuevo);
             this.Controls.Add(this.tx_dat_provee);
             this.Controls.Add(this.Tx_fecha);
@@ -969,7 +970,6 @@
             this.Controls.Add(this.Tx_catEgre);
             this.Controls.Add(this.tx_monto);
             this.Controls.Add(this.eti_catEgre);
-            this.Controls.Add(this.eti_nomprovee);
             this.Controls.Add(this.cmb_mon);
             this.Controls.Add(this.Tx_ctaDes);
             this.Controls.Add(this.generalEtiqueta3);

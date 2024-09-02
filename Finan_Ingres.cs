@@ -302,7 +302,7 @@ namespace Conticassa
             eti_nomCat.Text = "";
             eti_nomCtaGiro.Text = "";
             //
-            cmb_mon.SelectedIndex = 0;
+            cmb_mon.SelectedIndex = -1; // no puede ser 0 porque el objeto moneda esta limpio 02/09/2024
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
@@ -377,6 +377,26 @@ namespace Conticassa
             {
                 tx_ctaGiro.Visible = false;
                 eti_nomCtaGiro.Visible = false;
+            }
+        }
+        private void chk_datSimil_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO")
+            {
+                if (chk_datSimil.CheckState == CheckState.Checked)
+                {
+                    // Si los campos principales estan en blanco, jalamos el ultimo del dia,casa y tipo
+                    if (Tx_catIngre.Text == "" && Tx_ctaDes.Text == "") //  && tx_provee.Text == ""
+                    {
+                        // al 02/09/2024 no estoy seguro de hacer esto
+                        jala_ultimo("INGRESO", ((rb_omg.Checked == true) ? rb_omg.Text : rb_pers.Text), Tx_fecha.Text);
+                    }
+                    else
+                    {
+                        // si los campos principales no estan en blanco, no jala nada 
+                    }
+                }
+
             }
         }
         #endregion
@@ -1063,6 +1083,14 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(cmb_mon, "");
+            if (tx_tipcam.Text.Trim() == "0" || tx_tipcam.Text.Trim() == "")
+            {
+                errorProvider1.SetIconAlignment(tx_tipcam, ErrorIconAlignment.TopLeft);
+                errorProvider1.SetError(tx_tipcam, "Debe ingresar el tipo de cambio");
+                tx_tipcam.Focus();
+                return;
+            }
+            errorProvider1.SetError(tx_tipcam, "");
             if (tx_monto.Text == "")
             {
                 errorProvider1.SetError(tx_monto, "Debe ingresar un valor");
@@ -1117,6 +1145,10 @@ namespace Conticassa
                         }
                     }
                 }
+                if (chk_datSimil.CheckState == CheckState.Checked)
+                {
+                    jala_ultimo("INGRESO", ((rb_omg.Checked == true) ? rb_omg.Text : rb_pers.Text), Tx_fecha.Text);
+                }
             }
         }
         private void graba_edicion()
@@ -1146,6 +1178,30 @@ namespace Conticassa
                 }
             }
         }
+        private string[] jala_ultimo(string tipo, string tcuenta, string fecha)
+        {
+            // los datos deben jalarse de la grilla actual porque ahi estan los datos! 
+            string[] retorna = new string[2];
 
+            DataRow[] row = dt_grillaI.Select("FECHA='" + Tx_fecha.Text + "'", "ID_MOVIM DESC");
+
+            // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+            //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+            DataRow[] cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[17].ToString() + "' and idtabella='CAM'");
+            OcatIn.codigo = row[0].ItemArray[17].ToString();
+            eti_nomCat.Text = cam[0].ItemArray[3].ToString();
+            OcatIn.nombre = cam[0].ItemArray[3].ToString();
+            OcatIn.largo = cam[0].ItemArray[2].ToString();
+            Tx_catIngre.Text = OcatIn.nombre;
+
+            cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[16].ToString() + "' and idtabella='CON'");
+            eti_nomCaja.Text = cam[0].ItemArray[3].ToString();
+            Ocajd.codigo = row[0].ItemArray[16].ToString();
+            Ocajd.nombre = cam[0].ItemArray[3].ToString();
+            Ocajd.largo = cam[0].ItemArray[2].ToString();
+            Tx_ctaDes.Text = Ocajd.nombre;
+
+            return retorna;
+        }   // jala el ultimo registro OMG/Personal, Egreso/Ingreso, Fecha
     }
 }

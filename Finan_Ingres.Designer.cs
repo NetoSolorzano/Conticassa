@@ -428,9 +428,9 @@
             this.chk_giroC.AutoSize = true;
             this.chk_giroC.Location = new System.Drawing.Point(4, 3);
             this.chk_giroC.Name = "chk_giroC";
-            this.chk_giroC.Size = new System.Drawing.Size(225, 17);
+            this.chk_giroC.Size = new System.Drawing.Size(223, 17);
             this.chk_giroC.TabIndex = 0;
-            this.chk_giroC.Text = "Ingreso automático a otra cuenta personal";
+            this.chk_giroC.Text = "Egreso automático a otra cuenta personal";
             this.chk_giroC.UseVisualStyleBackColor = true;
             this.chk_giroC.CheckedChanged += new System.EventHandler(this.chk_giroC_CheckedChanged);
             // 
@@ -468,6 +468,7 @@
             this.chk_datSimil.TabIndex = 88;
             this.chk_datSimil.Text = "Datos similares";
             this.chk_datSimil.UseVisualStyleBackColor = true;
+            this.chk_datSimil.CheckStateChanged += new System.EventHandler(this.chk_datSimil_CheckStateChanged);
             // 
             // pan_p
             // 

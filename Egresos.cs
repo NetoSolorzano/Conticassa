@@ -107,7 +107,7 @@ namespace Conticassa
                 micon.Parameters.AddWithValue("@ctao", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@ctad", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@usua", Program.vg_user);
-                micon.Parameters.AddWithValue("@idan", proveedor.codigo);
+                micon.Parameters.AddWithValue("@idan", (proveedor.codigo == null) ? "" : proveedor.codigo);
                 micon.Parameters.AddWithValue("@tidgiro","");   // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@vOrig", monto.monOrige);
                 micon.Parameters.AddWithValue("@cmon", moneda.codigo);
