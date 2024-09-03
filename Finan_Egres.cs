@@ -632,6 +632,8 @@ namespace Conticassa
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
                 tx_dat_giro.Text = nc[0].ItemArray[1].ToString();
+                Ogiro.tipodes = (rb_omg.Checked == true) ? "OMG" : "PER";
+                Ogiro.ctades = tx_dat_giro.Text;
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -995,6 +997,24 @@ namespace Conticassa
             if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
             {
                 Tx_fecha.Text = selecFecha1.Value.Date.ToString("dd/MM/yyyy");
+            }
+        }
+        private void tx_ctaGiro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
+            {
+                if (e.KeyChar == (char)13 || e.KeyChar == (char)09)
+                {
+                    if (tx_ctaGiro.Text.Trim() != "")
+                    {
+                        if (ValiCtaCon(tx_ctaGiro.Text) == false)
+                        {
+                            tx_ctaGiro.Clear();
+                            eti_nomCtaGiro.Text = "";
+                            MessageBox.Show("No existe el nombre de la cuenta");
+                        }
+                    }
+                }
             }
         }
         #endregion
@@ -1467,6 +1487,7 @@ namespace Conticassa
                                         _desgiro.codigo = tx_dat_giro.Text;
                                         _desgiro.nombre = tx_ctaGiro.Text;
                                         _desgiro.largo = eti_nomCtaGiro.Text;
+                                        Ogiro.ctades = Ocajd.codigo;
                                         corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
                                         Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
                                         _desgiro, tx_descrip.Text, corre, Ogiro);

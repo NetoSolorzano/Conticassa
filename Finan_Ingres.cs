@@ -527,6 +527,8 @@ namespace Conticassa
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
                 tx_dat_ctagiro.Text = nc[0].ItemArray[1].ToString();
+                Ogiro.tipodes = (rb_omg.Checked == true) ? "OMG" : "PER";
+                Ogiro.ctades = tx_dat_ctagiro.Text;
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -617,8 +619,8 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
-                        Ogiro.ctades = retu[10];                // 
-                        Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.ctades = retu[11];                // codigo cuenta destino del giro
+                        Ogiro.tipodes = retu[10];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     else
                     {
@@ -645,8 +647,8 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
-                        Ogiro.ctades = retu[10];                // 
-                        Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.ctades = retu[11];                // 
+                        Ogiro.tipodes = retu[10];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                             Ocajd, descr, idmov, Ogiro);
@@ -696,6 +698,24 @@ namespace Conticassa
             var mtb = (MaskedTextBox)sender;
             mtb.Select(0, 0);
             mtb.Focus();
+        }
+        private void tx_ctaGiro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDICION")
+            {
+                if (e.KeyChar == (char)13 || e.KeyChar == (char)09)
+                {
+                    if (tx_ctaGiro.Text.Trim() != "")
+                    {
+                        if (oFEgres.ValiCtaCon(tx_ctaGiro.Text) == false)
+                        {
+                            tx_ctaGiro.Clear();
+                            eti_nomCtaGiro.Text = "";
+                            MessageBox.Show("No existe el nombre de la cuenta");
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
@@ -1166,6 +1186,7 @@ namespace Conticassa
                                         _desgiro.largo = eti_nomCtaGiro.Text;
                                         provees opgiro = new provees();
                                         opgiro.codigo = null;
+                                        Ogiro.ctades = Ocajd.codigo;
                                         corre = oFEgres.correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
                                         oEgresos.creaEgreso(pan_p.Tag.ToString(), fecOp, _catEgre, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
                                             _desgiro, opgiro, tx_descrip.Text.Trim(), corre, Ogiro);
@@ -1252,5 +1273,6 @@ namespace Conticassa
 
             return retorna;
         }   // jala el ultimo registro OMG/Personal, Egreso/Ingreso, Fecha
+
     }
 }

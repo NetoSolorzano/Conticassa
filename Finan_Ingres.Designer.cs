@@ -423,6 +423,7 @@
             this.tx_ctaGiro.Size = new System.Drawing.Size(129, 22);
             this.tx_ctaGiro.TabIndex = 1;
             this.tx_ctaGiro.TextChanged += new System.EventHandler(this.tx_ctaGiro_TextChanged);
+            this.tx_ctaGiro.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tx_ctaGiro_KeyPress);
             // 
             // chk_giroC
             // 
