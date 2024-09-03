@@ -53,7 +53,14 @@
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.bt_agr = new System.Windows.Forms.Button();
+            this.dtp_mes = new System.Windows.Forms.DateTimePicker();
+            this.dtp_yea = new System.Windows.Forms.DateTimePicker();
+            this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -87,9 +94,9 @@
             this.toolStripSeparator9,
             this.Bt_fin,
             this.toolStripSeparator11});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 305);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 411);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(386, 35);
+            this.toolStrip1.Size = new System.Drawing.Size(495, 35);
             this.toolStrip1.TabIndex = 35;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -226,7 +233,6 @@
             // Tx_modo
             // 
             this.Tx_modo.BackColor = System.Drawing.SystemColors.Control;
-            this.Tx_modo.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Tx_modo.Name = "Tx_modo";
             this.Tx_modo.ReadOnly = true;
             this.Tx_modo.Size = new System.Drawing.Size(100, 35);
@@ -321,11 +327,77 @@
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(3, 45);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(233, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "Mes";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(112, 46);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.TabIndex = 44;
+            this.label1.Text = "Año";
+            // 
+            // bt_agr
+            // 
+            this.bt_agr.Location = new System.Drawing.Point(336, 34);
+            this.bt_agr.Name = "bt_agr";
+            this.bt_agr.Size = new System.Drawing.Size(34, 32);
+            this.bt_agr.TabIndex = 43;
+            this.bt_agr.UseVisualStyleBackColor = true;
+            // 
+            // dtp_mes
+            // 
+            this.dtp_mes.Checked = false;
+            this.dtp_mes.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_mes.Location = new System.Drawing.Point(266, 39);
+            this.dtp_mes.Name = "dtp_mes";
+            this.dtp_mes.Size = new System.Drawing.Size(57, 20);
+            this.dtp_mes.TabIndex = 42;
+            // 
+            // dtp_yea
+            // 
+            this.dtp_yea.Checked = false;
+            this.dtp_yea.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_yea.Location = new System.Drawing.Point(144, 39);
+            this.dtp_yea.Name = "dtp_yea";
+            this.dtp_yea.Size = new System.Drawing.Size(68, 20);
+            this.dtp_yea.TabIndex = 41;
+            // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.AutoGenerateContextFilters = true;
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.DateWithTime = false;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(12, 69);
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.Size = new System.Drawing.Size(471, 329);
+            this.advancedDataGridView1.TabIndex = 40;
+            this.advancedDataGridView1.TimeFilter = false;
+            // 
             // tipcam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 340);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(495, 446);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.bt_agr);
+            this.Controls.Add(this.dtp_mes);
+            this.Controls.Add(this.dtp_yea);
+            this.Controls.Add(this.advancedDataGridView1);
             this.Controls.Add(this.toolStrip1);
             this.KeyPreview = true;
             this.Name = "tipcam";
@@ -334,7 +406,9 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tipcam_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -365,5 +439,11 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripButton Bt_fin;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button bt_agr;
+        private System.Windows.Forms.DateTimePicker dtp_mes;
+        private System.Windows.Forms.DateTimePicker dtp_yea;
+        private ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }
