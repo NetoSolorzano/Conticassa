@@ -215,14 +215,14 @@ namespace Conticassa
         }
         private void maes_tipcam_Click(object sender, EventArgs e)
         {
-            /* tipcamref ffe1 = new tipcamref();
+            tipcam ffe1 = new tipcam();
             ffe1.TopLevel = false;
             ffe1.Parent = this;
             ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
             //ffe1.Top = ffe1.Height + pn_centro.Bottom;
             pn_centro.Controls.Add(ffe1);
             if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
-            ffe1.Show(); */
+            ffe1.Show();
         }
         #endregion
 

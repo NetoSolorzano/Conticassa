@@ -164,6 +164,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource1.resx</DependentUpon>
     </Compile>
+    <Compile Include="tipcam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tipcam.Designer.cs">
+      <DependentUpon>tipcam.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ayuda1.resx">
       <DependentUpon>ayuda1.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +209,9 @@
     <EmbeddedResource Include="Resource1.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="tipcam.resx">
+      <DependentUpon>tipcam.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
