@@ -30,35 +30,35 @@
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_add = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_close = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_edit = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_anul = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_ver = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_print = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.Tx_modo = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_ini = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_sig = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_ret = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
-            this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.bt_agr = new System.Windows.Forms.Button();
             this.dtp_mes = new System.Windows.Forms.DateTimePicker();
             this.dtp_yea = new System.Windows.Forms.DateTimePicker();
             this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
+            this.bt_agr = new System.Windows.Forms.Button();
+            this.Bt_add = new System.Windows.Forms.ToolStripButton();
+            this.Bt_close = new System.Windows.Forms.ToolStripButton();
+            this.Bt_edit = new System.Windows.Forms.ToolStripButton();
+            this.Bt_anul = new System.Windows.Forms.ToolStripButton();
+            this.Bt_ver = new System.Windows.Forms.ToolStripButton();
+            this.Bt_print = new System.Windows.Forms.ToolStripButton();
+            this.Bt_ini = new System.Windows.Forms.ToolStripButton();
+            this.Bt_sig = new System.Windows.Forms.ToolStripButton();
+            this.Bt_ret = new System.Windows.Forms.ToolStripButton();
+            this.Bt_fin = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -96,7 +96,7 @@
             this.toolStripSeparator11});
             this.toolStrip1.Location = new System.Drawing.Point(0, 411);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(495, 35);
+            this.toolStrip1.Size = new System.Drawing.Size(333, 35);
             this.toolStrip1.TabIndex = 35;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -107,18 +107,6 @@
             this.toolStripSeparator2.ForeColor = System.Drawing.Color.Black;
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(3, 45);
-            // 
-            // Bt_add
-            // 
-            this.Bt_add.AutoSize = false;
-            this.Bt_add.BackColor = System.Drawing.SystemColors.Control;
-            this.Bt_add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.Bt_add.Image = global::Conticassa.Resource1.new_tab20;
-            this.Bt_add.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.Bt_add.Name = "Bt_add";
-            this.Bt_add.Size = new System.Drawing.Size(32, 32);
-            this.Bt_add.Text = "Bt_add";
-            this.Bt_add.ToolTipText = "Nuevo (Ctrl N)";
             // 
             // toolStripSeparator6
             // 
@@ -135,6 +123,168 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(3, 45);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator7.AutoSize = false;
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(3, 45);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.AutoSize = false;
+            this.toolStripSeparator8.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(3, 45);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.AutoSize = false;
+            this.toolStripSeparator1.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(3, 45);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.AutoSize = false;
+            this.toolStripSeparator13.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(3, 45);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.AutoSize = false;
+            this.toolStripSeparator4.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(3, 45);
+            // 
+            // Tx_modo
+            // 
+            this.Tx_modo.BackColor = System.Drawing.SystemColors.Control;
+            this.Tx_modo.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tx_modo.Name = "Tx_modo";
+            this.Tx_modo.ReadOnly = true;
+            this.Tx_modo.Size = new System.Drawing.Size(100, 35);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.AutoSize = false;
+            this.toolStripSeparator3.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(3, 45);
+            // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.AutoSize = false;
+            this.toolStripSeparator12.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(3, 45);
+            this.toolStripSeparator12.Visible = false;
+            // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.AutoSize = false;
+            this.toolStripSeparator10.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(3, 45);
+            this.toolStripSeparator10.Visible = false;
+            // 
+            // toolStripSeparator9
+            // 
+            this.toolStripSeparator9.AutoSize = false;
+            this.toolStripSeparator9.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator9.Name = "toolStripSeparator9";
+            this.toolStripSeparator9.Size = new System.Drawing.Size(3, 45);
+            this.toolStripSeparator9.Visible = false;
+            // 
+            // toolStripSeparator11
+            // 
+            this.toolStripSeparator11.AutoSize = false;
+            this.toolStripSeparator11.ForeColor = System.Drawing.Color.Black;
+            this.toolStripSeparator11.Name = "toolStripSeparator11";
+            this.toolStripSeparator11.Size = new System.Drawing.Size(3, 45);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(153, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.TabIndex = 45;
+            this.label2.Text = "Mes";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(32, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(26, 13);
+            this.label1.TabIndex = 44;
+            this.label1.Text = "Año";
+            // 
+            // dtp_mes
+            // 
+            this.dtp_mes.Checked = false;
+            this.dtp_mes.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_mes.Location = new System.Drawing.Point(186, 16);
+            this.dtp_mes.Name = "dtp_mes";
+            this.dtp_mes.Size = new System.Drawing.Size(57, 20);
+            this.dtp_mes.TabIndex = 42;
+            // 
+            // dtp_yea
+            // 
+            this.dtp_yea.Checked = false;
+            this.dtp_yea.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtp_yea.Location = new System.Drawing.Point(64, 16);
+            this.dtp_yea.Name = "dtp_yea";
+            this.dtp_yea.Size = new System.Drawing.Size(68, 20);
+            this.dtp_yea.TabIndex = 41;
+            // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.AutoGenerateContextFilters = true;
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.DateWithTime = false;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(1, 54);
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.Size = new System.Drawing.Size(331, 353);
+            this.advancedDataGridView1.TabIndex = 40;
+            this.advancedDataGridView1.TimeFilter = false;
+            this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);
+            this.advancedDataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.advancedDataGridView1_CellDoubleClick);
+            this.advancedDataGridView1.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.advancedDataGridView1_CellEnter);
+            this.advancedDataGridView1.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.advancedDataGridView1_CellValidating);
+            this.advancedDataGridView1.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.advancedDataGridView1_EditingControlShowing);
+            this.advancedDataGridView1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGridViewTextBox_KeyPress);
+            // 
+            // bt_agr
+            // 
+            this.bt_agr.Image = global::Conticassa.Resource1.process24;
+            this.bt_agr.Location = new System.Drawing.Point(256, 10);
+            this.bt_agr.Name = "bt_agr";
+            this.bt_agr.Size = new System.Drawing.Size(34, 32);
+            this.bt_agr.TabIndex = 43;
+            this.bt_agr.UseVisualStyleBackColor = true;
+            this.bt_agr.Click += new System.EventHandler(this.bt_agr_Click);
+            // 
+            // Bt_add
+            // 
+            this.Bt_add.AutoSize = false;
+            this.Bt_add.BackColor = System.Drawing.SystemColors.Control;
+            this.Bt_add.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.Bt_add.Image = global::Conticassa.Resource1.new_tab20;
+            this.Bt_add.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.Bt_add.Name = "Bt_add";
+            this.Bt_add.Size = new System.Drawing.Size(32, 32);
+            this.Bt_add.Text = "Bt_add";
+            this.Bt_add.ToolTipText = "Nuevo (Ctrl N)";
+            this.Bt_add.Click += new System.EventHandler(this.Bt_add_Click);
+            // 
             // Bt_close
             // 
             this.Bt_close.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -146,13 +296,7 @@
             this.Bt_close.Name = "Bt_close";
             this.Bt_close.Size = new System.Drawing.Size(32, 32);
             this.Bt_close.ToolTipText = "Salir (Ctrl S)";
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator7.AutoSize = false;
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(3, 45);
+            this.Bt_close.Click += new System.EventHandler(this.Bt_close_Click);
             // 
             // Bt_edit
             // 
@@ -164,13 +308,7 @@
             this.Bt_edit.Name = "Bt_edit";
             this.Bt_edit.Size = new System.Drawing.Size(32, 32);
             this.Bt_edit.ToolTipText = "Editar (Ctrl E)";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.AutoSize = false;
-            this.toolStripSeparator8.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(3, 45);
+            this.Bt_edit.Click += new System.EventHandler(this.Bt_edit_Click);
             // 
             // Bt_anul
             // 
@@ -183,13 +321,7 @@
             this.Bt_anul.Size = new System.Drawing.Size(32, 32);
             this.Bt_anul.Text = "Bt_close";
             this.Bt_anul.ToolTipText = "Anular (Ctrl A)";
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.AutoSize = false;
-            this.toolStripSeparator1.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(3, 45);
+            this.Bt_anul.Click += new System.EventHandler(this.Bt_anul_Click);
             // 
             // Bt_ver
             // 
@@ -202,13 +334,7 @@
             this.Bt_ver.Size = new System.Drawing.Size(32, 32);
             this.Bt_ver.Text = "Bt_close";
             this.Bt_ver.ToolTipText = "Visualizar (Ctrl O)";
-            // 
-            // toolStripSeparator13
-            // 
-            this.toolStripSeparator13.AutoSize = false;
-            this.toolStripSeparator13.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator13.Name = "toolStripSeparator13";
-            this.toolStripSeparator13.Size = new System.Drawing.Size(3, 45);
+            this.Bt_ver.Click += new System.EventHandler(this.Bt_ver_Click);
             // 
             // Bt_print
             // 
@@ -222,27 +348,7 @@
             this.Bt_print.Text = "Bt_close";
             this.Bt_print.ToolTipText = "Imprime (Ctrl P)";
             this.Bt_print.Visible = false;
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.AutoSize = false;
-            this.toolStripSeparator4.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(3, 45);
-            // 
-            // Tx_modo
-            // 
-            this.Tx_modo.BackColor = System.Drawing.SystemColors.Control;
-            this.Tx_modo.Name = "Tx_modo";
-            this.Tx_modo.ReadOnly = true;
-            this.Tx_modo.Size = new System.Drawing.Size(100, 35);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.AutoSize = false;
-            this.toolStripSeparator3.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(3, 45);
+            this.Bt_print.Click += new System.EventHandler(this.Bt_print_Click);
             // 
             // Bt_ini
             // 
@@ -256,14 +362,7 @@
             this.Bt_ini.Text = "Bt_close";
             this.Bt_ini.ToolTipText = "Ir al inicio";
             this.Bt_ini.Visible = false;
-            // 
-            // toolStripSeparator12
-            // 
-            this.toolStripSeparator12.AutoSize = false;
-            this.toolStripSeparator12.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(3, 45);
-            this.toolStripSeparator12.Visible = false;
+            this.Bt_ini.Click += new System.EventHandler(this.Bt_first_Click);
             // 
             // Bt_sig
             // 
@@ -277,14 +376,7 @@
             this.Bt_sig.Text = "Bt_close";
             this.Bt_sig.ToolTipText = "Siguiente";
             this.Bt_sig.Visible = false;
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.AutoSize = false;
-            this.toolStripSeparator10.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(3, 45);
-            this.toolStripSeparator10.Visible = false;
+            this.Bt_sig.Click += new System.EventHandler(this.Bt_back_Click);
             // 
             // Bt_ret
             // 
@@ -298,14 +390,7 @@
             this.Bt_ret.Text = "Bt_close";
             this.Bt_ret.ToolTipText = "Regresar";
             this.Bt_ret.Visible = false;
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.AutoSize = false;
-            this.toolStripSeparator9.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(3, 45);
-            this.toolStripSeparator9.Visible = false;
+            this.Bt_ret.Click += new System.EventHandler(this.Bt_next_Click);
             // 
             // Bt_fin
             // 
@@ -319,79 +404,14 @@
             this.Bt_fin.Text = "Bt_close";
             this.Bt_fin.ToolTipText = "Ir al final";
             this.Bt_fin.Visible = false;
-            // 
-            // toolStripSeparator11
-            // 
-            this.toolStripSeparator11.AutoSize = false;
-            this.toolStripSeparator11.ForeColor = System.Drawing.Color.Black;
-            this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(3, 45);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(233, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(27, 13);
-            this.label2.TabIndex = 45;
-            this.label2.Text = "Mes";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(112, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(26, 13);
-            this.label1.TabIndex = 44;
-            this.label1.Text = "Año";
-            // 
-            // bt_agr
-            // 
-            this.bt_agr.Location = new System.Drawing.Point(336, 34);
-            this.bt_agr.Name = "bt_agr";
-            this.bt_agr.Size = new System.Drawing.Size(34, 32);
-            this.bt_agr.TabIndex = 43;
-            this.bt_agr.UseVisualStyleBackColor = true;
-            // 
-            // dtp_mes
-            // 
-            this.dtp_mes.Checked = false;
-            this.dtp_mes.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_mes.Location = new System.Drawing.Point(266, 39);
-            this.dtp_mes.Name = "dtp_mes";
-            this.dtp_mes.Size = new System.Drawing.Size(57, 20);
-            this.dtp_mes.TabIndex = 42;
-            // 
-            // dtp_yea
-            // 
-            this.dtp_yea.Checked = false;
-            this.dtp_yea.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtp_yea.Location = new System.Drawing.Point(144, 39);
-            this.dtp_yea.Name = "dtp_yea";
-            this.dtp_yea.Size = new System.Drawing.Size(68, 20);
-            this.dtp_yea.TabIndex = 41;
-            // 
-            // advancedDataGridView1
-            // 
-            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.advancedDataGridView1.AutoGenerateContextFilters = true;
-            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.advancedDataGridView1.DateWithTime = false;
-            this.advancedDataGridView1.Location = new System.Drawing.Point(12, 69);
-            this.advancedDataGridView1.Name = "advancedDataGridView1";
-            this.advancedDataGridView1.Size = new System.Drawing.Size(471, 329);
-            this.advancedDataGridView1.TabIndex = 40;
-            this.advancedDataGridView1.TimeFilter = false;
+            this.Bt_fin.Click += new System.EventHandler(this.Bt_last_Click);
             // 
             // tipcam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(495, 446);
+            this.ClientSize = new System.Drawing.Size(333, 446);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.bt_agr);

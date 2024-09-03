@@ -191,7 +191,13 @@ namespace Conticassa
         }
         private void fin_camion_Click(object sender, EventArgs e)
         {
-
+            Finan_camion ffe1 = new Finan_camion();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe1);
+            if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
+            ffe1.Show();
         }
         private void fin_reportes_Click(object sender, EventArgs e)
         {

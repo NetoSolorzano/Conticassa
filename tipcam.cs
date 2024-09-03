@@ -129,6 +129,37 @@ namespace Conticassa
             }
             conn.Close();
         }
+        private void grilla()                   // arma la grilla
+        {
+            Font tiplg = new Font("Arial", 7, FontStyle.Bold);
+            advancedDataGridView1.Font = tiplg;
+            advancedDataGridView1.DefaultCellStyle.Font = tiplg;
+            advancedDataGridView1.RowTemplate.Height = 15;
+            advancedDataGridView1.DataSource = dtg;
+            // id 
+            advancedDataGridView1.Columns[0].Visible = false;
+            // fecha
+            advancedDataGridView1.Columns[1].Visible = true;            // columna visible o no
+            advancedDataGridView1.Columns[1].HeaderText = "Fecha";    // titulo de la columna
+            advancedDataGridView1.Columns[1].Width = 150;                // ancho
+            advancedDataGridView1.Columns[1].ReadOnly = true;           // lectura o no
+            //advancedDataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            // mext1
+            advancedDataGridView1.Columns[2].Visible = true;
+            advancedDataGridView1.Columns[2].HeaderText = v_noM1; // "mext1"
+            advancedDataGridView1.Columns[2].Width = 60;
+            advancedDataGridView1.Columns[2].ReadOnly = false;          // las celdas de esta columna pueden cambiarse
+            advancedDataGridView1.Columns[2].Tag = "validaNO";          // las celdas de esta columna se NO se validan
+            advancedDataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            // mext2
+            advancedDataGridView1.Columns[3].Visible = true;
+            advancedDataGridView1.Columns[3].HeaderText = v_noM2; // "mext2"
+            advancedDataGridView1.Columns[3].Width = 60;
+            advancedDataGridView1.Columns[3].ReadOnly = false;          // las celdas de esta columna pueden cambiarse
+            advancedDataGridView1.Columns[3].Tag = "validaNO";          // las celdas de esta columna se validan
+            advancedDataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+        }
+
         #region limpiadores_modos
         public void sololee()
         {
@@ -160,6 +191,276 @@ namespace Conticassa
         }
         #endregion limpiadores_modos;
 
+        #region botones_de_comando_y_permisos  
+        public void toolboton()
+        {
+            /*
+            DataTable mdtb = new DataTable();
+            const string consbot = "select * from permisos where formulario=@nomform and usuario=@use";
+            MySqlConnection conn = new MySqlConnection(DB_CONN_STR);
+            conn.Open();
+            if (conn.State == ConnectionState.Open)
+            {
+                try
+                {
+                    MySqlCommand consulb = new MySqlCommand(consbot, conn);
+                    consulb.Parameters.AddWithValue("@nomform", nomform);
+                    consulb.Parameters.AddWithValue("@use", asd);
+                    MySqlDataAdapter mab = new MySqlDataAdapter(consulb);
+                    mab.Fill(mdtb);
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message, " Error ");
+                    return;
+                }
+                finally { conn.Close(); }
+            }
+            else
+            {
+                MessageBox.Show("No se pudo conectar con el servidor", "Error de conexión");
+                Application.Exit();
+                return;
+            }
+            if (mdtb.Rows.Count > 0)
+            {
+                DataRow row = mdtb.Rows[0];
+                if (Convert.ToString(row["btn1"]) == "S")
+                {
+                    this.Bt_add.Visible = true;
+                }
+                else { this.Bt_add.Visible = false; }
+                if (Convert.ToString(row["btn2"]) == "S")
+                {
+                    this.Bt_edit.Visible = true;
+                }
+                else { this.Bt_edit.Visible = false; }
+                if (Convert.ToString(row["btn3"]) == "S")
+                {
+                    this.Bt_anul.Visible = true;
+                }
+                else { this.Bt_anul.Visible = false; }
+                if (Convert.ToString(row["btn4"]) == "S")
+                {
+                    this.Bt_ver.Visible = true;
+                }
+                else { this.Bt_ver.Visible = false; }
+                if (Convert.ToString(row["btn5"]) == "S")
+                {
+                    this.Bt_print.Visible = true;
+                }
+                else { this.Bt_print.Visible = false; }
+                if (Convert.ToString(row["btn6"]) == "S")
+                {
+                    this.Bt_close.Visible = true;
+                }
+                else { this.Bt_close.Visible = false; }
+            }
+            */
+        }
+        #region botones
+        private void Bt_add_Click(object sender, EventArgs e)
+        {
+            advancedDataGridView1.Enabled = true;
+            advancedDataGridView1.ReadOnly = false;
+            escribe();
+            Tx_modo.Text = "NUEVO";
+            limpiar();
+            limpia_otros();
+            limpia_combos();
+        }
+        private void Bt_edit_Click(object sender, EventArgs e)
+        {
+            advancedDataGridView1.Enabled = true;
+            advancedDataGridView1.ReadOnly = false;
+            escribe();
+            Tx_modo.Text = "EDITAR";
+            limpiar();
+            limpia_otros();
+            limpia_combos();
+        }
+        private void Bt_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void Bt_print_Click(object sender, EventArgs e)
+        {
+            sololee();
+            this.Tx_modo.Text = "IMPRIMIR";
+        }
+        private void Bt_anul_Click(object sender, EventArgs e)
+        {
+            //Tx_modo.Text = "ANULAR";
+        }
+        private void Bt_ver_Click(object sender, EventArgs e)
+        {
+            advancedDataGridView1.Enabled = true;
+            advancedDataGridView1.ReadOnly = true;
+            escribe();
+            Tx_modo.Text = "VISUALIZAR";
+            limpiar();
+            limpia_otros();
+            limpia_combos();
+        }
+        private void Bt_first_Click(object sender, EventArgs e)
+        {
+            limpiar();
+            limpia_chk();
+            limpia_combos();
+        }
+        private void Bt_back_Click(object sender, EventArgs e)
+        {
+            limpia_chk();
+            limpia_combos();
+            limpiar();
+        }
+        private void Bt_next_Click(object sender, EventArgs e)
+        {
+            limpia_chk();
+            limpia_combos();
+            limpiar();
+        }
+        private void Bt_last_Click(object sender, EventArgs e)
+        {
+            limpiar();
+            limpia_chk();
+            limpia_combos();
+        }
+        #endregion botones;
+        // permisos para habilitar los botones de comando
+        #endregion botones_de_comando  ;
+
+        #region advancedatagridview
+        private void advancedDataGridView1_FilterStringChanged(object sender, EventArgs e)                  // filtro de las columnas
+        {
+            dtg.DefaultView.RowFilter = advancedDataGridView1.FilterString;
+        }
+        private void advancedDataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)            // almacena valor previo al ingresar a la celda
+        {
+            advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Tag = advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+        }
+        private void advancedDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                /*string idr,rin;
+                idr = advancedDataGridView1.CurrentRow.Cells[0].Value.ToString();
+                rin = advancedDataGridView1.CurrentRow.Index.ToString();
+                limpiar();
+                limpia_otros();
+                limpia_combos();
+                jalaoc("tx_idr"); */
+            }
+        }
+        private void advancedDataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            DataGridViewTextBoxEditingControl tb = (DataGridViewTextBoxEditingControl)e.Control;
+            tb.KeyPress += new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
+            e.Control.KeyPress += new KeyPressEventHandler(dataGridViewTextBox_KeyPress);
+        }
+        private void advancedDataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e) // valida cambios en valor de la celda
+        {
+            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDITAR")
+            {
+                if (e.RowIndex > -1 && e.ColumnIndex > 1
+                    && advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() != e.FormattedValue.ToString())
+                {
+                    string campo = advancedDataGridView1.Columns[e.ColumnIndex].Name.ToString();
+                    //
+                    var aaa = MessageBox.Show("Confirma que desea cambiar el valor?",
+                        "Columna: " + advancedDataGridView1.Columns[e.ColumnIndex].HeaderText.ToString(),
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (aaa == DialogResult.Yes)
+                    {
+                        using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+                        {
+                            conn.Open();
+                            if (conn.State == ConnectionState.Open)
+                            {
+                                string actua = "update cambi set " + campo + " = " + e.FormattedValue +
+                                    " where id=@idr";    // advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString()
+                                using (MySqlCommand micon = new MySqlCommand(actua, conn))
+                                {
+                                    micon.Parameters.AddWithValue("@idr", advancedDataGridView1.Rows[e.RowIndex].Cells["id"].Value.ToString());
+                                    micon.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                        SendKeys.Send("{ESC}");
+                    }
+                }
+            }
+        }
+        private void dataGridViewTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Verify that the pressed key isn't CTRL or any non-numeric digit
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            // If you want, you can allow decimal (float) numbers
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+        #endregion
+
+        private void bt_agr_Click(object sender, EventArgs e)
+        {
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                conn.Open();
+                if (conn.State == ConnectionState.Open)
+                {
+                    string consulta = "select id,datavaluta,cambio1,cambio2 from cambi where year(datavaluta)=@yea and month(datavaluta)=@mes";
+                    using (MySqlCommand micon = new MySqlCommand(consulta, conn))
+                    {
+                        micon.Parameters.AddWithValue("@yea", dtp_yea.Value.Year.ToString());
+                        micon.Parameters.AddWithValue("@mes", dtp_mes.Value.Month.ToString());
+                        using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
+                        {
+                            dtg.Rows.Clear();
+                            dtg.Columns.Clear();
+                            da.Fill(dtg);
+                            if (dtg.Rows.Count > 0) grilla();
+                            else
+                            {
+                                string inserta = "insert into cambi (datavaluta) values ";
+                                int days = DateTime.DaysInMonth(dtp_yea.Value.Year, dtp_mes.Value.Month);
+                                for (int i = 1; i <= days; i++)
+                                {
+                                    inserta = inserta + "('" + dtp_yea.Value.Year.ToString() + "-" +
+                                        OFegres.CDerecha("0" + dtp_mes.Value.Month.ToString(), 2) + "-" +
+                                        OFegres.CDerecha("0" + i.ToString(), 2) + "')";
+                                    if (i != days) inserta = inserta + ",";
+                                }
+                                using (MySqlCommand minsert = new MySqlCommand(inserta, conn))
+                                {
+                                    minsert.ExecuteNonQuery();
+                                }
+                                using (MySqlCommand micon2 = new MySqlCommand(consulta, conn))
+                                {
+                                    micon2.Parameters.AddWithValue("@yea", dtp_yea.Value.Year.ToString());
+                                    micon2.Parameters.AddWithValue("@mes", dtp_mes.Value.Month.ToString());
+                                    using (MySqlDataAdapter da2 = new MySqlDataAdapter(micon))
+                                    {
+                                        dtg.Rows.Clear();
+                                        dtg.Columns.Clear();
+                                        da2.Fill(dtg);
+                                        if (dtg.Rows.Count > 0) grilla();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }
