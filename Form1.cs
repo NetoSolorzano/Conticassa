@@ -310,4 +310,9 @@ namespace Conticassa
         public decimal tipCOri { get; set; }        // tipo de cambio de la moneda origen
         public decimal monEuros { get; set; }       // monto equivalente en Euros
     }
+    public class giroConto
+    {
+        public string tipodes { get; set; }         // tipo OMG o Personal
+        public string ctades { get; set; }          // cuenta destino del Giro
+    }
 }

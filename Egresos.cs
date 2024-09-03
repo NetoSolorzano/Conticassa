@@ -20,6 +20,7 @@ namespace Conticassa
         private provees proveedor;      // provedor del servicio o bien, es opcional
         private string idMovim;         // idmovimiento
         private montos monto;           // Valor de la operación
+        private giroConto giroC;        // giroConto
 
         public Egresos()
         {
@@ -37,9 +38,10 @@ namespace Conticassa
         public string Descrip { get => descrip; set => descrip = value; }
         public catEgresos CatEgreso { get => catEgreso; set => catEgreso = value; }
         public string IdMovim { get => idMovim; set => idMovim = value; }
+        public giroConto GiroC { get => giroC; set => giroC = value; }
 
         public void creaEgreso(string _tipMovPrin, string _fechOper, catEgresos _catEgreso, monedas _moneda, montos _monto, decimal _tipCamb, 
-            cajDestino _cajaDes, provees _proveedor, string _descrip, string _IdMovim)   // , string _IdMovim <- este dato se genera dentro del trigger beforeinsert
+            cajDestino _cajaDes, provees _proveedor, string _descrip, string _IdMovim, giroConto _giro)   // , string _IdMovim <- este dato se genera dentro del trigger beforeinsert
         {
             tipMovPrin = _tipMovPrin;
             fechOper = _fechOper;
@@ -51,6 +53,7 @@ namespace Conticassa
             proveedor = _proveedor;
             descrip = _descrip;
             idMovim = _IdMovim;
+            giroC = _giro;
         }
         public void limpia()
         {
@@ -64,6 +67,7 @@ namespace Conticassa
             proveedor = null;
             descrip = "";
             idMovim = "";
+            giroC = null;
         }
         public void grabaEgreso(MySqlConnection conn)
         {
@@ -102,13 +106,21 @@ namespace Conticassa
                 //micon.Parameters.AddWithValue("@IEU", monto.monEuros);    // importe en euros salida 
                 micon.Parameters.AddWithValue("@Cam", tipCamb);             // tipo de cambio
                 micon.Parameters.AddWithValue("@Des", descrip);
-                micon.Parameters.AddWithValue("@IDG", "");  // luego vemos esto
                 micon.Parameters.AddWithValue("@mon", moneda.siglas);    // codigo de la moneda origen de la operación
                 micon.Parameters.AddWithValue("@ctao", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@ctad", ""); // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@usua", Program.vg_user);
+                if (giroC.ctades == null || giroC.ctades == "")
+                {
+                    micon.Parameters.AddWithValue("@IDG", "");          // cuenta destino del giroconto
+                    micon.Parameters.AddWithValue("@tidgiro", "");      // tipo de cuenta destino del giro, OMG o PERSONAL
+                }
+                else
+                {
+                    micon.Parameters.AddWithValue("@IDG", giroC.ctades);          // cuenta destino del giroconto
+                    micon.Parameters.AddWithValue("@tidgiro", giroC.tipodes);   // tipo de cuenta destino del giro, OMG o PERSONAL
+                }
                 micon.Parameters.AddWithValue("@idan", (proveedor.codigo == null) ? "" : proveedor.codigo);
-                micon.Parameters.AddWithValue("@tidgiro","");   // esto va con el giroconto creo
                 micon.Parameters.AddWithValue("@vOrig", monto.monOrige);
                 micon.Parameters.AddWithValue("@cmon", moneda.codigo);
                 micon.Parameters.AddWithValue("@nmon", moneda.nombre);

@@ -97,6 +97,7 @@
             this.linO6 = new System.Windows.Forms.Label();
             this.Tx_fecha = new System.Windows.Forms.MaskedTextBox();
             this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
+            this.tx_dat_ctagiro = new System.Windows.Forms.TextBox();
             this.panelGeneral5.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
             this.pan_p.SuspendLayout();
@@ -863,12 +864,21 @@
             this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);
             this.advancedDataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             // 
+            // tx_dat_ctagiro
+            // 
+            this.tx_dat_ctagiro.Location = new System.Drawing.Point(776, 112);
+            this.tx_dat_ctagiro.Name = "tx_dat_ctagiro";
+            this.tx_dat_ctagiro.Size = new System.Drawing.Size(44, 20);
+            this.tx_dat_ctagiro.TabIndex = 339;
+            this.tx_dat_ctagiro.Visible = false;
+            // 
             // Finan_Ingres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(227)))), ((int)(((byte)(109)))));
             this.ClientSize = new System.Drawing.Size(832, 332);
+            this.Controls.Add(this.tx_dat_ctagiro);
             this.Controls.Add(this.Tx_fecha);
             this.Controls.Add(this.chk_datSimil);
             this.Controls.Add(this.linV1);
@@ -995,5 +1005,6 @@
         private System.Windows.Forms.Label linV1;
         private System.Windows.Forms.MaskedTextBox Tx_fecha;
         private ADGV.AdvancedDataGridView advancedDataGridView1;
+        private System.Windows.Forms.TextBox tx_dat_ctagiro;
     }
 }

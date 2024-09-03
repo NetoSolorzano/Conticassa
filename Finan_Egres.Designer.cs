@@ -103,6 +103,7 @@
             this.tx_dat_provee = new System.Windows.Forms.TextBox();
             this.bt_Pnuevo = new System.Windows.Forms.Button();
             this.advancedDataGridView1 = new ADGV.AdvancedDataGridView();
+            this.tx_dat_giro = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             this.pan_p.SuspendLayout();
             this.panelGeneral4.SuspendLayout();
@@ -938,12 +939,22 @@
             this.advancedDataGridView1.FilterStringChanged += new System.EventHandler(this.advancedDataGridView1_FilterStringChanged);
             this.advancedDataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.advancedadvancedDataGridView1_CellDoubleClick);
             // 
+            // tx_dat_giro
+            // 
+            this.tx_dat_giro.Location = new System.Drawing.Point(781, 98);
+            this.tx_dat_giro.Name = "tx_dat_giro";
+            this.tx_dat_giro.Size = new System.Drawing.Size(24, 20);
+            this.tx_dat_giro.TabIndex = 338;
+            this.tx_dat_giro.Tag = "";
+            this.tx_dat_giro.Visible = false;
+            // 
             // Finan_Egres
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PapayaWhip;
             this.ClientSize = new System.Drawing.Size(833, 368);
+            this.Controls.Add(this.tx_dat_giro);
             this.Controls.Add(this.eti_nomprovee);
             this.Controls.Add(this.bt_Pnuevo);
             this.Controls.Add(this.tx_dat_provee);
@@ -1083,6 +1094,7 @@
         private System.Windows.Forms.TextBox tx_dat_provee;
         private System.Windows.Forms.Button bt_Pnuevo;
         private ADGV.AdvancedDataGridView advancedDataGridView1;
+        private System.Windows.Forms.TextBox tx_dat_giro;
         //private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }

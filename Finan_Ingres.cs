@@ -22,12 +22,14 @@ namespace Conticassa
         AutoCompleteStringCollection accd = new AutoCompleteStringCollection();     // ctas destino
         AutoCompleteStringCollection acgc = new AutoCompleteStringCollection();     // cta giroconto
         //
-        catIngresos OcatIn = new catIngresos();                                       // Objeto categoría de egreso
+        catIngresos OcatIn = new catIngresos();                                     // Objeto categoría de egreso
         monedas Omone = new monedas();                                              // Objeto moneda
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
         montos Omonto = new montos();                                               // Objeto monto
+        giroConto Ogiro = new giroConto();                                          // Objeto giroconto
         //
+        Egresos oEgresos = new Egresos();
         Ingresos Oingreso = new Ingresos();
         Finan_Egres oFEgres = new Finan_Egres();
         string nomForm = "";
@@ -88,6 +90,7 @@ namespace Conticassa
                         {
                             tx_ctaGiro.Text = ayu2.ReturnValueA[1];
                             eti_nomCtaGiro.Text = ayu2.ReturnValueA[2];
+                            tx_dat_ctagiro.Text = ayu2.ReturnValueA[0];
                         }
                     }
                 }
@@ -286,6 +289,8 @@ namespace Conticassa
             Omonto.monSoles = 0;
             Omonto.tipCDol = 0;
             Omonto.tipCOri = 0;
+            Ogiro.ctades = "";
+            Ogiro.tipodes = "";
             Oingreso.limpia();
         }
         private void limpiaTE() // limpia textbox, etiquetas, combos
@@ -303,6 +308,7 @@ namespace Conticassa
             eti_nomCtaGiro.Text = "";
             //
             cmb_mon.SelectedIndex = -1; // no puede ser 0 porque el objeto moneda esta limpio 02/09/2024
+            chk_giroC.Checked = false;
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
@@ -520,6 +526,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
+                tx_dat_ctagiro.Text = nc[0].ItemArray[1].ToString();
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -587,7 +594,8 @@ namespace Conticassa
                     string idmov = "";              // id del movimiento
                     if (rb_omg.Checked == true)
                     {
-                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,
+                        // idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
                         fecOp = retu[2].Substring(0, 10);       // fecha
                         OcatIn.codigo = retu[18];               // aca debe ser id del ingreso
                         OcatIn.nombre = retu[4];                // aca debe ser ingreso
@@ -609,6 +617,8 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
+                        Ogiro.ctades = retu[10];                // 
+                        Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     else
                     {
@@ -635,9 +645,11 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
+                        Ogiro.ctades = retu[10];                // 
+                        Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
-                            Ocajd, descr, idmov);
+                            Ocajd, descr, idmov, Ogiro);
                     jalaoc();
                 }
             }
@@ -744,6 +756,8 @@ namespace Conticassa
                     Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
                     descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
+                    Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
                 }
                 else
                 {
@@ -768,9 +782,11 @@ namespace Conticassa
                     Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_CUENTA"].Value.ToString();
                     descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
+                    Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
                 }
                 Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
-                        Ocajd, descr, idmov);
+                        Ocajd, descr, idmov, Ogiro);
                 jalaoc();
             }
         }
@@ -1098,6 +1114,15 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(tx_monto, "");
+            if (chk_giroC.CheckState == CheckState.Checked)
+            {
+                if (tx_ctaGiro.Text.Trim() == "")
+                {
+                    MessageBox.Show("Debe ingresar la cuenta destino del giro", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    tx_ctaGiro.Focus();
+                    return;
+                }
+            }
 
             var aaa = MessageBox.Show("Confirma que desea crear el Ingreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (aaa == DialogResult.Yes)
@@ -1126,8 +1151,32 @@ namespace Conticassa
                                 try
                                 {
                                     Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                        Ocajd, tx_descrip.Text, corre);
+                                        Ocajd, tx_descrip.Text, corre, Ogiro);
                                     Oingresos.grabaIngreso(conn);
+                                    // si esta marcado el giro, hacemos el movimiento inverso
+                                    if (chk_giroC.CheckState == CheckState.Checked)
+                                    {
+                                        catEgresos _catEgre = new catEgresos();
+                                        _catEgre.codigo = OcatIn.codigo;
+                                        _catEgre.nombre = OcatIn.nombre;
+                                        _catEgre.largo = OcatIn.largo;
+                                        cajDestino _desgiro = new cajDestino();
+                                        _desgiro.codigo = tx_dat_ctagiro.Text;
+                                        _desgiro.nombre = tx_ctaGiro.Text;
+                                        _desgiro.largo = eti_nomCtaGiro.Text;
+                                        provees opgiro = new provees();
+                                        opgiro.codigo = null;
+                                        corre = oFEgres.correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                                        oEgresos.creaEgreso(pan_p.Tag.ToString(), fecOp, _catEgre, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                            _desgiro, opgiro, tx_descrip.Text.Trim(), corre, Ogiro);
+                                        oEgresos.grabaEgreso(conn);
+                                        _catEgre.codigo = "";
+                                        _catEgre.nombre = "";
+                                        _catEgre.largo = "";
+                                        _desgiro.codigo = "";
+                                        _desgiro.nombre = "";
+                                        _desgiro.largo = "";
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -1171,7 +1220,7 @@ namespace Conticassa
                     {
                         string fecOp = selecFecha1.Value.Date.ToShortDateString();
                         Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                        Ocajd, tx_descrip.Text, tx_idOper.Text);
+                                        Ocajd, tx_descrip.Text, tx_idOper.Text, Ogiro);
                         Oingreso.EditaIngreso(conn, tx_idOper.Text.Substring(0, 4), ("000000000" + oFEgres.CDerecha(tx_idOper.Text, 6)));
                         actFilaEnDataI(dt_grillaI, "LIM", tx_idOper.Text);
                     }

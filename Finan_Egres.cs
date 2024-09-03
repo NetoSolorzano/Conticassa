@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using ADGV;
 using MySql.Data.MySqlClient;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace Conticassa
 {
@@ -26,7 +27,9 @@ namespace Conticassa
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         provees Oprove = new provees();                                             // Objeto proveedor
         montos Omonto = new montos();                                               // Objeto monto
+        giroConto Ogiro = new giroConto();                                          // Objeto giroconto
         //
+        Ingresos Oingresos = new Ingresos();
         Egresos Oegreso = new Egresos();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
@@ -83,6 +86,7 @@ namespace Conticassa
                         {
                             tx_ctaGiro.Text = ayu2.ReturnValueA[1];
                             eti_nomCtaGiro.Text = ayu2.ReturnValueA[2];
+                            tx_dat_giro.Text = ayu2.ReturnValueA[0];
                         }
                     }
                 }
@@ -384,6 +388,8 @@ namespace Conticassa
             Omonto.monSoles = 0;
             Omonto.tipCDol = 0;
             Omonto.tipCOri = 0;
+            Ogiro.ctades = "";
+            Ogiro.tipodes = "";
             Oegreso.limpia();
         }
         private void limpiaTE() // limpia textbox, etiquetas, combos
@@ -397,6 +403,7 @@ namespace Conticassa
             tx_provee.Clear();
             tx_dat_provee.Clear();
             tx_tipcam.Clear();
+            tx_dat_giro.Clear();
             //
             eti_nomCaja.Text = "";
             eti_nomCat.Text = "";
@@ -404,6 +411,7 @@ namespace Conticassa
             eti_nomprovee.Text = "";
             //
             cmb_mon.SelectedIndex = -1; // no debe ser cero 02/09/2024 porque el objeto moneda esta limpio
+            chk_giroC.Checked = false;
         }
         private void escribe(string quien)  // pones los campos necesarios en readonly = false
         {
@@ -623,6 +631,7 @@ namespace Conticassa
                 hideResults();
                 DataRow[] nc = Program.dt_definic.Select("idtabella='CON' and descrizionerid='" + tx_ctaGiro.Text.Trim() + "'");
                 eti_nomCtaGiro.Text = nc[0].ItemArray[2].ToString();
+                tx_dat_giro.Text = nc[0].ItemArray[1].ToString();
                 // objetos de la cuenta giro
                 SendKeys.Send("{TAB}");
             }
@@ -747,6 +756,8 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
+                        Ogiro.ctades = retu[10];                // 
+                        Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     else
                     {
@@ -773,9 +784,11 @@ namespace Conticassa
                         Oprove.nombre = retu[9];                // "PROVEEDOR"
                         descr = retu[7];                        // "DESCRIPCION"
                         idmov = retu[1];                        // "ID_MOVIM"
+                        Ogiro.ctades = retu[10];                // 
+                        Ogiro.tipodes = retu[11];   // (tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
                     }
                     Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
-                            Ocajd, Oprove, descr, idmov);
+                            Ocajd, Oprove, descr, idmov, Ogiro);
                     jalaoc();
                 }
             }
@@ -826,7 +839,7 @@ namespace Conticassa
                         if (pan_p.Tag.ToString() == "omg")         // rb_omg.Checked == true
                         {
                             consulta = "SELECT IDBanco,CONCAT(Anno,RIGHT(IDMovimento, 6)) AS IDMovimento,DataMovimento,IDCategoria,IDDestino,Descrizione,idanagrafica," +
-                                "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro " +
+                                "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro AS GIRO_CTA " +
                                 "FROM cassaomg WHERE CONCAT(Anno,RIGHT(IDMovimento,6))=@idm";
                         }
                         if (pan_p.Tag.ToString() == "personal")    // rb_pers.Checked == true
@@ -869,8 +882,8 @@ namespace Conticassa
                                             retorna[7] = dr["DESCRIPCION"].ToString();
                                             retorna[8] = dr["TIP_CAMBIO"].ToString();
                                             retorna[9] = dr["PROVEEDOR"].ToString();
-                                            retorna[10] = dr["GIRO_CTA"].ToString();
-                                            retorna[11] = dr["IDGiroConto"].ToString();
+                                            retorna[10] = dr["GIRO_CTA"].ToString();        // tipo cta destino OMG o PER
+                                            retorna[11] = dr["IDGiroConto"].ToString();     // cuenta destino del giro
                                             retorna[12] = dr["CTA_DESTINO"].ToString();
                                             retorna[13] = dr["usuario"].ToString();
                                             retorna[14] = dr["ImportoDU"].ToString();
@@ -1126,7 +1139,8 @@ namespace Conticassa
                 string idmov = "";              // id del movimiento
                 if (rb_omg.Checked == true)
                 {
-                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
+                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
+                    // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria,tipodesgiro
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
@@ -1148,11 +1162,13 @@ namespace Conticassa
                     Oprove.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
                     descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
+                    Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
                 }
                 else
                 {
                     // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
-                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri,tipodesgiro
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
@@ -1174,9 +1190,11 @@ namespace Conticassa
                     Oprove.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["PROVEEDOR"].Value.ToString();
                     descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
+                    Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
                 }
                 Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
-                        Ocajd, Oprove, descr, idmov);
+                        Ocajd, Oprove, descr, idmov, Ogiro);
                 jalaoc();
             }
         }
@@ -1400,7 +1418,15 @@ namespace Conticassa
                 return;
             }
             errorProvider1.SetError(tx_monto, "");
-
+            if (chk_giroC.CheckState == CheckState.Checked)
+            {
+                if (tx_ctaGiro.Text.Trim() == "")
+                {
+                    MessageBox.Show("Debe ingresar la cuenta destino del giro","Atención",MessageBoxButtons.OK,MessageBoxIcon.Stop);
+                    tx_ctaGiro.Focus();
+                    return;
+                }
+            }
             var aaa = MessageBox.Show("Confirma que desea crear el Egreso?", "Confirme por favor", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (aaa == DialogResult.Yes)
             {
@@ -1428,8 +1454,30 @@ namespace Conticassa
                                 try
                                 {
                                     Oegresos.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                        Ocajd, Oprove, tx_descrip.Text, corre);
+                                        Ocajd, Oprove, tx_descrip.Text, corre, Ogiro);
                                     Oegresos.grabaEgreso(conn);
+                                    // si esta marcado el giro, hacemos el movimiento inverso
+                                    if (chk_giroC.CheckState == CheckState.Checked)
+                                    {
+                                        catIngresos OcatIn = new catIngresos();
+                                        OcatIn.codigo = OcatEg.codigo;
+                                        OcatIn.nombre = OcatEg.nombre;
+                                        OcatIn.largo = OcatEg.largo;
+                                        cajDestino _desgiro = new cajDestino();
+                                        _desgiro.codigo = tx_dat_giro.Text;
+                                        _desgiro.nombre = tx_ctaGiro.Text;
+                                        _desgiro.largo = eti_nomCtaGiro.Text;
+                                        corre = correlativo(conn, ((rb_omg.Checked == true) ? "MCA" : "MCO"), selecFecha1.Value.Date.Year);
+                                        Oingresos.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
+                                        _desgiro, tx_descrip.Text, corre, Ogiro);
+                                        Oingresos.grabaIngreso(conn); 
+                                        OcatIn.codigo = "";
+                                        OcatIn.nombre = "";
+                                        OcatIn.largo = "";
+                                        _desgiro.codigo = "";
+                                        _desgiro.nombre = "";
+                                        _desgiro.largo = "";
+                                    }
                                 }
                                 catch (Exception ex)
                                 {
@@ -1473,7 +1521,7 @@ namespace Conticassa
                     {
                         string fecOp = selecFecha1.Value.Date.ToShortDateString();
                         Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, decimal.Parse(tx_tipcam.Text),
-                                        Ocajd, Oprove, tx_descrip.Text, tx_idOper.Text);
+                                        Ocajd, Oprove, tx_descrip.Text, tx_idOper.Text, Ogiro);
                         Oegreso.EditaEgreso(conn, tx_idOper.Text.Substring(0, 4), ("000000000" + CDerecha(tx_idOper.Text, 6)));
                         actFilaEnDataG(dt_grillaE, "LIM", tx_idOper.Text);
                     }
