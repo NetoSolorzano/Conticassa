@@ -227,7 +227,7 @@ namespace Conticassa
                         {
                             control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
                         }
-                        if (oControl is MaskedTextBox)
+                        if (control is MaskedTextBox)
                         {
                             control.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
                         }
@@ -247,11 +247,47 @@ namespace Conticassa
                         {
                             control.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
                             control.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
-                            oControl.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                            control.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
                         }
                         if (control is ComboBox)
                         {
                             control.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                        }
+                        if (control is Panel)
+                        {
+                            foreach (Control scontrol in control.Controls)
+                            {
+                                if (scontrol is TextBox)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                                }
+                                if (scontrol is MaskedTextBox)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                                }
+                                if (scontrol is Label)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(normal); // Color.FromArgb(1, 186, 218, 169);
+                                }
+                                if (scontrol is CheckBox)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                                }
+                                if (scontrol is RadioButton)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // Color.FromArgb(1, 186, 218, 169);
+                                }
+                                if (scontrol is ListBox)
+                                {
+                                    scontrol.Font = new System.Drawing.Font(conf.nombreFont, conf.tamañoFont);
+                                    scontrol.ForeColor = System.Drawing.Color.FromName(conf.colorFont);
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                                }
+                                if (scontrol is ComboBox)
+                                {
+                                    scontrol.BackColor = ColorTranslator.FromHtml(suave); // cuando usamos FromHtml NO da error por fondo transparente
+                                }
+                            }
                         }
                     }
                 }

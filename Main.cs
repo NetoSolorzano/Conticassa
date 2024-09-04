@@ -201,7 +201,13 @@ namespace Conticassa
         }
         private void fin_reportes_Click(object sender, EventArgs e)
         {
-
+            Finan_reps ffe1 = new Finan_reps();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe1);
+            if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
+            ffe1.Show();
         }
         #endregion
 
@@ -217,7 +223,13 @@ namespace Conticassa
         }
         private void maes_proveed_Click(object sender, EventArgs e)
         {
-
+            provee ffe1 = new provee();
+            ffe1.TopLevel = false;
+            ffe1.Parent = this;
+            ffe1.Left = pn_pver.Left + pn_pver.Width + 1;
+            pn_centro.Controls.Add(ffe1);
+            if (this.Width < ffe1.Right + ffe1.Left) this.Width = ffe1.Right + ffe1.Left;
+            ffe1.Show();
         }
         private void maes_tipcam_Click(object sender, EventArgs e)
         {
