@@ -67,7 +67,7 @@
             this.generalEtiqueta4 = new Conticassa.generalEtiqueta();
             this.generalEtiqueta1 = new Conticassa.generalEtiqueta();
             this.Tx_fecha2 = new System.Windows.Forms.MaskedTextBox();
-            this.cmb_ummm = new System.Windows.Forms.ComboBox();
+            this.cmb_prov = new System.Windows.Forms.ComboBox();
             this.cmb_destin = new System.Windows.Forms.ComboBox();
             this.panelGeneral4 = new Conticassa.panelGeneral();
             this.generalEtiqueta5 = new Conticassa.generalEtiqueta();
@@ -78,6 +78,7 @@
             this.panelGeneral2 = new Conticassa.panelGeneral();
             this.generalEtiqueta2 = new Conticassa.generalEtiqueta();
             this.cmb_categ = new System.Windows.Forms.ComboBox();
+            this.generalEtiqueta6 = new Conticassa.generalEtiqueta();
             this.toolStrip1.SuspendLayout();
             this.pan_menu.SuspendLayout();
             this.pan_repos.SuspendLayout();
@@ -410,6 +411,7 @@
             this.rb_gasCam.TabStop = true;
             this.rb_gasCam.Text = "Gastos Camiones";
             this.rb_gasCam.UseVisualStyleBackColor = false;
+            this.rb_gasCam.CheckedChanged += new System.EventHandler(this.rb_gasCam_CheckedChanged);
             // 
             // rb_globOmg
             // 
@@ -424,6 +426,7 @@
             this.rb_globOmg.TabStop = true;
             this.rb_globOmg.Text = "Global - Casa OMG";
             this.rb_globOmg.UseVisualStyleBackColor = false;
+            this.rb_globOmg.CheckedChanged += new System.EventHandler(this.rb_globOmg_CheckedChanged);
             // 
             // rb_movCaja
             // 
@@ -438,6 +441,7 @@
             this.rb_movCaja.TabStop = true;
             this.rb_movCaja.Text = "Movimiento por caja - Personal";
             this.rb_movCaja.UseVisualStyleBackColor = false;
+            this.rb_movCaja.CheckedChanged += new System.EventHandler(this.rb_movCaja_CheckedChanged);
             // 
             // rb_ctaPers
             // 
@@ -452,6 +456,7 @@
             this.rb_ctaPers.TabStop = true;
             this.rb_ctaPers.Text = "Cuentas por sede - Personal";
             this.rb_ctaPers.UseVisualStyleBackColor = false;
+            this.rb_ctaPers.CheckedChanged += new System.EventHandler(this.rb_ctaPers_CheckedChanged);
             // 
             // Eti_titulo
             // 
@@ -468,11 +473,12 @@
             // 
             this.pan_repos.BackColor = System.Drawing.Color.White;
             this.pan_repos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pan_repos.Controls.Add(this.generalEtiqueta6);
             this.pan_repos.Controls.Add(this.panelGeneral1);
             this.pan_repos.Controls.Add(this.generalEtiqueta4);
             this.pan_repos.Controls.Add(this.generalEtiqueta1);
             this.pan_repos.Controls.Add(this.Tx_fecha2);
-            this.pan_repos.Controls.Add(this.cmb_ummm);
+            this.pan_repos.Controls.Add(this.cmb_prov);
             this.pan_repos.Controls.Add(this.cmb_destin);
             this.pan_repos.Controls.Add(this.panelGeneral4);
             this.pan_repos.Controls.Add(this.panelGeneral3);
@@ -500,7 +506,7 @@
             this.eti_sede.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.eti_sede.Font = new System.Drawing.Font("Verdana", 8F);
             this.eti_sede.ForeColor = System.Drawing.Color.Black;
-            this.eti_sede.Location = new System.Drawing.Point(2, 3);
+            this.eti_sede.Location = new System.Drawing.Point(2, 2);
             this.eti_sede.Name = "eti_sede";
             this.eti_sede.Size = new System.Drawing.Size(130, 18);
             this.eti_sede.TabIndex = 1;
@@ -520,7 +526,7 @@
             this.generalEtiqueta4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta4.Font = new System.Drawing.Font("Verdana", 8F);
             this.generalEtiqueta4.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta4.Location = new System.Drawing.Point(2, 121);
+            this.generalEtiqueta4.Location = new System.Drawing.Point(2, 120);
             this.generalEtiqueta4.Name = "generalEtiqueta4";
             this.generalEtiqueta4.Size = new System.Drawing.Size(130, 18);
             this.generalEtiqueta4.TabIndex = 111;
@@ -532,7 +538,7 @@
             this.generalEtiqueta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta1.Font = new System.Drawing.Font("Verdana", 8F);
             this.generalEtiqueta1.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta1.Location = new System.Drawing.Point(2, 26);
+            this.generalEtiqueta1.Location = new System.Drawing.Point(2, 25);
             this.generalEtiqueta1.Name = "generalEtiqueta1";
             this.generalEtiqueta1.Size = new System.Drawing.Size(130, 19);
             this.generalEtiqueta1.TabIndex = 108;
@@ -552,13 +558,13 @@
             this.Tx_fecha2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tx_fecha2.ValidatingType = typeof(System.DateTime);
             // 
-            // cmb_ummm
+            // cmb_prov
             // 
-            this.cmb_ummm.FormattingEnabled = true;
-            this.cmb_ummm.Location = new System.Drawing.Point(134, 73);
-            this.cmb_ummm.Name = "cmb_ummm";
-            this.cmb_ummm.Size = new System.Drawing.Size(117, 21);
-            this.cmb_ummm.TabIndex = 106;
+            this.cmb_prov.FormattingEnabled = true;
+            this.cmb_prov.Location = new System.Drawing.Point(134, 73);
+            this.cmb_prov.Name = "cmb_prov";
+            this.cmb_prov.Size = new System.Drawing.Size(117, 21);
+            this.cmb_prov.TabIndex = 106;
             // 
             // cmb_destin
             // 
@@ -585,7 +591,7 @@
             this.generalEtiqueta5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta5.Font = new System.Drawing.Font("Verdana", 8F);
             this.generalEtiqueta5.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta5.Location = new System.Drawing.Point(2, 2);
+            this.generalEtiqueta5.Location = new System.Drawing.Point(2, 1);
             this.generalEtiqueta5.Name = "generalEtiqueta5";
             this.generalEtiqueta5.Size = new System.Drawing.Size(130, 18);
             this.generalEtiqueta5.TabIndex = 112;
@@ -617,7 +623,7 @@
             this.generalEtiqueta3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta3.Font = new System.Drawing.Font("Verdana", 8F);
             this.generalEtiqueta3.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta3.Location = new System.Drawing.Point(2, 2);
+            this.generalEtiqueta3.Location = new System.Drawing.Point(2, 1);
             this.generalEtiqueta3.Name = "generalEtiqueta3";
             this.generalEtiqueta3.Size = new System.Drawing.Size(130, 18);
             this.generalEtiqueta3.TabIndex = 110;
@@ -654,7 +660,7 @@
             this.generalEtiqueta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
             this.generalEtiqueta2.Font = new System.Drawing.Font("Verdana", 8F);
             this.generalEtiqueta2.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta2.Location = new System.Drawing.Point(2, 3);
+            this.generalEtiqueta2.Location = new System.Drawing.Point(2, 2);
             this.generalEtiqueta2.Name = "generalEtiqueta2";
             this.generalEtiqueta2.Size = new System.Drawing.Size(130, 18);
             this.generalEtiqueta2.TabIndex = 109;
@@ -668,6 +674,18 @@
             this.cmb_categ.Name = "cmb_categ";
             this.cmb_categ.Size = new System.Drawing.Size(117, 21);
             this.cmb_categ.TabIndex = 105;
+            // 
+            // generalEtiqueta6
+            // 
+            this.generalEtiqueta6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta6.Font = new System.Drawing.Font("Verdana", 8F);
+            this.generalEtiqueta6.ForeColor = System.Drawing.Color.Black;
+            this.generalEtiqueta6.Location = new System.Drawing.Point(2, 74);
+            this.generalEtiqueta6.Name = "generalEtiqueta6";
+            this.generalEtiqueta6.Size = new System.Drawing.Size(130, 18);
+            this.generalEtiqueta6.TabIndex = 113;
+            this.generalEtiqueta6.Text = "Proveedor";
+            this.generalEtiqueta6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Finan_reps
             // 
@@ -735,7 +753,7 @@
         private panelGeneral panelGeneral4;
         private panelGeneral panelGeneral3;
         private panelGeneral panelGeneral2;
-        private System.Windows.Forms.ComboBox cmb_ummm;
+        private System.Windows.Forms.ComboBox cmb_prov;
         private System.Windows.Forms.ComboBox cmb_destin;
         private System.Windows.Forms.ComboBox cmb_categ;
         private System.Windows.Forms.MaskedTextBox Tx_fecha2;
@@ -749,5 +767,6 @@
         private panelGeneral panelGeneral1;
         private generalEtiqueta eti_sede;
         private System.Windows.Forms.ComboBox cmb_sede;
+        private generalEtiqueta generalEtiqueta6;
     }
 }

@@ -87,5 +87,58 @@ namespace Conticassa
         {
             //
         }
+
+        #region radiobuttons
+        private void rb_ctaPers_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_ctaPers.Checked == true)
+            {
+                pan_repos.Enabled = true;
+                cmb_sede.Enabled = true;
+                cmb_destin.Enabled = false; cmb_destin.SelectedIndex = -1;
+                cmb_categ.Enabled = false; cmb_categ.SelectedIndex = -1;
+                cmb_prov.Enabled = false; cmb_prov.SelectedIndex = -1;
+                cmb_moneda.SelectedIndex = 0;
+            }
+        }
+        private void rb_movCaja_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_movCaja.Checked == true)
+            {
+                pan_repos.Enabled = true;
+                cmb_sede.Enabled = true;
+                cmb_destin.Enabled = true; cmb_destin.SelectedIndex = -1;
+                cmb_categ.Enabled = true; cmb_categ.SelectedIndex = -1;
+                cmb_prov.Enabled = false; cmb_prov.SelectedIndex = -1;
+                cmb_moneda.SelectedIndex = 0;
+            }
+        }
+        private void rb_globOmg_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_globOmg.Checked == true)
+            {
+                pan_repos.Enabled = true; 
+                cmb_sede.Enabled = false; cmb_sede.SelectedIndex = 0;
+                cmb_destin.Enabled = true; cmb_destin.SelectedIndex = -1;
+                cmb_categ.Enabled = true; cmb_categ.SelectedIndex = -1;
+                cmb_prov.Enabled = true; cmb_prov.SelectedIndex = -1;
+                cmb_moneda.SelectedIndex = 0;
+            }
+        }
+        private void rb_gasCam_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rb_gasCam.Checked == true)
+            {
+                pan_repos.Enabled = true;
+                cmb_sede.Enabled = false; cmb_sede.SelectedIndex = 0;
+                cmb_destin.Enabled = true; cmb_destin.SelectedIndex = -1;
+                cmb_categ.Enabled = true; cmb_categ.SelectedIndex = -1;
+                cmb_prov.Enabled = true; cmb_prov.SelectedIndex = -1;
+                cmb_moneda.SelectedIndex = 0;
+            }
+        }
+
+        #endregion
+
     }
 }
