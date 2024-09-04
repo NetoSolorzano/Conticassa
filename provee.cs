@@ -6,9 +6,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Google.Protobuf.Reflection.SourceCodeInfo.Types;
 
 namespace Conticassa
 {
@@ -30,7 +33,7 @@ namespace Conticassa
         // string de conexion
         string DB_CONN_STR = "server=" + Login.serv + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data + ";";
         DataTable dtg = new DataTable();
-        DataTable dtm = new DataTable();
+        DataTable dtm = new DataTable();    // datos de la grilla
         public provee()
         {
             InitializeComponent();
@@ -66,8 +69,12 @@ namespace Conticassa
         private void init()
         {
             jalainfo();
-
-
+            tx_idOper.MaxLength = 6;
+            Tx_nombre.MaxLength = 50;
+            Tx_direc.MaxLength = 30;
+            tx_tele1.MaxLength = 15;
+            tx_tele2.MaxLength = 15;
+            tx_correo.MaxLength = 50;
         }
         private void jalainfo()                 // obtiene datos de imagenes
         {
@@ -96,7 +103,7 @@ namespace Conticassa
                 Application.Exit();
                 return;
             }
-            string consulta = "select a.idanagrafica AS ID_PROV,a.ragionesociale AS NOMBRE,a.indirizzo1 AS DIRECCION,a.numerotel1 AS TELEFONO1,a.numerotel2 AS TELEFONO2,a.email AS CORREO,a.stato AS ESTADO from anag_for a";
+            string consulta = "select trim(a.idanagrafica) AS ID_PROV,trim(a.ragionesociale) AS NOMBRE,trim(a.indirizzo1) AS DIRECCION,trim(a.numerotel1) AS TELEFONO1,trim(a.numerotel2) AS TELEFONO2,trim(a.email) AS CORREO,a.stato AS ESTADO from anag_for a";
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
             {
                 using (MySqlDataAdapter da = new MySqlDataAdapter(micon))
@@ -117,6 +124,7 @@ namespace Conticassa
             advancedDataGridView1.DataSource = dtm;
             // codigo proveedor 
             advancedDataGridView1.Columns[0].Visible = true;
+            advancedDataGridView1.Columns[0].DefaultCellStyle.BackColor = Color.FromName("LightYellow");
             // nombre
             advancedDataGridView1.Columns[1].Visible = true;            // columna visible o no
             //advancedDataGridView1.Columns[1].HeaderText = "Fecha";    // titulo de la columna
@@ -159,6 +167,17 @@ namespace Conticassa
             advancedDataGridView1.Columns[6].Tag = "validaNO";          // las celdas de esta columna se validan
             advancedDataGridView1.Columns[6].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
+        private void jalaoc(string[] fila)                   // jala los datos de la grilla
+        {
+            // ID_PROV,NOMBRE,DIRECCION,TELEFONO1,TELEFONO2,CORREO,ESTADO
+            tx_idOper.Text = fila[0];
+            Tx_nombre.Text = fila[1];
+            Tx_direc.Text = fila[2];
+            tx_tele1.Text = fila[3];
+            tx_tele2.Text = fila[4];
+            tx_correo.Text = fila[5];
+            tx_estado.Text = fila[6];
+        }                                                   // muestra en el formulario los objetos de la clase Egresos
 
         #region limpiadores_modos
         public void sololee()
@@ -268,6 +287,7 @@ namespace Conticassa
             limpiar();
             limpia_otros();
             limpia_combos();
+            tx_idOper.Focus();
         }
         private void Bt_edit_Click(object sender, EventArgs e)
         {
@@ -278,6 +298,7 @@ namespace Conticassa
             limpiar();
             limpia_otros();
             limpia_combos();
+            tx_idOper.Focus();
         }
         private void Bt_close_Click(object sender, EventArgs e)
         {
@@ -301,6 +322,7 @@ namespace Conticassa
             limpiar();
             limpia_otros();
             limpia_combos();
+            tx_idOper.Focus();
         }
         private void Bt_first_Click(object sender, EventArgs e)
         {
@@ -341,15 +363,24 @@ namespace Conticassa
         }
         private void advancedDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 0)
             {
-                /*string idr,rin;
+                string idr = "";    // código del proveedor
+                string rin = "";    // indice en la grilla
                 idr = advancedDataGridView1.CurrentRow.Cells[0].Value.ToString();
                 rin = advancedDataGridView1.CurrentRow.Index.ToString();
+                string[] fila = {"", "", "", "", "", "", "" };
+                fila[0] = advancedDataGridView1.CurrentRow.Cells[0].Value.ToString();
+                fila[1] = advancedDataGridView1.CurrentRow.Cells[1].Value.ToString();
+                fila[2] = advancedDataGridView1.CurrentRow.Cells[2].Value.ToString();
+                fila[3] = advancedDataGridView1.CurrentRow.Cells[3].Value.ToString();
+                fila[4] = advancedDataGridView1.CurrentRow.Cells[4].Value.ToString();
+                fila[5] = advancedDataGridView1.CurrentRow.Cells[5].Value.ToString();
+                fila[6] = advancedDataGridView1.CurrentRow.Cells[6].Value.ToString();
                 limpiar();
                 limpia_otros();
                 limpia_combos();
-                jalaoc("tx_idr"); */
+                jalaoc(fila);
             }
         }
         private void advancedDataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -360,7 +391,7 @@ namespace Conticassa
         }
         private void advancedDataGridView1_CellValidating(object sender, DataGridViewCellValidatingEventArgs e) // valida cambios en valor de la celda
         {
-            if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDITAR")
+            /* if (Tx_modo.Text == "NUEVO" || Tx_modo.Text == "EDITAR")
             {
                 if (e.RowIndex > -1 && e.ColumnIndex > 1
                     && advancedDataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString() != e.FormattedValue.ToString())
@@ -393,7 +424,7 @@ namespace Conticassa
                         SendKeys.Send("{ESC}");
                     }
                 }
-            }
+            } */
         }
         private void dataGridViewTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -410,6 +441,168 @@ namespace Conticassa
         }
         #endregion
 
+        #region leaves y validaciones
+        private void tx_idOper_Validating(object sender, CancelEventArgs e)
+        {
+            if (true)   // tx_idOper.Text.Trim() != "" && ("NUEVO,EDICION").Contains(Tx_modo.Text)
+            {
+                DataRow[] row = dtm.Select("ID_PROV = '" + tx_idOper.Text.Trim() + "'");
+                if (row.Length > 0)
+                {
+                    if (Tx_modo.Text != "NUEVO")
+                    {
+                        // ID_PROV,NOMBRE,DIRECCION,TELEFONO1,TELEFONO2,CORREO,ESTADO
+                        string[] fila = { "", "", "", "", "", "", "" };
+                        fila[0] = row[0].ItemArray[0].ToString();
+                        fila[1] = row[0].ItemArray[1].ToString();
+                        fila[2] = row[0].ItemArray[2].ToString();
+                        fila[3] = row[0].ItemArray[3].ToString();
+                        fila[4] = row[0].ItemArray[4].ToString();
+                        fila[5] = row[0].ItemArray[5].ToString();
+                        fila[6] = row[0].ItemArray[6].ToString();
+                        jalaoc(fila);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ya existe el proveedor!", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        tx_idOper.Text = "";
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Tx_modo.Text != "NUEVO")
+                    {
+                        MessageBox.Show("No existe el proveedor", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        tx_idOper.Text = "";
+                        return;
+                    }
+                }
+            }
+        }     // busca en toda la base de datos
+        private void tx_estado_Validating(object sender, CancelEventArgs e)
+        {
+            if (tx_estado.Text != "0" && tx_estado.Text != "1")
+            {
+                errorProvider1.SetError(tx_estado, "Debe ingresar: " + Environment.NewLine +
+                    "1 para Activo " + Environment.NewLine +
+                    "0 para Inactivo");
+                tx_estado.Focus();
+                return;
+            }
+        }
+        #endregion
+
+        private void Bt_graba_Click(object sender, EventArgs e)
+        {
+            // valida campos minimos
+            if (tx_idOper.Text == "")
+            {
+                errorProvider1.SetError(tx_idOper, "Debe ingresar un código");
+                tx_idOper.Focus();
+                return;
+            }
+            errorProvider1.SetError(tx_idOper, "");
+            if (Tx_nombre.Text == "")
+            {
+                errorProvider1.SetError(Tx_nombre, "Debe ingresar un nombre");
+                Tx_nombre.Focus();
+                return;
+            }
+            errorProvider1.SetError(Tx_nombre, "");
+            if (tx_estado.Text.Trim() == "")
+            {
+                errorProvider1.SetError(tx_estado, "Debe ingresar: " + Environment.NewLine +
+                    "1 para Activo " + Environment.NewLine +
+                    "0 para Inactivo");
+                tx_estado.Focus();
+                return;
+            }
+            errorProvider1.SetError(tx_estado, "");
+
+            using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
+            {
+                var aa = MessageBox.Show("Confirma que desea grabar?","Atención",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                if (aa == DialogResult.No)
+                {
+                    tx_correo.Focus();
+                    return;
+                }
+
+                try
+                {
+                    conn.Open();
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error de conexión al servidor", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Application.Exit();
+                    return;
+                }
+                if (conn.State == ConnectionState.Open)
+                {
+                    if (Tx_modo.Text == "NUEVO")
+                    {
+                        // inserta en tabla
+                        string cins = "insert into anagrafiche (idanagrafica,ragionesociale,indirizzo1,numerotel1,numerotel2,email,stato,idcategoria) " +
+                            "values (@ida,@nom,@dir,@tel1,@tel2,@corr,@esta,'FOR')";
+                        using (MySqlCommand micon = new MySqlCommand(cins, conn))
+                        {
+                            micon.Parameters.AddWithValue("@ida", tx_idOper.Text.Trim());
+                            micon.Parameters.AddWithValue("@nom", Tx_nombre.Text.Trim());
+                            micon.Parameters.AddWithValue("@dir", Tx_direc.Text.Trim());
+                            micon.Parameters.AddWithValue("@tel1", tx_tele1.Text.Trim());
+                            micon.Parameters.AddWithValue("@tel2", tx_tele2.Text.Trim());
+                            micon.Parameters.AddWithValue("@corr", tx_correo.Text.Trim());
+                            micon.Parameters.AddWithValue("@esta", tx_estado.Text);
+                            micon.ExecuteNonQuery();
+                        }
+                        // inserta en grilla
+                        DataRow fila = dtm.NewRow();
+                        fila[0] = tx_idOper.Text;
+                        fila[1] = Tx_nombre.Text;
+                        fila[2] = Tx_direc.Text;
+                        fila[3] = tx_tele1.Text;
+                        fila[4] = tx_tele2.Text;
+                        fila[5] = tx_correo.Text;
+                        fila[6] = tx_estado.Text;
+                        dtm.Rows.InsertAt(fila, 0);
+                    }
+                    if (Tx_modo.Text == "EDITAR")
+                    {
+                        // actualiza la tabla
+                        string cins = "update anagrafiche set ragionesociale=@nom,indirizzo1=@dir,numerotel1=@tel1,numerotel2=@tel2,email=@corr,stato=@esta " +
+                            "where idanagrafica=@ida";
+                        using (MySqlCommand micon = new MySqlCommand(cins, conn))
+                        {
+                            micon.Parameters.AddWithValue("@ida", tx_idOper.Text.Trim());
+                            micon.Parameters.AddWithValue("@nom", Tx_nombre.Text.Trim());
+                            micon.Parameters.AddWithValue("@dir", Tx_direc.Text.Trim());
+                            micon.Parameters.AddWithValue("@tel1", tx_tele1.Text.Trim());
+                            micon.Parameters.AddWithValue("@tel2", tx_tele2.Text.Trim());
+                            micon.Parameters.AddWithValue("@corr", tx_correo.Text.Trim());
+                            micon.Parameters.AddWithValue("@esta", tx_estado.Text);
+                            micon.ExecuteNonQuery();
+                        }
+                        // actualiza la grilla
+                        DataRow fila = dtm.Select("ID_PROV = '" + tx_idOper.Text.Trim() + "'").FirstOrDefault(); // dtm.NewRow();
+                        if (fila != null)
+                        {
+                            //fila[0] = tx_idOper.Text;
+                            fila[1] = Tx_nombre.Text;
+                            fila[2] = Tx_direc.Text;
+                            fila[3] = tx_tele1.Text;
+                            fila[4] = tx_tele2.Text;
+                            fila[5] = tx_correo.Text;
+                            fila[6] = tx_estado.Text;
+                        }
+                    }
+                }
+            }
+            limpiar();
+            limpia_otros();
+            limpia_combos();
+        }
 
     }
 }
