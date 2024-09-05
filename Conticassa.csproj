@@ -280,6 +280,7 @@
     <Content Include="Resources\edit20.png" />
     <None Include="Resources\link_round [#1110].png" />
     <None Include="Resources\euro20.png" />
+    <None Include="Resources\execution32.png" />
     <Content Include="Resources\new_tab20.png" />
     <None Include="Resources\printer [#1599].png" />
     <None Include="Resources\search_left [#1504].png" />

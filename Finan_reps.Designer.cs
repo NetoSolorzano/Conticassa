@@ -61,6 +61,7 @@
             this.rb_ctaPers = new Conticassa.radioBoton();
             this.Eti_titulo = new Conticassa.generalEtiqueta();
             this.pan_repos = new Conticassa.panelGeneral();
+            this.generalEtiqueta6 = new Conticassa.generalEtiqueta();
             this.panelGeneral1 = new Conticassa.panelGeneral();
             this.eti_sede = new Conticassa.generalEtiqueta();
             this.cmb_sede = new System.Windows.Forms.ComboBox();
@@ -78,7 +79,7 @@
             this.panelGeneral2 = new Conticassa.panelGeneral();
             this.generalEtiqueta2 = new Conticassa.generalEtiqueta();
             this.cmb_categ = new System.Windows.Forms.ComboBox();
-            this.generalEtiqueta6 = new Conticassa.generalEtiqueta();
+            this.bt_genera = new Conticassa.generalBoton();
             this.toolStrip1.SuspendLayout();
             this.pan_menu.SuspendLayout();
             this.pan_repos.SuspendLayout();
@@ -393,7 +394,7 @@
             this.pan_menu.Controls.Add(this.rb_ctaPers);
             this.pan_menu.Controls.Add(this.Eti_titulo);
             this.pan_menu.ForeColor = System.Drawing.Color.Black;
-            this.pan_menu.Location = new System.Drawing.Point(94, 90);
+            this.pan_menu.Location = new System.Drawing.Point(34, 87);
             this.pan_menu.Name = "pan_menu";
             this.pan_menu.Size = new System.Drawing.Size(215, 168);
             this.pan_menu.TabIndex = 98;
@@ -451,10 +452,10 @@
             this.rb_ctaPers.ForeColor = System.Drawing.Color.Black;
             this.rb_ctaPers.Location = new System.Drawing.Point(6, 35);
             this.rb_ctaPers.Name = "rb_ctaPers";
-            this.rb_ctaPers.Size = new System.Drawing.Size(188, 17);
+            this.rb_ctaPers.Size = new System.Drawing.Size(192, 17);
             this.rb_ctaPers.TabIndex = 98;
             this.rb_ctaPers.TabStop = true;
-            this.rb_ctaPers.Text = "Cuentas por sede - Personal";
+            this.rb_ctaPers.Text = "Resumen cuentas personales";
             this.rb_ctaPers.UseVisualStyleBackColor = false;
             this.rb_ctaPers.CheckedChanged += new System.EventHandler(this.rb_ctaPers_CheckedChanged);
             // 
@@ -484,10 +485,22 @@
             this.pan_repos.Controls.Add(this.panelGeneral3);
             this.pan_repos.Controls.Add(this.panelGeneral2);
             this.pan_repos.ForeColor = System.Drawing.Color.Black;
-            this.pan_repos.Location = new System.Drawing.Point(308, 90);
+            this.pan_repos.Location = new System.Drawing.Point(248, 87);
             this.pan_repos.Name = "pan_repos";
             this.pan_repos.Size = new System.Drawing.Size(254, 168);
             this.pan_repos.TabIndex = 99;
+            // 
+            // generalEtiqueta6
+            // 
+            this.generalEtiqueta6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
+            this.generalEtiqueta6.Font = new System.Drawing.Font("Verdana", 8F);
+            this.generalEtiqueta6.ForeColor = System.Drawing.Color.Black;
+            this.generalEtiqueta6.Location = new System.Drawing.Point(2, 74);
+            this.generalEtiqueta6.Name = "generalEtiqueta6";
+            this.generalEtiqueta6.Size = new System.Drawing.Size(130, 18);
+            this.generalEtiqueta6.TabIndex = 113;
+            this.generalEtiqueta6.Text = "Proveedor";
+            this.generalEtiqueta6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panelGeneral1
             // 
@@ -520,6 +533,8 @@
             this.cmb_sede.Name = "cmb_sede";
             this.cmb_sede.Size = new System.Drawing.Size(117, 21);
             this.cmb_sede.TabIndex = 0;
+            this.cmb_sede.SelectedIndexChanged += new System.EventHandler(this.cmb_sede_SelectedIndexChanged);
+            this.cmb_sede.SelectedValueChanged += new System.EventHandler(this.cmb_sede_SelectedValueChanged);
             // 
             // generalEtiqueta4
             // 
@@ -557,6 +572,7 @@
             this.Tx_fecha2.TabIndex = 107;
             this.Tx_fecha2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tx_fecha2.ValidatingType = typeof(System.DateTime);
+            this.Tx_fecha2.Click += new System.EventHandler(this.Tx_fecha_Click);
             // 
             // cmb_prov
             // 
@@ -642,6 +658,7 @@
             this.Tx_fecha1.TabIndex = 4;
             this.Tx_fecha1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.Tx_fecha1.ValidatingType = typeof(System.DateTime);
+            this.Tx_fecha1.Click += new System.EventHandler(this.Tx_fecha_Click);
             // 
             // panelGeneral2
             // 
@@ -675,17 +692,18 @@
             this.cmb_categ.Size = new System.Drawing.Size(117, 21);
             this.cmb_categ.TabIndex = 105;
             // 
-            // generalEtiqueta6
+            // bt_genera
             // 
-            this.generalEtiqueta6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(243)))), ((int)(((byte)(219)))));
-            this.generalEtiqueta6.Font = new System.Drawing.Font("Verdana", 8F);
-            this.generalEtiqueta6.ForeColor = System.Drawing.Color.Black;
-            this.generalEtiqueta6.Location = new System.Drawing.Point(2, 74);
-            this.generalEtiqueta6.Name = "generalEtiqueta6";
-            this.generalEtiqueta6.Size = new System.Drawing.Size(130, 18);
-            this.generalEtiqueta6.TabIndex = 113;
-            this.generalEtiqueta6.Text = "Proveedor";
-            this.generalEtiqueta6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bt_genera.BackColor = System.Drawing.Color.Green;
+            this.bt_genera.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.bt_genera.Font = new System.Drawing.Font("Arial", 11F);
+            this.bt_genera.Image = global::Conticassa.Resource1.execution32;
+            this.bt_genera.Location = new System.Drawing.Point(538, 135);
+            this.bt_genera.Name = "bt_genera";
+            this.bt_genera.Size = new System.Drawing.Size(66, 62);
+            this.bt_genera.TabIndex = 100;
+            this.bt_genera.UseVisualStyleBackColor = false;
+            this.bt_genera.Click += new System.EventHandler(this.bt_genera_Click);
             // 
             // Finan_reps
             // 
@@ -693,13 +711,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(653, 351);
+            this.Controls.Add(this.bt_genera);
             this.Controls.Add(this.pan_repos);
             this.Controls.Add(this.pan_menu);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.eti_tituloForm);
+            this.KeyPreview = true;
             this.Name = "Finan_reps";
             this.Text = "";
             this.Load += new System.EventHandler(this.Finan_reps_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Finan_reps_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.pan_menu.ResumeLayout(false);
@@ -768,5 +789,6 @@
         private generalEtiqueta eti_sede;
         private System.Windows.Forms.ComboBox cmb_sede;
         private generalEtiqueta generalEtiqueta6;
+        private generalBoton bt_genera;
     }
 }

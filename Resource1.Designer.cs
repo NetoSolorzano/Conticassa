@@ -173,6 +173,16 @@ namespace Conticassa {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap execution32 {
+            get {
+                object obj = ResourceManager.GetObject("execution32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap file_arrow_down20 {
             get {
                 object obj = ResourceManager.GetObject("file_arrow_down20", resourceCulture);
