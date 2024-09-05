@@ -4,6 +4,10 @@
 - Usuario: Conti
 - Clave: Conti00*
 
+Paquetes instalados:
+- ??/08/2024 ADGV desde Nuget
+- 04/09/2024 Crystal Reports desde Nuget (crystal reports engine)
+
 Pendientes:
 - me quede en probar con casa OMG, los girocontos y datos similares
 - FUNCION DE BORRADO, con borrar girocontos
