@@ -484,7 +484,7 @@
             this.generalEtiqueta2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta2.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta2.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta2.Location = new System.Drawing.Point(289, 120);
+            this.generalEtiqueta2.Location = new System.Drawing.Point(289, 119);
             this.generalEtiqueta2.Name = "generalEtiqueta2";
             this.generalEtiqueta2.Size = new System.Drawing.Size(125, 15);
             this.generalEtiqueta2.TabIndex = 67;
@@ -580,7 +580,7 @@
             this.generalEtiqueta3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta3.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta3.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta3.Location = new System.Drawing.Point(4, 120);
+            this.generalEtiqueta3.Location = new System.Drawing.Point(4, 119);
             this.generalEtiqueta3.Name = "generalEtiqueta3";
             this.generalEtiqueta3.Size = new System.Drawing.Size(124, 15);
             this.generalEtiqueta3.TabIndex = 351;
@@ -613,7 +613,7 @@
             this.generalEtiqueta1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta1.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta1.Location = new System.Drawing.Point(4, 101);
+            this.generalEtiqueta1.Location = new System.Drawing.Point(4, 100);
             this.generalEtiqueta1.Name = "generalEtiqueta1";
             this.generalEtiqueta1.Size = new System.Drawing.Size(124, 15);
             this.generalEtiqueta1.TabIndex = 354;
@@ -624,7 +624,7 @@
             this.generalEtiqueta4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta4.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta4.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta4.Location = new System.Drawing.Point(289, 101);
+            this.generalEtiqueta4.Location = new System.Drawing.Point(289, 100);
             this.generalEtiqueta4.Name = "generalEtiqueta4";
             this.generalEtiqueta4.Size = new System.Drawing.Size(124, 15);
             this.generalEtiqueta4.TabIndex = 355;
@@ -734,7 +734,7 @@
             this.eti_idOper.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.eti_idOper.Font = new System.Drawing.Font("Verdana", 8F);
             this.eti_idOper.ForeColor = System.Drawing.Color.Blue;
-            this.eti_idOper.Location = new System.Drawing.Point(4, 64);
+            this.eti_idOper.Location = new System.Drawing.Point(4, 62);
             this.eti_idOper.Name = "eti_idOper";
             this.eti_idOper.Size = new System.Drawing.Size(124, 15);
             this.eti_idOper.TabIndex = 366;
@@ -754,7 +754,7 @@
             this.generalEtiqueta6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(228)))), ((int)(((byte)(195)))));
             this.generalEtiqueta6.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.generalEtiqueta6.ForeColor = System.Drawing.Color.Blue;
-            this.generalEtiqueta6.Location = new System.Drawing.Point(289, 63);
+            this.generalEtiqueta6.Location = new System.Drawing.Point(289, 62);
             this.generalEtiqueta6.Name = "generalEtiqueta6";
             this.generalEtiqueta6.Size = new System.Drawing.Size(125, 15);
             this.generalEtiqueta6.TabIndex = 365;

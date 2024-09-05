@@ -301,7 +301,7 @@ namespace Conticassa
             tx_ctaGiro.Clear();
             tx_descrip.Clear();
             tx_monto.Clear();
-            tx_tipcam.Clear();
+            //tx_tipcam.Clear();    05/09/2024 mejor no limpiamos el tipo de cambio
             //
             eti_nomCaja.Text = "";
             eti_nomCat.Text = "";
@@ -1252,25 +1252,34 @@ namespace Conticassa
         {
             // los datos deben jalarse de la grilla actual porque ahi estan los datos! 
             string[] retorna = new string[2];
+            DataRow[] row = null;
+            try
+            {
+                row = dt_grillaI.Select("FECHA='" + Tx_fecha.Text + "'", "ID_MOVIM DESC");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message,"Error en datos",MessageBoxButtons.OK,MessageBoxIcon.Hand);
+                return retorna;
+            }
+            if (row != null && row.Length > 0)
+            {
+                // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
+                //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
+                DataRow[] cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[17].ToString() + "' and idtabella='CAM'");
+                OcatIn.codigo = row[0].ItemArray[17].ToString();
+                eti_nomCat.Text = cam[0].ItemArray[3].ToString();
+                OcatIn.nombre = cam[0].ItemArray[3].ToString();
+                OcatIn.largo = cam[0].ItemArray[2].ToString();
+                Tx_catIngre.Text = OcatIn.nombre;
 
-            DataRow[] row = dt_grillaI.Select("FECHA='" + Tx_fecha.Text + "'", "ID_MOVIM DESC");
-
-            // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
-            //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri
-            DataRow[] cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[17].ToString() + "' and idtabella='CAM'");
-            OcatIn.codigo = row[0].ItemArray[17].ToString();
-            eti_nomCat.Text = cam[0].ItemArray[3].ToString();
-            OcatIn.nombre = cam[0].ItemArray[3].ToString();
-            OcatIn.largo = cam[0].ItemArray[2].ToString();
-            Tx_catIngre.Text = OcatIn.nombre;
-
-            cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[16].ToString() + "' and idtabella='CON'");
-            eti_nomCaja.Text = cam[0].ItemArray[3].ToString();
-            Ocajd.codigo = row[0].ItemArray[16].ToString();
-            Ocajd.nombre = cam[0].ItemArray[3].ToString();
-            Ocajd.largo = cam[0].ItemArray[2].ToString();
-            Tx_ctaDes.Text = Ocajd.nombre;
-
+                cam = Program.dt_definic.Select("idcodice='" + row[0].ItemArray[16].ToString() + "' and idtabella='CON'");
+                eti_nomCaja.Text = cam[0].ItemArray[3].ToString();
+                Ocajd.codigo = row[0].ItemArray[16].ToString();
+                Ocajd.nombre = cam[0].ItemArray[3].ToString();
+                Ocajd.largo = cam[0].ItemArray[2].ToString();
+                Tx_ctaDes.Text = Ocajd.nombre;
+            }
             return retorna;
         }   // jala el ultimo registro OMG/Personal, Egreso/Ingreso, Fecha
 

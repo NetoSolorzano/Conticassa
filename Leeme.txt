@@ -9,10 +9,9 @@ Paquetes instalados:
 - 04/09/2024 Crystal Reports desde Nuget (crystal reports engine)
 
 Pendientes:
-- me quede en probar con casa OMG, los girocontos y datos similares
+- me quede en camiones 
 - FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, con girocontos
-- GIROCONTO en Ingresos y Egresos
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
 - Crear función en el Login.cs para que valide cambio de año en el servidor, si es así, debe reiniciar contadores, tabla: contatori
 - Revisar si en definiciones es 0 ó 1 el valor del campo "numero" para los registros activos
@@ -25,4 +24,7 @@ Funcionalidad:
 	Agregar campos TCMonOri (tipo de cambio moneda origen)
 	Agregar campos codimon varchar(6) y nombmon varchar(25) (nombre oficial)
 	Actualizar al código y nombre de cada registro en codigo de moneda y nombre de moneda, CREAR INDICES!
+- Tabla camion
+	Agregar campos codimon (varchar 6 codigo de moenda) y nombmon (varchar 25 nombre moneda)
+	Actualizar los nuevos campos
 
