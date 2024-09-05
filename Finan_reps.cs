@@ -315,5 +315,12 @@ namespace Conticassa
                 }
             }
         }
+
+        private DataSet1 generaReporte(string CR)
+        {
+            DataSet1 set1 = new DataSet1();
+
+            return set1;
+        }
     }
 }
