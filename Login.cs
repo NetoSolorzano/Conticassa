@@ -181,6 +181,8 @@ namespace Conticassa
             //this.generalBoton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.generalBoton1.Font = new System.Drawing.Font(conf.nomFontBoton, conf.tamañoFontBoton);
 
+            //
+            Program.vg_cliente = "CENTRO DE SERVICIOS OMG 3.0";
         }
 
         private void generalBoton1_Click(object sender, EventArgs e)

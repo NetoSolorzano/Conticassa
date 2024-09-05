@@ -24,7 +24,9 @@ namespace Conticassa {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class DataSet1 : global::System.Data.DataSet {
         
-        private repSaldoIniDataTable tablerepSaldoIni;
+        private repSaldoIni_DataTable tablerepSaldoIni_;
+        
+        private repMovimFecs_DataTable tablerepMovimFecs_;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -54,8 +56,11 @@ namespace Conticassa {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["repSaldoIni"] != null)) {
-                    base.Tables.Add(new repSaldoIniDataTable(ds.Tables["repSaldoIni"]));
+                if ((ds.Tables["repSaldoIni_"] != null)) {
+                    base.Tables.Add(new repSaldoIni_DataTable(ds.Tables["repSaldoIni_"]));
+                }
+                if ((ds.Tables["repMovimFecs_"] != null)) {
+                    base.Tables.Add(new repMovimFecs_DataTable(ds.Tables["repMovimFecs_"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +84,19 @@ namespace Conticassa {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public repSaldoIniDataTable repSaldoIni {
+        public repSaldoIni_DataTable repSaldoIni_ {
             get {
-                return this.tablerepSaldoIni;
+                return this.tablerepSaldoIni_;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public repMovimFecs_DataTable repMovimFecs_ {
+            get {
+                return this.tablerepMovimFecs_;
             }
         }
         
@@ -152,8 +167,11 @@ namespace Conticassa {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["repSaldoIni"] != null)) {
-                    base.Tables.Add(new repSaldoIniDataTable(ds.Tables["repSaldoIni"]));
+                if ((ds.Tables["repSaldoIni_"] != null)) {
+                    base.Tables.Add(new repSaldoIni_DataTable(ds.Tables["repSaldoIni_"]));
+                }
+                if ((ds.Tables["repMovimFecs_"] != null)) {
+                    base.Tables.Add(new repMovimFecs_DataTable(ds.Tables["repMovimFecs_"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +206,16 @@ namespace Conticassa {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tablerepSaldoIni = ((repSaldoIniDataTable)(base.Tables["repSaldoIni"]));
+            this.tablerepSaldoIni_ = ((repSaldoIni_DataTable)(base.Tables["repSaldoIni_"]));
             if ((initTable == true)) {
-                if ((this.tablerepSaldoIni != null)) {
-                    this.tablerepSaldoIni.InitVars();
+                if ((this.tablerepSaldoIni_ != null)) {
+                    this.tablerepSaldoIni_.InitVars();
+                }
+            }
+            this.tablerepMovimFecs_ = ((repMovimFecs_DataTable)(base.Tables["repMovimFecs_"]));
+            if ((initTable == true)) {
+                if ((this.tablerepMovimFecs_ != null)) {
+                    this.tablerepMovimFecs_.InitVars();
                 }
             }
         }
@@ -204,13 +228,21 @@ namespace Conticassa {
             this.Namespace = "http://tempuri.org/DataSet1.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tablerepSaldoIni = new repSaldoIniDataTable();
-            base.Tables.Add(this.tablerepSaldoIni);
+            this.tablerepSaldoIni_ = new repSaldoIni_DataTable();
+            base.Tables.Add(this.tablerepSaldoIni_);
+            this.tablerepMovimFecs_ = new repMovimFecs_DataTable();
+            base.Tables.Add(this.tablerepMovimFecs_);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private bool ShouldSerializerepSaldoIni() {
+        private bool ShouldSerializerepSaldoIni_() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializerepMovimFecs_() {
             return false;
         }
         
@@ -270,27 +302,46 @@ namespace Conticassa {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public delegate void repSaldoIniRowChangeEventHandler(object sender, repSaldoIniRowChangeEvent e);
+        public delegate void repSaldoIni_RowChangeEventHandler(object sender, repSaldoIni_RowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void repMovimFecs_RowChangeEventHandler(object sender, repMovimFecs_RowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class repSaldoIniDataTable : global::System.Data.TypedTableBase<repSaldoIniRow> {
+        public partial class repSaldoIni_DataTable : global::System.Data.TypedTableBase<repSaldoIni_Row> {
+            
+            private global::System.Data.DataColumn columnnomb_reporte;
             
             private global::System.Data.DataColumn columnid;
             
             private global::System.Data.DataColumn columncuenta;
             
-            private global::System.Data.DataColumn columnfecha;
+            private global::System.Data.DataColumn columnfecha_hasta;
             
-            private global::System.Data.DataColumn columnDataColumn1;
+            private global::System.Data.DataColumn columnnombre_cta;
+            
+            private global::System.Data.DataColumn columnfecha_ini;
+            
+            private global::System.Data.DataColumn columnfecha_fin;
+            
+            private global::System.Data.DataColumn columncassa;
+            
+            private global::System.Data.DataColumn columnnomb_cliente;
+            
+            private global::System.Data.DataColumn columnlogotipo;
+            
+            private global::System.Data.DataColumn columnidBanco;
+            
+            private global::System.Data.DataColumn columnantes;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniDataTable() {
-                this.TableName = "repSaldoIni";
+            public repSaldoIni_DataTable() {
+                this.TableName = "repSaldoIni_";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -298,7 +349,7 @@ namespace Conticassa {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal repSaldoIniDataTable(global::System.Data.DataTable table) {
+            internal repSaldoIni_DataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -315,9 +366,17 @@ namespace Conticassa {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            protected repSaldoIniDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected repSaldoIni_DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn nomb_reporteColumn {
+                get {
+                    return this.columnnomb_reporte;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -338,17 +397,73 @@ namespace Conticassa {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn fechaColumn {
+            public global::System.Data.DataColumn fecha_hastaColumn {
                 get {
-                    return this.columnfecha;
+                    return this.columnfecha_hasta;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn DataColumn1Column {
+            public global::System.Data.DataColumn nombre_ctaColumn {
                 get {
-                    return this.columnDataColumn1;
+                    return this.columnnombre_cta;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn fecha_iniColumn {
+                get {
+                    return this.columnfecha_ini;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn fecha_finColumn {
+                get {
+                    return this.columnfecha_fin;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn cassaColumn {
+                get {
+                    return this.columncassa;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn nomb_clienteColumn {
+                get {
+                    return this.columnnomb_cliente;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn logotipoColumn {
+                get {
+                    return this.columnlogotipo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn idBancoColumn {
+                get {
+                    return this.columnidBanco;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn antesColumn {
+                get {
+                    return this.columnantes;
                 }
             }
             
@@ -363,48 +478,56 @@ namespace Conticassa {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniRow this[int index] {
+            public repSaldoIni_Row this[int index] {
                 get {
-                    return ((repSaldoIniRow)(this.Rows[index]));
+                    return ((repSaldoIni_Row)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event repSaldoIniRowChangeEventHandler repSaldoIniRowChanging;
+            public event repSaldoIni_RowChangeEventHandler repSaldoIni_RowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event repSaldoIniRowChangeEventHandler repSaldoIniRowChanged;
+            public event repSaldoIni_RowChangeEventHandler repSaldoIni_RowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event repSaldoIniRowChangeEventHandler repSaldoIniRowDeleting;
+            public event repSaldoIni_RowChangeEventHandler repSaldoIni_RowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public event repSaldoIniRowChangeEventHandler repSaldoIniRowDeleted;
+            public event repSaldoIni_RowChangeEventHandler repSaldoIni_RowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void AddrepSaldoIniRow(repSaldoIniRow row) {
+            public void AddrepSaldoIni_Row(repSaldoIni_Row row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniRow AddrepSaldoIniRow(string id, string cuenta, string fecha, string DataColumn1) {
-                repSaldoIniRow rowrepSaldoIniRow = ((repSaldoIniRow)(this.NewRow()));
+            public repSaldoIni_Row AddrepSaldoIni_Row(string nomb_reporte, string id, string cuenta, string fecha_hasta, string nombre_cta, string fecha_ini, string fecha_fin, string cassa, string nomb_cliente, string logotipo, string idBanco, decimal antes) {
+                repSaldoIni_Row rowrepSaldoIni_Row = ((repSaldoIni_Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
+                        nomb_reporte,
                         id,
                         cuenta,
-                        fecha,
-                        DataColumn1};
-                rowrepSaldoIniRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowrepSaldoIniRow);
-                return rowrepSaldoIniRow;
+                        fecha_hasta,
+                        nombre_cta,
+                        fecha_ini,
+                        fecha_fin,
+                        cassa,
+                        nomb_cliente,
+                        logotipo,
+                        idBanco,
+                        antes};
+                rowrepSaldoIni_Row.ItemArray = columnValuesArray;
+                this.Rows.Add(rowrepSaldoIni_Row);
+                return rowrepSaldoIni_Row;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                repSaldoIniDataTable cln = ((repSaldoIniDataTable)(base.Clone()));
+                repSaldoIni_DataTable cln = ((repSaldoIni_DataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -412,55 +535,79 @@ namespace Conticassa {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new repSaldoIniDataTable();
+                return new repSaldoIni_DataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
+                this.columnnomb_reporte = base.Columns["nomb_reporte"];
                 this.columnid = base.Columns["id"];
                 this.columncuenta = base.Columns["cuenta"];
-                this.columnfecha = base.Columns["fecha"];
-                this.columnDataColumn1 = base.Columns["DataColumn1"];
+                this.columnfecha_hasta = base.Columns["fecha_hasta"];
+                this.columnnombre_cta = base.Columns["nombre_cta"];
+                this.columnfecha_ini = base.Columns["fecha_ini"];
+                this.columnfecha_fin = base.Columns["fecha_fin"];
+                this.columncassa = base.Columns["cassa"];
+                this.columnnomb_cliente = base.Columns["nomb_cliente"];
+                this.columnlogotipo = base.Columns["logotipo"];
+                this.columnidBanco = base.Columns["idBanco"];
+                this.columnantes = base.Columns["antes"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             private void InitClass() {
+                this.columnnomb_reporte = new global::System.Data.DataColumn("nomb_reporte", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnnomb_reporte);
                 this.columnid = new global::System.Data.DataColumn("id", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnid);
                 this.columncuenta = new global::System.Data.DataColumn("cuenta", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columncuenta);
-                this.columnfecha = new global::System.Data.DataColumn("fecha", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnfecha);
-                this.columnDataColumn1 = new global::System.Data.DataColumn("DataColumn1", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDataColumn1);
+                this.columnfecha_hasta = new global::System.Data.DataColumn("fecha_hasta", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_hasta);
+                this.columnnombre_cta = new global::System.Data.DataColumn("nombre_cta", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnnombre_cta);
+                this.columnfecha_ini = new global::System.Data.DataColumn("fecha_ini", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_ini);
+                this.columnfecha_fin = new global::System.Data.DataColumn("fecha_fin", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnfecha_fin);
+                this.columncassa = new global::System.Data.DataColumn("cassa", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columncassa);
+                this.columnnomb_cliente = new global::System.Data.DataColumn("nomb_cliente", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnnomb_cliente);
+                this.columnlogotipo = new global::System.Data.DataColumn("logotipo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnlogotipo);
+                this.columnidBanco = new global::System.Data.DataColumn("idBanco", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnidBanco);
+                this.columnantes = new global::System.Data.DataColumn("antes", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnantes);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniRow NewrepSaldoIniRow() {
-                return ((repSaldoIniRow)(this.NewRow()));
+            public repSaldoIni_Row NewrepSaldoIni_Row() {
+                return ((repSaldoIni_Row)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new repSaldoIniRow(builder);
+                return new repSaldoIni_Row(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(repSaldoIniRow);
+                return typeof(repSaldoIni_Row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.repSaldoIniRowChanged != null)) {
-                    this.repSaldoIniRowChanged(this, new repSaldoIniRowChangeEvent(((repSaldoIniRow)(e.Row)), e.Action));
+                if ((this.repSaldoIni_RowChanged != null)) {
+                    this.repSaldoIni_RowChanged(this, new repSaldoIni_RowChangeEvent(((repSaldoIni_Row)(e.Row)), e.Action));
                 }
             }
             
@@ -468,8 +615,8 @@ namespace Conticassa {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.repSaldoIniRowChanging != null)) {
-                    this.repSaldoIniRowChanging(this, new repSaldoIniRowChangeEvent(((repSaldoIniRow)(e.Row)), e.Action));
+                if ((this.repSaldoIni_RowChanging != null)) {
+                    this.repSaldoIni_RowChanging(this, new repSaldoIni_RowChangeEvent(((repSaldoIni_Row)(e.Row)), e.Action));
                 }
             }
             
@@ -477,8 +624,8 @@ namespace Conticassa {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.repSaldoIniRowDeleted != null)) {
-                    this.repSaldoIniRowDeleted(this, new repSaldoIniRowChangeEvent(((repSaldoIniRow)(e.Row)), e.Action));
+                if ((this.repSaldoIni_RowDeleted != null)) {
+                    this.repSaldoIni_RowDeleted(this, new repSaldoIni_RowChangeEvent(((repSaldoIni_Row)(e.Row)), e.Action));
                 }
             }
             
@@ -486,14 +633,14 @@ namespace Conticassa {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.repSaldoIniRowDeleting != null)) {
-                    this.repSaldoIniRowDeleting(this, new repSaldoIniRowChangeEvent(((repSaldoIniRow)(e.Row)), e.Action));
+                if ((this.repSaldoIni_RowDeleting != null)) {
+                    this.repSaldoIni_RowDeleting(this, new repSaldoIni_RowChangeEvent(((repSaldoIni_Row)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void RemoverepSaldoIniRow(repSaldoIniRow row) {
+            public void RemoverepSaldoIni_Row(repSaldoIni_Row row) {
                 this.Rows.Remove(row);
             }
             
@@ -520,7 +667,254 @@ namespace Conticassa {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "repSaldoIniDataTable";
+                attribute2.FixedValue = "repSaldoIni_DataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class repMovimFecs_DataTable : global::System.Data.TypedTableBase<repMovimFecs_Row> {
+            
+            private global::System.Data.DataColumn columnid;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_DataTable() {
+                this.TableName = "repMovimFecs_";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal repMovimFecs_DataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected repMovimFecs_DataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn idColumn {
+                get {
+                    return this.columnid;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_Row this[int index] {
+                get {
+                    return ((repMovimFecs_Row)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event repMovimFecs_RowChangeEventHandler repMovimFecs_RowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event repMovimFecs_RowChangeEventHandler repMovimFecs_RowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event repMovimFecs_RowChangeEventHandler repMovimFecs_RowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event repMovimFecs_RowChangeEventHandler repMovimFecs_RowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AddrepMovimFecs_Row(repMovimFecs_Row row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_Row AddrepMovimFecs_Row(string id) {
+                repMovimFecs_Row rowrepMovimFecs_Row = ((repMovimFecs_Row)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        id};
+                rowrepMovimFecs_Row.ItemArray = columnValuesArray;
+                this.Rows.Add(rowrepMovimFecs_Row);
+                return rowrepMovimFecs_Row;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                repMovimFecs_DataTable cln = ((repMovimFecs_DataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new repMovimFecs_DataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnid = base.Columns["id"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnid = new global::System.Data.DataColumn("id", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnid);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_Row NewrepMovimFecs_Row() {
+                return ((repMovimFecs_Row)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new repMovimFecs_Row(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(repMovimFecs_Row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.repMovimFecs_RowChanged != null)) {
+                    this.repMovimFecs_RowChanged(this, new repMovimFecs_RowChangeEvent(((repMovimFecs_Row)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.repMovimFecs_RowChanging != null)) {
+                    this.repMovimFecs_RowChanging(this, new repMovimFecs_RowChangeEvent(((repMovimFecs_Row)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.repMovimFecs_RowDeleted != null)) {
+                    this.repMovimFecs_RowDeleted(this, new repMovimFecs_RowChangeEvent(((repMovimFecs_Row)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.repMovimFecs_RowDeleting != null)) {
+                    this.repMovimFecs_RowDeleting(this, new repMovimFecs_RowChangeEvent(((repMovimFecs_Row)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemoverepMovimFecs_Row(repMovimFecs_Row row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSet1 ds = new DataSet1();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "repMovimFecs_DataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -564,15 +958,31 @@ namespace Conticassa {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class repSaldoIniRow : global::System.Data.DataRow {
+        public partial class repSaldoIni_Row : global::System.Data.DataRow {
             
-            private repSaldoIniDataTable tablerepSaldoIni;
+            private repSaldoIni_DataTable tablerepSaldoIni_;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            internal repSaldoIniRow(global::System.Data.DataRowBuilder rb) : 
+            internal repSaldoIni_Row(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tablerepSaldoIni = ((repSaldoIniDataTable)(this.Table));
+                this.tablerepSaldoIni_ = ((repSaldoIni_DataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string nomb_reporte {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.nomb_reporteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'nomb_reporte\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.nomb_reporteColumn] = value;
+                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -580,14 +990,14 @@ namespace Conticassa {
             public string id {
                 get {
                     try {
-                        return ((string)(this[this.tablerepSaldoIni.idColumn]));
+                        return ((string)(this[this.tablerepSaldoIni_.idColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'id\' de la tabla \'repSaldoIni\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'id\' de la tabla \'repSaldoIni_\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablerepSaldoIni.idColumn] = value;
+                    this[this.tablerepSaldoIni_.idColumn] = value;
                 }
             }
             
@@ -596,95 +1006,346 @@ namespace Conticassa {
             public string cuenta {
                 get {
                     try {
-                        return ((string)(this[this.tablerepSaldoIni.cuentaColumn]));
+                        return ((string)(this[this.tablerepSaldoIni_.cuentaColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cuenta\' de la tabla \'repSaldoIni\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cuenta\' de la tabla \'repSaldoIni_\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablerepSaldoIni.cuentaColumn] = value;
+                    this[this.tablerepSaldoIni_.cuentaColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string fecha {
+            public string fecha_hasta {
                 get {
                     try {
-                        return ((string)(this[this.tablerepSaldoIni.fechaColumn]));
+                        return ((string)(this[this.tablerepSaldoIni_.fecha_hastaColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha\' de la tabla \'repSaldoIni\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_hasta\' de la tabla \'repSaldoIni_\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablerepSaldoIni.fechaColumn] = value;
+                    this[this.tablerepSaldoIni_.fecha_hastaColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string DataColumn1 {
+            public string nombre_cta {
                 get {
                     try {
-                        return ((string)(this[this.tablerepSaldoIni.DataColumn1Column]));
+                        return ((string)(this[this.tablerepSaldoIni_.nombre_ctaColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DataColumn1\' de la tabla \'repSaldoIni\' es DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'nombre_cta\' de la tabla \'repSaldoIni_\' es DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tablerepSaldoIni.DataColumn1Column] = value;
+                    this[this.tablerepSaldoIni_.nombre_ctaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string fecha_ini {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.fecha_iniColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_ini\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.fecha_iniColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string fecha_fin {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.fecha_finColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'fecha_fin\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.fecha_finColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string cassa {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.cassaColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'cassa\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.cassaColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string nomb_cliente {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.nomb_clienteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'nomb_cliente\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.nomb_clienteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string logotipo {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.logotipoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'logotipo\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.logotipoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string idBanco {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepSaldoIni_.idBancoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'idBanco\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.idBancoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal antes {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablerepSaldoIni_.antesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'antes\' de la tabla \'repSaldoIni_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepSaldoIni_.antesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isnomb_reporteNull() {
+                return this.IsNull(this.tablerepSaldoIni_.nomb_reporteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setnomb_reporteNull() {
+                this[this.tablerepSaldoIni_.nomb_reporteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsidNull() {
+                return this.IsNull(this.tablerepSaldoIni_.idColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetidNull() {
+                this[this.tablerepSaldoIni_.idColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IscuentaNull() {
+                return this.IsNull(this.tablerepSaldoIni_.cuentaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetcuentaNull() {
+                this[this.tablerepSaldoIni_.cuentaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isfecha_hastaNull() {
+                return this.IsNull(this.tablerepSaldoIni_.fecha_hastaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setfecha_hastaNull() {
+                this[this.tablerepSaldoIni_.fecha_hastaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isnombre_ctaNull() {
+                return this.IsNull(this.tablerepSaldoIni_.nombre_ctaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setnombre_ctaNull() {
+                this[this.tablerepSaldoIni_.nombre_ctaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isfecha_iniNull() {
+                return this.IsNull(this.tablerepSaldoIni_.fecha_iniColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setfecha_iniNull() {
+                this[this.tablerepSaldoIni_.fecha_iniColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isfecha_finNull() {
+                return this.IsNull(this.tablerepSaldoIni_.fecha_finColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setfecha_finNull() {
+                this[this.tablerepSaldoIni_.fecha_finColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IscassaNull() {
+                return this.IsNull(this.tablerepSaldoIni_.cassaColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetcassaNull() {
+                this[this.tablerepSaldoIni_.cassaColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool Isnomb_clienteNull() {
+                return this.IsNull(this.tablerepSaldoIni_.nomb_clienteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Setnomb_clienteNull() {
+                this[this.tablerepSaldoIni_.nomb_clienteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IslogotipoNull() {
+                return this.IsNull(this.tablerepSaldoIni_.logotipoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetlogotipoNull() {
+                this[this.tablerepSaldoIni_.logotipoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsidBancoNull() {
+                return this.IsNull(this.tablerepSaldoIni_.idBancoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetidBancoNull() {
+                this[this.tablerepSaldoIni_.idBancoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsantesNull() {
+                return this.IsNull(this.tablerepSaldoIni_.antesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetantesNull() {
+                this[this.tablerepSaldoIni_.antesColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class repMovimFecs_Row : global::System.Data.DataRow {
+            
+            private repMovimFecs_DataTable tablerepMovimFecs_;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal repMovimFecs_Row(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tablerepMovimFecs_ = ((repMovimFecs_DataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string id {
+                get {
+                    try {
+                        return ((string)(this[this.tablerepMovimFecs_.idColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'id\' de la tabla \'repMovimFecs_\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablerepMovimFecs_.idColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsidNull() {
-                return this.IsNull(this.tablerepSaldoIni.idColumn);
+                return this.IsNull(this.tablerepMovimFecs_.idColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetidNull() {
-                this[this.tablerepSaldoIni.idColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IscuentaNull() {
-                return this.IsNull(this.tablerepSaldoIni.cuentaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetcuentaNull() {
-                this[this.tablerepSaldoIni.cuentaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsfechaNull() {
-                return this.IsNull(this.tablerepSaldoIni.fechaColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetfechaNull() {
-                this[this.tablerepSaldoIni.fechaColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsDataColumn1Null() {
-                return this.IsNull(this.tablerepSaldoIni.DataColumn1Column);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetDataColumn1Null() {
-                this[this.tablerepSaldoIni.DataColumn1Column] = global::System.Convert.DBNull;
+                this[this.tablerepMovimFecs_.idColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -692,22 +1353,56 @@ namespace Conticassa {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public class repSaldoIniRowChangeEvent : global::System.EventArgs {
+        public class repSaldoIni_RowChangeEvent : global::System.EventArgs {
             
-            private repSaldoIniRow eventRow;
+            private repSaldoIni_Row eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniRowChangeEvent(repSaldoIniRow row, global::System.Data.DataRowAction action) {
+            public repSaldoIni_RowChangeEvent(repSaldoIni_Row row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public repSaldoIniRow Row {
+            public repSaldoIni_Row Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class repMovimFecs_RowChangeEvent : global::System.EventArgs {
+            
+            private repMovimFecs_Row eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_RowChangeEvent(repMovimFecs_Row row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public repMovimFecs_Row Row {
                 get {
                     return this.eventRow;
                 }

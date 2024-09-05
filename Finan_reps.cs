@@ -19,6 +19,8 @@ namespace Conticassa
         DataTable dt_ctaPer = new DataTable();      // cuentas personales
         DataTable dt_ctaOmg = new DataTable();      // cuentas omg
         DataTable dt_provee = new DataTable();      // proveedores
+        DataTable dt_s = new DataTable();           // cabecera reporte cuentas saldo inicial
+        DataTable dt_d = new DataTable();           // detalle reporte de cuentas
 
         // conexion a la base de datos
         string DB_CONN_STR = "server=" + Login.serv + ";port=" + Login.port + ";uid=" + Login.usua + ";pwd=" + Login.cont + ";database=" + Login.data +
@@ -268,8 +270,6 @@ namespace Conticassa
                     }
                     if (rb_movCaja.Checked == true)     // Rep 2
                     {
-                        DataTable dt_s = new DataTable();
-                        DataTable dt_d = new DataTable();
                         string va01 = "LIM";
                         string va05 = cmb_destin.SelectedValue.ToString();
                         string va02 = Tx_fecha1.Text.Substring(6, 4) + "-" + Tx_fecha1.Text.Substring(3, 2) + "-" + Tx_fecha1.Text.Substring(0, 2);
@@ -310,7 +310,9 @@ namespace Conticassa
                                 da.Fill(dt_d);
                             }
                         }
-
+                        DataSet1 set = generaReporte("repCtaPers1.rpt");
+                        frmvizoper visual = new frmvizoper(set);
+                        visual.Show();
                     }
                 }
             }
@@ -319,6 +321,23 @@ namespace Conticassa
         private DataSet1 generaReporte(string CR)
         {
             DataSet1 set1 = new DataSet1();
+            DataSet1.repSaldoIni_Row cabecera = set1.repSaldoIni_.NewrepSaldoIni_Row();
+            cabecera.id = "0";
+            cabecera.nomb_reporte = CR; // nombre del formato CR
+            cabecera.nomb_cliente = Program.vg_cliente; // nombre del cliente de la aplicacion
+            cabecera.logotipo = "";     // ruta y nombre del archivo logo del cliente de la aplicacion
+            //
+            cabecera.cassa = cmb_sede.Text;    // OMG o PER
+            cabecera.cuenta = "";   // cta personal
+            cabecera.nombre_cta = cmb_destin.Text;      // nombre largo de la cuenta
+            cabecera.fecha_hasta = Tx_fecha1.Text;      // fecha hasta donde debe calcular el saldo
+            cabecera.fecha_ini = Tx_fecha1.Text;        // fecha de inicio del reporte
+            cabecera.fecha_fin = Tx_fecha2.Text;        // fecha de finalizacion del reporte
+            //
+            cabecera.idBanco = "LIM";   // tenemos que ver que es esto de LIM porque no es PER o OMG
+            cabecera.antes = decimal.Parse(dt_s.Rows[0].ItemArray[2].ToString());
+            set1.repSaldoIni_.AddrepSaldoIni_Row(cabecera);
+
 
             return set1;
         }
