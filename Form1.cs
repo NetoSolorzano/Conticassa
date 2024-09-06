@@ -316,4 +316,5 @@ namespace Conticassa
         public string ctades { get; set; }          // cuenta destino del Giro
         public string codigo { get; set; }          // codigo del giroconto
     }
+
 }

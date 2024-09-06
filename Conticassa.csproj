@@ -143,6 +143,7 @@
     <Compile Include="ayuda2.designer.cs">
       <DependentUpon>ayuda2.cs</DependentUpon>
     </Compile>
+    <Compile Include="camiones.cs" />
     <Compile Include="DataSet1.cs">
       <DependentUpon>DataSet1.xsd</DependentUpon>
     </Compile>

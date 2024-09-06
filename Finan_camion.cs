@@ -28,6 +28,7 @@ namespace Conticassa
         cajDestino Ocajd = new cajDestino();                                        // Objeto cada de destino - desde donde sale el dinero
         montos Omonto = new montos();                                               // Objeto monto
         monedas Omone = new monedas();
+        camiones Ocamion = new camiones();
         Finan_Egres oFEgres = new Finan_Egres();
         string nomForm = "";
         int diasAtroya = 0;                                                         // dias atras hasta donde mostrará la grilla
@@ -79,18 +80,23 @@ namespace Conticassa
 
         private void jalaoc()
         {
-            /*
-            tx_idOper.Text = Oingreso.IdMovim;
-            selecFecha1.Value = DateTime.Parse(Oingreso.FechOper);
-            Tx_catIngre.Text = Oingreso.CatIngreso.nombre;
-            eti_nomCat.Text = Oingreso.CatIngreso.largo;
-            cmb_mon.SelectedValue = Oingreso.Moneda.codigo;
-            tx_monto.Text = Oingreso.Monto.monOrige.ToString("#0.00");
-            tx_tipcam.Text = Oingreso.TipCamb.ToString("#0.000");
-            Tx_ctaDes.Text = Oingreso.CajaDes.nombre;
-            eti_nomCaja.Text = Oingreso.CajaDes.largo;
-            tx_descrip.Text = Oingreso.Descrip;
-            */
+            Tx_placa.Text = Ocamion.Placa;
+            tx_idOper.Text = Ocamion.IdOper.ToString();
+            selecFecha1.Value = DateTime.Parse(Ocamion.FechOper);
+            Tx_ctaDes.Text = Ocamion.CajaDes.nombre;
+            eti_nomCaja.Text = Ocamion.CajaDes.largo;
+            Tx_BctaOri.Text = Ocamion.BcoOrigen;
+            Tx_BctaDes.Text = Ocamion.BcoDestin;
+            cmb_mon.SelectedValue = Ocamion.Moneda.codigo;
+            tx_monto.Text = Ocamion.TotalS.ToString("#0.00");
+            tx_tipcam.Text = Ocamion.TipCamb.ToString("#0.000");
+            tx_descrip.Text = Ocamion.Descrip;
+            Tx_combus.Text = Ocamion.Combust.ToString("#0.00");
+            Tx_viati.Text = Ocamion.Viaticos.ToString("#0.00");
+            Tx_rptos.Text = Ocamion.Respuest.ToString("#0.00");
+            Tx_varios.Text = Ocamion.Varios.ToString("#0.00");
+            Tx_honor.Text = Ocamion.Honorar.ToString("#0.00");
+            //tx_ ???? = Ocamion.Impuests.ToString("#0.00");
         }                                                   // muestra en el formulario los objetos de la clase Egresos
         private void CargaFormatos()
         {
@@ -272,6 +278,14 @@ namespace Conticassa
                 decimal tipca = 0;              // tip cambio del monto origen
                 string descr = "";              // descripcion de la operacion
                 string idmov = "";              // id del movimiento
+                decimal combust = 0;
+                decimal viaticos = 0;
+                decimal respuest = 0;
+                decimal varios = 0;
+                decimal honorar = 0;
+                decimal impuests = 0;
+                decimal totalS = 0;
+
                 if (true)
                 {
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
@@ -279,20 +293,32 @@ namespace Conticassa
                     Omone.siglas = advancedDataGridView1.Rows[e.RowIndex].Cells["MONEDA"].Value.ToString();
                     Omone.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["nombmon"].Value.ToString();
                     Omonto.codMOrige = advancedDataGridView1.Rows[e.RowIndex].Cells["codimon"].Value.ToString();
-                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["MONTO"].Value.ToString());
-                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
-                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoDE"].Value.ToString());
+                    Omonto.monOrige = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TOTAL_SOL"].Value.ToString());
+                    Omonto.tipCOri = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
+                    Omonto.monDolar = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TOTAL_DOL"].Value.ToString());
                     Omonto.tipCDol = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
-                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["ImportoSE"].Value.ToString());
-                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TCMonOri"].Value.ToString());
+                    Omonto.monSoles = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TOTAL_SOL"].Value.ToString());
+                    tipca = decimal.Parse(advancedDataGridView1.Rows[e.RowIndex].Cells["TIP_CAMBIO"].Value.ToString());
                     Ocajd.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDDestino"].Value.ToString();
                     Ocajd.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["DESTINO"].Value.ToString();
                     Ocajd.largo = advancedDataGridView1.Rows[e.RowIndex].Cells["DET_DESTINO"].Value.ToString();
                     descr = advancedDataGridView1.Rows[e.RowIndex].Cells["DESCRIPCION"].Value.ToString();
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
+                    /* aca faltan los valores 
+                    combust = ; 
+                    viaticos = ;
+                    respuest = ;
+                    varios = ;
+                    honorar = ;
+                    impuests = ;
+                    totalS = ;
+
+                    */ //todo el disgregado de los gastos
                 }
-                //Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
-                //        Ocajd, descr, idmov, Ogiro);
+                Ocamion.creaCamion("nohay", int.Parse(idmov), fecOp, Ocajd,
+                    "nada", "nada", Omone, tipca, descr,
+                    combust, viaticos, respuest, varios, honorar,
+                    impuests, totalS);
                 jalaoc();
             }
         }
