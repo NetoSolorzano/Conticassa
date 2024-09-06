@@ -175,6 +175,7 @@ namespace Conticassa
         {
             tx_idOper.Text = Oingreso.IdMovim;
             selecFecha1.Value = DateTime.Parse(Oingreso.FechOper);
+            Tx_fecha.Text = selecFecha1.Value.Date.ToString("dd/MM/yyyy");
             Tx_catIngre.Text = Oingreso.CatIngreso.nombre;
             eti_nomCat.Text = Oingreso.CatIngreso.largo;
             cmb_mon.SelectedValue = Oingreso.Moneda.codigo;
@@ -183,6 +184,9 @@ namespace Conticassa
             Tx_ctaDes.Text = Oingreso.CajaDes.nombre;
             eti_nomCaja.Text = Oingreso.CajaDes.largo;
             tx_descrip.Text = Oingreso.Descrip;
+            tx_ctaGiro.Text = Ogiro.ctades;
+            tx_dat_ctagiro.Text = Ogiro.ctades;     // acá falta mejorar 05/09/2024
+            eti_nomCtaGiro.Text = "";   // falta esto 05/09/2024
         }                                                   // muestra en el formulario los objetos de la clase Egresos
         private void initCampos()
         {
@@ -621,6 +625,7 @@ namespace Conticassa
                         idmov = retu[1];                        // "ID_MOVIM"
                         Ogiro.ctades = retu[11];                // codigo cuenta destino del giro
                         Ogiro.tipodes = retu[10];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.codigo = retu[24];
                     }
                     else
                     {
@@ -649,6 +654,7 @@ namespace Conticassa
                         idmov = retu[1];                        // "ID_MOVIM"
                         Ogiro.ctades = retu[11];                // 
                         Ogiro.tipodes = retu[10];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.codigo = retu[24];
                     }
                     Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                             Ocajd, descr, idmov, Ogiro);
@@ -756,7 +762,7 @@ namespace Conticassa
                 if (rb_omg.Checked == true)
                 {
                     // CASA,ID_MOVIM,FECHA,DESTINO,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,idgiroconto,CTA_DESTINO,
-                    // usuario,dia,ImportoDE,ImportoSE,IDDestino,IDCategoria,codimon,nombmon,TCMonOri,DET_DESTINO,DET_INGRESO
+                    // usuario,dia,ImportoDE,ImportoSE,IDDestino,IDCategoria,codimon,nombmon,TCMonOri,DET_DESTINO,DET_INGRESO,CodGiro
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatIn.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatIn.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
@@ -778,11 +784,12 @@ namespace Conticassa
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                     Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
                     Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
+                    Ogiro.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["CodGiro"].Value.ToString();
                 }
                 else
                 {
                     // CASA,ID_MOVIM,FECHA,CUENTA,INGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,GIRO_CTA,IDGiroConto,CTA_DESTINO,
-                    // usuario,dia,ImportoDE,ImportoSE,IDConto,IDCategoria,codimon,nombmon,TCMonOri,DET_CUENTA,DET_INGRESO 
+                    // usuario,dia,ImportoDE,ImportoSE,IDConto,IDCategoria,codimon,nombmon,TCMonOri,DET_CUENTA,DET_INGRESO,CodGiro 
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatIn.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatIn.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["INGRESO"].Value.ToString();
@@ -804,6 +811,7 @@ namespace Conticassa
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                     Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
                     Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
+                    Ogiro.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["CodGiro"].Value.ToString();
                 }
                 Oingreso.creaIngreso(pan_p.Tag.ToString(), fecOp, OcatIn, Omone, Omonto, tipca,
                         Ocajd, descr, idmov, Ogiro);

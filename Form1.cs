@@ -314,5 +314,6 @@ namespace Conticassa
     {
         public string tipodes { get; set; }         // tipo OMG o Personal
         public string ctades { get; set; }          // cuenta destino del Giro
+        public string codigo { get; set; }          // codigo del giroconto
     }
 }

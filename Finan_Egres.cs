@@ -306,6 +306,7 @@ namespace Conticassa
         {
             tx_idOper.Text = Oegreso.IdMovim;
             selecFecha1.Value = DateTime.Parse(Oegreso.FechOper);
+            Tx_fecha.Text = selecFecha1.Value.Date.ToString("dd/MM/yyyy");
             Tx_catEgre.Text = Oegreso.CatEgreso.nombre;
             eti_nomCat.Text = Oegreso.CatEgreso.largo;
             cmb_mon.SelectedValue = Oegreso.Moneda.codigo;
@@ -865,7 +866,7 @@ namespace Conticassa
         {
             string[] retorna = { "", "", "", "", "", "", "", "", "", "",
                                 "", "", "", "", "", "", "", "", "", "", 
-                                "", "", "", ""};           // bool retorna = false
+                                "", "", "", "", ""};           // bool retorna = false
             using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))
             {
                 try
@@ -877,7 +878,7 @@ namespace Conticassa
                         if (pan_p.Tag.ToString() == "omg")         // rb_omg.Checked == true
                         {
                             consulta = "SELECT IDBanco,CONCAT(Anno,RIGHT(IDMovimento, 6)) AS IDMovimento,DataMovimento,IDCategoria,IDDestino,Descrizione,idanagrafica," +
-                                "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro AS GIRO_CTA " +
+                                "ImportoDE,ImportoSE,ImportoDU,ImportoSU,Cambio,unMisura,Quantita,Chiusura,monori,ctaori,ctades,usuario,dia,idcassaomg,IDGiroConto,tipodesgiro AS GIRO_CTA,CodGiro " +
                                 "FROM cassaomg WHERE CONCAT(Anno,RIGHT(IDMovimento,6))=@idm";
                         }
                         if (pan_p.Tag.ToString() == "personal")    // rb_pers.Checked == true
@@ -886,7 +887,7 @@ namespace Conticassa
                                 "ifnull(dc.Descrizionerid, '') AS CUENTA, ifnull(ca.Descrizionerid, '') AS EGRESO, a.monori AS MONEDA,a.valorOrig AS MONTO,a.Descrizione AS DESCRIPCION," +
                                 "a.Cambio AS TIP_CAMBIO,ifnull(af.ragionesociale, '') AS PROVEEDOR, a.tipodesgiro AS GIRO_CTA,a.IDGiroConto,IFNULL(gc.Descrizione, '') AS CTA_DESTINO," +
                                 "a.usuario,a.dia,round(a.ImportoDU, 2) as ImportoDU,round(a.ImportoSU, 2) as ImportoSU," +
-                                "a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri,ifnull(dc.Descrizione, '') AS DET_CUENTA, ifnull(ca.Descrizione, '') AS DET_EGRESO " +
+                                "a.idanagrafica,a.IDConto,a.IDCategoria,a.codimon,a.nombmon,a.TCMonOri,ifnull(dc.Descrizione, '') AS DET_CUENTA, ifnull(ca.Descrizione, '') AS DET_EGRESO,CodGiro " +
                                 "from cassaconti a " +
                                 "LEFT JOIN desc_con dc ON dc.IDCodice = a.IDConto " +
                                 "LEFT JOIN desc_cam ca ON ca.IDCodice = a.IDCategoria " +
@@ -934,6 +935,7 @@ namespace Conticassa
                                             retorna[21] = dr["TCMonOri"].ToString();
                                             retorna[22] = dr["DET_CUENTA"].ToString();
                                             retorna[23] = dr["DET_EGRESO"].ToString();
+                                            retorna[24] = dr["CodGiro"].ToString();
                                         }
                                     }
                                 }
@@ -1589,6 +1591,20 @@ namespace Conticassa
         {
             if (true)
             {
+                // buscamos si tiene giroconto
+                for (int i = dgv.Rows.Count - 1; i >= 0; i--)
+                {
+                    DataRow dr = dgv.Rows[i];
+                    if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
+                    {
+                        if (dr["idgiroconto"].ToString().Trim() != "")
+                        {
+                            // si tiene giroconto
+                            // aca vamos a capturar el CodGiro para hacer el borrado
+                            // segun los 3 caracteres iniciales vemos en que tabla hacemos el borrado
+                        }
+                    }
+                }
                 // borra en la tabla
                 // borra en la grilla
                 using (MySqlConnection conn = new MySqlConnection(DB_CONN_STR))

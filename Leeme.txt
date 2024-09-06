@@ -9,7 +9,7 @@ Paquetes instalados:
 - 04/09/2024 Crystal Reports desde Nuget (crystal reports engine)
 
 Pendientes:
-- me quede en camiones 
+- me quede en INGRESOS, borrado automatico si tiene giroconto 05/09/2024
 - FUNCION DE BORRADO, con borrar girocontos
 - FUNCION DE EDICION, con girocontos
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
@@ -24,7 +24,8 @@ Funcionalidad:
 	Agregar campos TCMonOri (tipo de cambio moneda origen)
 	Agregar campos codimon varchar(6) y nombmon varchar(25) (nombre oficial)
 	Actualizar al código y nombre de cada registro en codigo de moneda y nombre de moneda, CREAR INDICES!
+	Se agregó el campo CodGiro ==> PER<idcassaconti>, OMG<idcassaomg>  para marcar los pares de registros Giroconto
 - Tabla camion
 	Agregar campos codimon (varchar 6 codigo de moenda) y nombmon (varchar 25 nombre moneda)
 	Actualizar los nuevos campos
-
+- 
