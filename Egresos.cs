@@ -77,18 +77,18 @@ namespace Conticassa
             {
                 tabla = "cassaomg";
                 consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDDestino,IDCategoria,ImportoDU,ImportoSU," +
-                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
+                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro,CodGiro," +
                                     "valorOrig,codimon,nombmon,tcMonOri) values (" +
-                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
+                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro,@codGiro," +
                                     "@vOrig,@cmon,@nmon,@tcMO)";
             }
             else
             {
                 tabla = "cassaconti";
                 consulta = "insert into " + tabla + " (IDBanco,Anno,IDMovimento,DataMovimento,IDConto,IDCategoria,ImportoDU,ImportoSU," +
-                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro," +
+                                    "Cambio,Descrizione,IDGiroConto,monori,ctaori,ctades,usuario,dia,idanagrafica,tipodesgiro,CodGiro," +
                                     "valorOrig,codimon,nombmon,tcMonOri) values (" +
-                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro," +
+                                    "@IDB,@Ann,@IDM,@DMo,@IDCo,@IDCa,@IDU,@ISU,@Cam,@Des,@IDG,@mon,@ctao,@ctad,@usua,now(),@idan,@tidgiro,@codGiro," +
                                     "@vOrig,@cmon,@nmon,@tcMO)";
             }
             using (MySqlCommand micon = new MySqlCommand(consulta, conn))
@@ -114,11 +114,13 @@ namespace Conticassa
                 {
                     micon.Parameters.AddWithValue("@IDG", "");          // cuenta destino del giroconto
                     micon.Parameters.AddWithValue("@tidgiro", "");      // tipo de cuenta destino del giro, OMG o PERSONAL
+                    micon.Parameters.AddWithValue("@codGiro", "");
                 }
                 else
                 {
                     micon.Parameters.AddWithValue("@IDG", giroC.ctades);          // cuenta destino del giroconto
                     micon.Parameters.AddWithValue("@tidgiro", giroC.tipodes);   // tipo de cuenta destino del giro, OMG o PERSONAL
+                    micon.Parameters.AddWithValue("@codGiro", (giroC.codigo == null) ? "" : giroC.codigo);    // CodGiro
                 }
                 micon.Parameters.AddWithValue("@idan", (proveedor.codigo == null) ? "" : proveedor.codigo);
                 micon.Parameters.AddWithValue("@vOrig", monto.monOrige);

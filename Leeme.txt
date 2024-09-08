@@ -9,10 +9,9 @@ Paquetes instalados:
 - 04/09/2024 Crystal Reports desde Nuget (crystal reports engine)
 
 Pendientes:
-- me quede en INGRESOS, para el borrado automatico si tiene giroconto se debe grabar el código del giro
-- FUNCION DE BORRADO, con borrar girocontos
+- FUNCION DE BORRADO, con borrar girocontos falta probar en egresos 07/09/2024 y luego desarrollar en ingresos
 - FUNCION DE EDICION, con girocontos
-- me quede en camion, funcionamiento general 05/09/2024 
+- me quede en camion, funcionamiento general 06/09/2024 
 - me quede en reportes arreglar problema de Crystal 05/09/2024
 - Crear función en usuarios para encriptar el usuario, clave y servidor que van en el .config
 - Crear función en el Login.cs para que valide cambio de año en el servidor, si es así, debe reiniciar contadores, tabla: contatori
@@ -30,4 +29,9 @@ Funcionalidad:
 - Tabla camion
 	Agregar campos codimon (varchar 6 codigo de moenda) y nombmon (varchar 25 nombre moneda)
 	Actualizar los nuevos campos
-- 
+- Procedimiento para los Girocontos:
+	* Al grabar en la TABLA el registro nuevo, se lee el id del reg.insertado y se actualiza CodGiro
+	* En el código del programa si tiene giroconto: al grabar (la salida o el ingreso) debe hacerlo
+	  con el Codgiro de la operacion anterior
+	* El campo CodGiro sirve para borrar automáticamente los registros enlazados. 
+

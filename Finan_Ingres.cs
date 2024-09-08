@@ -1184,6 +1184,30 @@ namespace Conticassa
                                     // si esta marcado el giro, hacemos el movimiento inverso
                                     if (chk_giroC.CheckState == CheckState.Checked)
                                     {
+                                        string _codGiro = "";
+                                        string _lastIn = "";
+                                        // jalamos el id para crear el CodGiro para grabarlo aqui
+                                        using (MySqlCommand mic = new MySqlCommand("select CAST(last_insert_id() as int)", conn))
+                                        {
+                                            using (MySqlDataReader dr = mic.ExecuteReader())
+                                            {
+                                                if (dr.Read())
+                                                {
+                                                    _lastIn = dr.GetUInt64(0).ToString(); // dr.GetString(0);
+                                                    _codGiro = Ogiro.tipodes + _lastIn;
+                                                    Ogiro.codigo = _codGiro;
+                                                }
+                                            }
+                                        }
+                                        string actua = "update " + ((rb_omg.Checked == true) ? "cassaomg" : "cassaconti") + " set CodGiro=@_codi " +
+                                            "where " + ((rb_omg.Checked == true) ? "idcassaomg" : "idcassaconti") + " = @_id";
+                                        using (MySqlCommand mic = new MySqlCommand(actua, conn))
+                                        {
+                                            mic.Parameters.AddWithValue("@_codi", _codGiro);
+                                            mic.Parameters.AddWithValue("@_id", _lastIn);
+                                            mic.ExecuteNonQuery();
+                                        }
+
                                         catEgresos _catEgre = new catEgresos();
                                         _catEgre.codigo = OcatIn.codigo;
                                         _catEgre.nombre = OcatIn.nombre;

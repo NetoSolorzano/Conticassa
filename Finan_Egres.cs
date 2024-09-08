@@ -773,7 +773,6 @@ namespace Conticassa
                     string idmov = "";              // id del movimiento
                     if (rb_omg.Checked == true)
                     {
-                        // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria
                         fecOp = retu[2].Substring(0, 10);       // fecha
                         OcatEg.codigo = retu[18];               // IDCategoria
                         OcatEg.nombre = retu[4];                // EGRESO
@@ -797,6 +796,7 @@ namespace Conticassa
                         idmov = retu[1];                        // "ID_MOVIM"
                         Ogiro.ctades = retu[10];                // 
                         Ogiro.tipodes = retu[11];   //(tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.codigo = retu[24];
                     }
                     else
                     {
@@ -825,6 +825,7 @@ namespace Conticassa
                         idmov = retu[1];                        // "ID_MOVIM"
                         Ogiro.ctades = retu[10];                // 
                         Ogiro.tipodes = retu[11];   // (tx_ctaGiro.Text.Trim() == "") ? "" : (rb_omg.Checked == true) ? "OMG" : "PER";
+                        Ogiro.codigo = retu[24];
                     }
                     Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
                             Ocajd, Oprove, descr, idmov, Ogiro);
@@ -1197,8 +1198,8 @@ namespace Conticassa
                 string idmov = "";              // id del movimiento
                 if (rb_omg.Checked == true)
                 {
-                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,
-                    // usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria,tipodesgiro
+                    // CASA,ID_MOVIM,FECHA,DESTINO,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,idgiroconto,CTA_DESTINO,usuario,
+                    // dia,ImportoDU,ImportoSU,idanagrafica,IDDestino,IDCategoria,codimon,nombmon,TCMonOri,DET_DESTINO,DET_EGRESO,tipodesgiro,CodGiro
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
@@ -1222,11 +1223,12 @@ namespace Conticassa
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                     Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
                     Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
+                    Ogiro.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["CodGiro"].Value.ToString();
                 }
                 else
                 {
                     // CASA,ID_MOVIM,FECHA,CUENTA,EGRESO,MONEDA,MONTO,DESCRIPCION,TIP_CAMBIO,PROVEEDOR,GIRO_CTA,a.IDGiroConto,CTA_DESTINO,
-                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri,tipodesgiro
+                    //usuario,dia,ImportoDU,ImportoSU,idanagrafica,IDConto,IDCategoria,codimon,nombmon,TCMonOri,tipodesgiro,CodGiro
                     fecOp = advancedDataGridView1.Rows[e.RowIndex].Cells["FECHA"].Value.ToString().Substring(0, 10);
                     OcatEg.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["IDCategoria"].Value.ToString();
                     OcatEg.nombre = advancedDataGridView1.Rows[e.RowIndex].Cells["EGRESO"].Value.ToString();
@@ -1250,6 +1252,7 @@ namespace Conticassa
                     idmov = advancedDataGridView1.Rows[e.RowIndex].Cells["ID_MOVIM"].Value.ToString();
                     Ogiro.ctades = advancedDataGridView1.Rows[e.RowIndex].Cells["IDGiroConto"].Value.ToString();
                     Ogiro.tipodes = advancedDataGridView1.Rows[e.RowIndex].Cells["tipodesgiro"].Value.ToString();
+                    Ogiro.codigo = advancedDataGridView1.Rows[e.RowIndex].Cells["CodGiro"].Value.ToString();
                 }
                 Oegreso.creaEgreso(pan_p.Tag.ToString(), fecOp, OcatEg, Omone, Omonto, tipca,
                         Ocajd, Oprove, descr, idmov, Ogiro);
@@ -1517,6 +1520,30 @@ namespace Conticassa
                                     // si esta marcado el giro, hacemos el movimiento inverso
                                     if (chk_giroC.CheckState == CheckState.Checked)
                                     {
+                                        string _codGiro = "";
+                                        string _lastIn = "";
+                                        // jalamos el id para crear el CodGiro para grabarlo aqui
+                                        using (MySqlCommand mic = new MySqlCommand("select CAST(last_insert_id() as int)", conn))
+                                        {
+                                            using (MySqlDataReader dr = mic.ExecuteReader())
+                                            {
+                                                if (dr.Read())
+                                                {
+                                                    _lastIn = dr.GetUInt64(0).ToString();
+                                                    _codGiro = Ogiro.tipodes + _lastIn;
+                                                    Ogiro.codigo = _codGiro;
+                                                }
+                                            }
+                                        }
+                                        string actua = "update " + ((rb_omg.Checked == true) ? "cassaomg" : "cassaconti") + " set CodGiro=@_codi " +
+                                            "where " + ((rb_omg.Checked == true) ? "idcassaomg" : "idcassaconti") + " = @_id";
+                                        using (MySqlCommand mic = new MySqlCommand(actua, conn))
+                                        {
+                                            mic.Parameters.AddWithValue("@_codi", _codGiro);
+                                            mic.Parameters.AddWithValue("@_id", _lastIn);
+                                            mic.ExecuteNonQuery();
+                                        }
+
                                         catIngresos OcatIn = new catIngresos();
                                         OcatIn.codigo = OcatEg.codigo;
                                         OcatIn.nombre = OcatEg.nombre;
@@ -1592,16 +1619,17 @@ namespace Conticassa
             if (true)
             {
                 // buscamos si tiene giroconto
+                string _giro_ = "no";  // por defecto asumimos que no tiene giro
                 for (int i = dgv.Rows.Count - 1; i >= 0; i--)
                 {
                     DataRow dr = dgv.Rows[i];
-                    if (dr["ID_MOVIM"].ToString() == (year + CDerecha(idmov, 6)))
+                    if (dr["CodGiro"].ToString().Trim() != "")
                     {
-                        if (dr["idgiroconto"].ToString().Trim() != "")
+                        var aaa = MessageBox.Show("El registro tiene GIROCONTO, desea" + Environment.NewLine + 
+                            "BORRAR esa cuenta también?", "Atención", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                        if (aaa == DialogResult.Yes)
                         {
-                            // si tiene giroconto
-                            // aca vamos a capturar el CodGiro para hacer el borrado
-                            // segun los 3 caracteres iniciales vemos en que tabla hacemos el borrado
+                            _giro_ = dr["CodGiro"].ToString();
                         }
                     }
                 }
@@ -1621,11 +1649,24 @@ namespace Conticassa
                     }
                     if (conn.State == ConnectionState.Open)
                     {
-                        string consulta = "delete from " + tabla + " where anno=@year and idmovimento=@corre";
+                        string consulta = ""; 
+                        if (_giro_ == "no") consulta = "delete from " + tabla + " where anno=@year and idmovimento=@corre";
+                        if (_giro_ != "no")
+                        {
+                            consulta = "delete from " + tabla + " where CodGiro=@codG";
+                            // y que pasaría si el giroconto fuera entre las dos tblas cassaomg y cassaconti ????? 07/09/2024
+                        }
                         using (MySqlCommand micon = new MySqlCommand(consulta, conn))
                         {
-                            micon.Parameters.AddWithValue("@year", year);
-                            micon.Parameters.AddWithValue("@corre", idmov);
+                            if (_giro_ != "no")
+                            {
+                                micon.Parameters.AddWithValue("@codG", _giro_);
+                            }
+                            else
+                            {
+                                micon.Parameters.AddWithValue("@year", year);
+                                micon.Parameters.AddWithValue("@corre", idmov);
+                            }
                             micon.ExecuteNonQuery();
                         }
                         for (int i = dgv.Rows.Count - 1; i >= 0; i--)
